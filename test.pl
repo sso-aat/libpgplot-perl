@@ -19,7 +19,9 @@ $ENV{PGPLOT_XW_WIDTH}=0.3;
 foreach $jjj (1..11) {
 
    print "============== Running test$jjj.p ==============\n";
+   %@ = ();       # Clear error status
    do "test$jjj.p";
+   warn $@ if $@; # Report any error detected
    sleep 2;
 }
 

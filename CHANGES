@@ -1,4 +1,13 @@
 
+CHANGES (v2.02 from 2.01) 
+-------------------------
+
+o Made Makefile.PL more clever.
+
+o Added a file HELP with useful problem fixing information.
+
+o Fixed some small type cast bugs in kgbpack.c
+
 CHANGES (v2.01 from 1.0b) 
 -------------------------
 

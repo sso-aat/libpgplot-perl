@@ -15,6 +15,7 @@
 Dec 95: Add double precision arrays 	        - frossie@jach.hawaii.edu
 Dec 96: Add 'ref to scalar is binary' handling  - kgb@aaoepp.aao.gov.au
 Jan 97: Handles undefined values as zero        - kgb@aaoepp.aao.gov.au
+Feb 97: Fixed a few type cast howlers           - kgb@aaoepp.aao.gov.au
    
 */
 
@@ -130,7 +131,7 @@ void* pack1D ( SV* arg, char packtype ) {
    if (SvTYPE(arg)==SVt_PVGV || (SvROK(arg) && SvTYPE(SvRV(arg))==SVt_PVAV)) {
    
       if (SvTYPE(arg)==SVt_PVGV) {
-         array = GvAVn(arg);          /* glob */
+         array = (AV *) GvAVn((GV*) arg);   /* glob */
       }else{
          array = (AV *) SvRV(arg);   /* reference */
       }
@@ -255,7 +256,7 @@ void* pack2D ( SV* arg, char packtype ) {
    if (SvTYPE(arg)==SVt_PVGV || (SvROK(arg) && SvTYPE(SvRV(arg))==SVt_PVAV)) {
    
       if (SvTYPE(arg)==SVt_PVGV) {
-         array = GvAVn(arg);          /* glob */
+         array = GvAVn((GV*) arg);          /* glob */
       }else{
          array = (AV *) SvRV(arg);   /* reference */
       }
@@ -417,7 +418,7 @@ void pack_element(SV* work, SV** arg, char packtype) {
       /* Dereference */
    
       if (SvTYPE(*arg)==SVt_PVGV) {
-         array = GvAVn(*arg);          /* glob */
+         array = GvAVn((GV*)*arg);          /* glob */
       }else{
          array = (AV *) SvRV(*arg);   /* reference */
       }
@@ -530,7 +531,7 @@ AV* coerce1D ( SV* arg, int n ) {
       exists or not */
 
   if (SvTYPE(arg)==SVt_PVGV) {
-       array = GvAVn(arg);                                  /* glob */
+       array = GvAVn((GV*)arg);                             /* glob */
    }else if (SvROK(arg) && SvTYPE(SvRV(arg))==SVt_PVAV) {
        array = (AV *) SvRV(arg);                           /* reference */
    }else{

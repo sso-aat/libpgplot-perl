@@ -19,7 +19,7 @@ your system to kgb@aaoepp.aao.gov.au
 
 =cut
 
-$VERSION = "1.0";
+$VERSION = "1.01";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -68,11 +68,7 @@ $F77config{Solaris}{DEFAULT} = 'F77';
 
 ### Generic GNU-77 or F2C system ###
 
-$F77config{Generic}{G77}{Link} = sub {  
-       return ""  unless any_exists("/usr/lib/libf2c.*");
-       print "$Pkg: Found libf2c libraries - assuming g77/f2c for f77 compiler\n";
-       return "-L/usr/lib -lf2c -lm";
-};
+$F77config{Generic}{G77}{Link} = '-L/usr/lib -lf2c -lm';
 $F77config{Generic}{G77}{Trail_} = 1;
 $F77config{Generic}{DEFAULT} = 'G77';
 $F77config{Generic}{F2c}     = $F77config{Generic}{G77};
