@@ -1,54 +1,35 @@
 
+CHANGES (v2.0 from 1.0b) 
+------------------------
 
-LIST OF CHANGES IN PGPERL DISTRIBUTION
---------------------------------------
+o No longer providing perl4 version.
 
-v1.0b  (for PGPLOT v5.0.2)
------
+o All the array packing functions reimplemented in C to improve
+  speed and robustness.
 
-o Updated to use PGPLOT v5.0.2 routines (two new ones: pgshs, pgqhs 
-  which control fill-style cross-hatching - see PGPLOT documentation
-  for details)
+o Simplified build procedure - PGPLOT module should now build
+  in standard Perl way. (i.e. 'perl Makefile.PL; make; make test; make
+  install'). Makefile.PL should not have to be edited and upgrading
+  should now be much easier.
 
-o Changed pgperlv (command that prints version info) - now part in
-  perl and part in C. This makes it easier to update.
+o Added 'pass by reference' convention to allow explicit use of
+  pre-packed binary data.
 
-o Added perl4 Makefile's for the supported architectures and updated
-  the instructions in file BUILDING accordingly.
+o Supports pgplot routines up to pgplot v5.1.1.
 
+o Added POD documentation.
 
-v1.0a  (for PGPLOT v5.0.1)
------
+o FORTRAN link support is now via ExtUtils::F77 module (included).
 
-IMPORTANT: the binaries were not relinked (because most of the 
-	   changes are cosmetic it made no difference and I was
-           too lazy to do this for 4 architectures) so version
-	   will still be reported as 1.0 by pgperlv. I ought to move
-	   this routine from C into perl on the next major release...
+o Now providing binaries of pgplot libraries for various
+  architectures rather than statically-linked module binaries. This
+  should make upgrading easier.
 
-o Changed pgperl.h to allow use of -DNO_TRAILING_USCORE
-  compilation flag with architectures where C calls F77 with no
-  trailing underscore (e.g. HP-UX).
+o Removed special one-point routine versions (hang-over from
+  perl4 version).
 
-o Fixed small typo in PGPLOT.pm (perl5 module file) which 
-  caused pgpnts not to work. (Ooops).
+o Removed pgplot.pl (again a hang-over from old perl4 version).
 
-o Added user contributed Makefile.PL files for SGI and HP-UX 
-  to perl5 distribution.
-
-o Minor additions to documentation in response to common
-  use problems.
-
-v1.0
-----
-
-As described in README, pgperl.doc.
+o General tidy up and reorganisation of distribution
 
 
-Karl Glazebrook, 
----
-kgb@ast.cam.ac.uk  Institute of Astronomy, Cambridge, U.K.
-pgperl software:   http://www.ast.cam.ac.uk/~kgb/pgperl.html
-
------------------------------------------------------------------------------
-                                               Last Modified. 21/June/1995.

@@ -1,28 +1,15 @@
 
-
-LICENSE INFORMATION
+LICENSE INFORMATION 
 -------------------
 
-'pgperl' is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free
-Software Foundation; either version 1, or (at your option) any later
-version.
+The PGPLOT module for Perl is distributed under the same licensing terms
+as Perl itself. Please see the file "README" in the Perl distribution
+for more details.
 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
+The PGPLOT library is copyrighted by the California Institute of
+Technology but is available free for education, academic research and
+non-commercial purposes. Please see the file copyright.notice in the
+PGPLOT distribtuion for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program in the file LICENSE.gpl; if not, write to the Free
-Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+Karl Glazebrook 7/Dec/1996
 
-PERL is also covered by the GNU General Public License, see the
-relevant files in the PERL distribution for details. PGPLOT is
-copyrighted by the California Institute of Technology but is 
-available free for education, academic research and non-commercial
-purposes. A copy of the full copyright notice is provided in the
-file LICENSE.pgplot in the pgperl distribution.
-
------------------------------------------------------------------------------
-                                               Last Modified. 03/Mar/1995.

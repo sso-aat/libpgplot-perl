@@ -1,23 +1,19 @@
 #!/usr/local/bin/perl
-#
-# testpgperl11
-#
-# Test Object-Oriented pgperl
-#
-# ***PERL5 ONLY***
 
 use PGPLOT;
 
-print "\n\nTesting Object-Oriented pgperl...\n\n";
+print "\n\nTesting Object-Oriented stuff...\n\n";
 
-pgperlv; 
+print "PGPLOT module version $PGPLOT::VERSION\n\n";
 
-pgbegin 9,"?",1,1; pgwnad -100,100,-100,100;
+pgqinf("VERSION",$val,$len);
+print "PGPLOT $val library\n\n";
+
+$dev = "?" unless defined $dev; # "?" will prompt for device
+pgbegin 9,$dev,1,1; pgwnad -100,100,-100,100;
 pgpage; pgbox 'BC',0,0,'BC',0,0;
 
-
 # Define some object classes
-
 
 ##############################################################   
 
@@ -73,7 +69,7 @@ sub rotate {
    my $angle = (shift)*(3.141592564/180);
    my $x = $self->{'Xvertices'};
    my $y = $self->{'Yvertices'};
-   my $x2,$y2;
+   my ($x2,$y2);
 
    for($i=0; $i<=$#{$x}; $i++) {
      $x2 =  $$x[$i]*cos($angle) + $$y[$i]*sin($angle);
@@ -142,6 +138,7 @@ $shape3->plot(50,-50);
 
 print "Fun isn't it?\n";
 
+$len=1; # -w fudge
 
 pgend;
 

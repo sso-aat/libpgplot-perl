@@ -1,17 +1,10 @@
 
 /* 
-   PGPLOT.xs   1.0b
+   PGPLOT.xs   2.0
 
    This file contains the routines provide the glue which 
-   allow perl5 to call C and hence f77/pgplot via the CPGPLOT
-   library. See the file INSTALLATION.perl5 for pgperl building 
-   instructions and README for copyright/licensing information.
-
-   Karl Glazebrook [email: kgb@ast.cam.ac.uk]
-
-   Built Sat Jun 17 21:58:03 BST 1995 for PGPLOT 5.0.2
-
-   pgperl WWW info: http://www.ast.cam.ac.uk/~kgb/pgperl.html
+   allow perl to call C and hence f77/pgplot via the CPGPLOT
+   library. 
 
 */
 
@@ -19,7 +12,12 @@
 #include "perl.h"     /* std perl include */
 #include "XSUB.h"     /* XSUB include */
 #include "cpgplot.h"  /* CPGPLOT prototypes */
-#include "pgperl.h"   /* Routines for function passing */
+
+#include "pgfun.c"    /* Function callback code */
+#include "kgbpack.c"  /* Pack functions */
+
+typedef int   int2D;    /* So 2D arrays are handled automagically */
+typedef float float2D;  /* by typemap */
 
 /* Buffer for routines that return a string - fortunately
    there are no routines that return 2 strings!            */
@@ -27,9 +25,7 @@
 static char strbuff[256]; 
 #define SIZEOF(X) sizeof(strbuff)
 
-
 MODULE = PGPLOT     PACKAGE = PGPLOT 
-
 
 void
 pgarro(x1,y1,x2,y2)
@@ -97,7 +93,7 @@ pgbegin(unit,file,nxsub,nysub)
 
 
 void
-pgbin_r(nbin,x,data,center)
+pgbin(nbin,x,data,center)
   int	nbin
   float *	x
   float *	data
@@ -128,8 +124,13 @@ pgcirc(xcent,ycent,radius)
 
 
 void
-pgconb_r(a,idim,jdim,i1,i2,j1,j2,c,nc,tr,blank)
-  float *	a
+pgclos()
+  CODE:
+    cpgclos();
+
+void
+pgconb(a,idim,jdim,i1,i2,j1,j2,c,nc,tr,blank)
+  float2D *	a
   int	idim
   int	jdim
   int	i1
@@ -145,8 +146,8 @@ pgconb_r(a,idim,jdim,i1,i2,j1,j2,c,nc,tr,blank)
 
 
 void
-pgconl_r(a,idim,jdim,i1,i2,j1,j2,c,tr,label,intval,minint)
-  float *	a
+pgconl(a,idim,jdim,i1,i2,j1,j2,c,tr,label,intval,minint)
+  float2D *	a
   int	idim
   int	jdim
   int	i1
@@ -163,8 +164,8 @@ pgconl_r(a,idim,jdim,i1,i2,j1,j2,c,tr,label,intval,minint)
 
 
 void
-pgcons_r(a,idim,jdim,i1,i2,j1,j2,c,nc,tr)
-  float *	a
+pgcons(a,idim,jdim,i1,i2,j1,j2,c,nc,tr)
+  float2D *	a
   int	idim
   int	jdim
   int	i1
@@ -179,8 +180,8 @@ pgcons_r(a,idim,jdim,i1,i2,j1,j2,c,nc,tr)
 
 
 void
-pgcont_r(a,idim,jdim,i1,i2,j1,j2,c,nc,tr)
-  float *	a
+pgcont(a,idim,jdim,i1,i2,j1,j2,c,nc,tr)
+  float2D *	a
   int	idim
   int	jdim
   int	i1
@@ -195,8 +196,8 @@ pgcont_r(a,idim,jdim,i1,i2,j1,j2,c,nc,tr)
 
 
 void
-pgconx_r(a,idim,jdim,i1,i2,j1,j2,c,nc,plot)
-  float *	a
+pgconx(a,idim,jdim,i1,i2,j1,j2,c,nc,plot)
+  float2D *	a
   int	idim
   int	jdim
   int	i1
@@ -205,14 +206,14 @@ pgconx_r(a,idim,jdim,i1,i2,j1,j2,c,nc,plot)
   int	j2
   float *	c
   int	nc
-  char *	plot
+  SV*	plot
   CODE:
     pgfunname[0] = plot;
     cpgconx(a,idim,jdim,i1,i2,j1,j2,c,nc,pgfunplot);
 
 
 void
-pgctab_r(l,r,g,b,nc,contra,bright)
+pgctab(l,r,g,b,nc,contra,bright)
   float *	l
   float *	r
   float *	g
@@ -291,7 +292,7 @@ pgeras()
 
 
 void
-pgerrb_r(dir,n,x,y,e,t)
+pgerrb(dir,n,x,y,e,t)
   int	dir
   int	n
   float *	x
@@ -303,7 +304,7 @@ pgerrb_r(dir,n,x,y,e,t)
 
 
 void
-pgerrx_r(n,x1,x2,y,t)
+pgerrx(n,x1,x2,y,t)
   int	n
   float *	x1
   float *	x2
@@ -314,7 +315,7 @@ pgerrx_r(n,x1,x2,y,t)
 
 
 void
-pgerry_r(n,x,y1,y2,t)
+pgerry(n,x,y1,y2,t)
   int	n
   float *	x
   float *	y1
@@ -332,8 +333,8 @@ pgetxt()
 
 void
 pgfunt(fx,fy,n,tmin,tmax,pgflag)
-  char *	fx
-  char *	fy
+  SV*	fx
+  SV*	fy
   int	n
   float	tmin
   float	tmax
@@ -346,7 +347,7 @@ pgfunt(fx,fy,n,tmin,tmax,pgflag)
 
 void
 pgfunx(fy,n,xmin,xmax,pgflag)
-  char *	fy
+  SV*	fy
   int	n
   float	xmin
   float	xmax
@@ -358,7 +359,7 @@ pgfunx(fy,n,xmin,xmax,pgflag)
 
 void
 pgfuny(fx,n,ymin,ymax,pgflag)
-  char *	fx
+  SV*	fx
   int	n
   float	ymin
   float	ymax
@@ -369,8 +370,8 @@ pgfuny(fx,n,ymin,ymax,pgflag)
 
 
 void
-pggray_r(a,idim,jdim,i1,i2,j1,j2,fg,bg,tr)
-  float *	a
+pggray(a,idim,jdim,i1,i2,j1,j2,fg,bg,tr)
+  float2D *	a
   int	idim
   int	jdim
   int	i1
@@ -385,8 +386,8 @@ pggray_r(a,idim,jdim,i1,i2,j1,j2,fg,bg,tr)
 
 
 void
-pghi2d_r(data,nxv,nyv,ix1,ix2,iy1,iy2,x,ioff,bias,center,ylims)
-  float *	data
+pghi2d(data,nxv,nyv,ix1,ix2,iy1,iy2,x,ioff,bias,center,ylims)
+  float2D *	data
   int	nxv
   int	nyv
   int	ix1
@@ -403,7 +404,7 @@ pghi2d_r(data,nxv,nyv,ix1,ix2,iy1,iy2,x,ioff,bias,center,ylims)
 
 
 void
-pghist_r(n,data,datmin,datmax,nbin,pgflag)
+pghist(n,data,datmin,datmax,nbin,pgflag)
   int	n
   float *	data
   float	datmin
@@ -421,8 +422,8 @@ pgiden()
 
 
 void
-pgimag_r(a,idim,jdim,i1,i2,j1,j2,a1,a2,tr)
-  float *	a
+pgimag(a,idim,jdim,i1,i2,j1,j2,a1,a2,tr)
+  float2D *	a
   int	idim
   int	jdim
   int	i1
@@ -455,17 +456,21 @@ pglabel(xlbl,ylbl,toplbl)
 
 
 void
-pglcur_r(maxpt,npt,x,y)
+pglcur(maxpt,npt,x,y)
   int	maxpt
   int	npt
-  float *	x
-  float *	y
+  float *	x = NO_INIT
+  float *	y = NO_INIT
   CODE:
+    coerce1D( (SV*)ST(2), maxpt );  /* Make sure arrays are big enough */
+    coerce1D( (SV*)ST(3), maxpt );
+    x = (float *) pack1D( (SV*)ST(2), 'f' );  /* Pack arrays */
+    y = (float *) pack1D( (SV*)ST(3), 'f' );
     cpglcur(maxpt,&npt,x,y);
+    unpack1D( (SV*)ST(2),  (void *)x, 'f', 0);
+    unpack1D( (SV*)ST(3),  (void *)y, 'f', 0);
   OUTPUT:
   npt
-  x
-  y
 
 
 void
@@ -488,7 +493,7 @@ pglen(units,string,xl,yl)
 
 
 void
-pgline_r(n,xpts,ypts)
+pgline(n,xpts,ypts)
   int	n
   float *	xpts
   float *	ypts
@@ -527,33 +532,41 @@ pgmtext(side,disp,coord,fjust,text)
 
 
 void
-pgncur_r(maxpt,npt,x,y,symbol)
+pgncur(maxpt,npt,x,y,symbol)
   int	maxpt
   int	npt
-  float *	x
-  float *	y
+  float *	x = NO_INIT
+  float *	y = NO_INIT
   int	symbol
   CODE:
+    coerce1D( (SV*)ST(2), maxpt );  /* Make sure arrays are big enough */
+    coerce1D( (SV*)ST(3), maxpt );
+    x = (float *) pack1D( (SV*)ST(2), 'f' );  /* Pack arrays */
+    y = (float *) pack1D( (SV*)ST(3), 'f' );
     cpgncur(maxpt,&npt,x,y,symbol);
+    unpack1D( (SV*)ST(2),  (void *)x, 'f', 0);
+    unpack1D( (SV*)ST(3),  (void *)y, 'f', 0);
   OUTPUT:
   npt
-  x
-  y
 
 
 void
 pgncurse(maxpt,npt,x,y,symbol)
   int	maxpt
   int	npt
-  float *	x
-  float *	y
+  float *	x = NO_INIT
+  float *	y = NO_INIT
   int	symbol
   CODE:
+    coerce1D( (SV*)ST(2), maxpt );  /* Make sure arrays are big enough */
+    coerce1D( (SV*)ST(3), maxpt );
+    x = (float *) pack1D( (SV*)ST(2), 'f' );  /* Pack arrays */
+    y = (float *) pack1D( (SV*)ST(3), 'f' );
     cpgncur(maxpt,&npt,x,y,symbol);
+    unpack1D( (SV*)ST(2),  (void *)x, 'f', 0);
+    unpack1D( (SV*)ST(3),  (void *)y, 'f', 0);
   OUTPUT:
   npt
-  x
-  y
 
 
 void
@@ -573,19 +586,31 @@ pgnumb(mm,pp,form,string,nc)
 
 
 void
-pgolin_r(maxpt,npt,x,y,symbol)
+pgolin(maxpt,npt,x,y,symbol)
   int	maxpt
   int	npt
-  float *	x
-  float *	y
+  float *	x = NO_INIT
+  float *	y = NO_INIT
   int	symbol
   CODE:
+    coerce1D( (SV*)ST(2), maxpt );  /* Make sure arrays are big enough */
+    coerce1D( (SV*)ST(3), maxpt );
+    x = (float *) pack1D( (SV*)ST(2), 'f' );  /* Pack arrays */
+    y = (float *) pack1D( (SV*)ST(3), 'f' );
     cpgolin(maxpt,&npt,x,y,symbol);
+    unpack1D( (SV*)ST(2),  (void *)x, 'f', 0);
+    unpack1D( (SV*)ST(3),  (void *)y, 'f', 0);
   OUTPUT:
   npt
-  x
-  y
 
+
+int
+pgopen(device)
+  char *	device
+  CODE:
+    RETVAL = cpgopen(device);
+  OUTPUT:
+  RETVAL
 
 void
 pgpage()
@@ -624,8 +649,8 @@ pgpaper(width,aspect)
 
 
 void
-pgpixl_r(ia,idim,jdim,i1,i2,j1,j2,x1,x2,y1,y2)
-  int *	ia
+pgpixl(ia,idim,jdim,i1,i2,j1,j2,x1,x2,y1,y2)
+  int2D *	ia
   int	idim
   int	jdim
   int	i1
@@ -641,7 +666,7 @@ pgpixl_r(ia,idim,jdim,i1,i2,j1,j2,x1,x2,y1,y2)
 
 
 void
-pgpnts_r(n,x,y,symbol,ns)
+pgpnts(n,x,y,symbol,ns)
   int	n
   float *	x
   float *	y
@@ -652,7 +677,7 @@ pgpnts_r(n,x,y,symbol,ns)
 
 
 void
-pgpoly_r(n,xpts,ypts)
+pgpoly(n,xpts,ypts)
   int	n
   float *	xpts
   float *	ypts
@@ -661,7 +686,7 @@ pgpoly_r(n,xpts,ypts)
 
 
 void
-pgpt_r(n,xpts,ypts,symbol)
+pgpt(n,xpts,ypts,symbol)
   int	n
   float *	xpts
   float *	ypts
@@ -671,7 +696,7 @@ pgpt_r(n,xpts,ypts,symbol)
 
 
 void
-pgpoint_r(n,xpts,ypts,symbol)
+pgpoint(n,xpts,ypts,symbol)
   int	n
   float *	xpts
   float *	ypts
@@ -811,6 +836,13 @@ pgqhs(angle,sepn,phase)
   sepn
   phase
 
+void
+pgqid(id)
+  int	id = NO_INIT
+  CODE:
+    cpgqid(&id);
+  OUTPUT:
+  id
 
 void
 pgqinf(item,value,length)
@@ -874,20 +906,20 @@ pgqtbg(tbci)
 
 
 void
-pgqtxt_r(x,y,angle,fjust,text,xbox,ybox)
+pgqtxt(x,y,angle,fjust,text,xbox,ybox)
   float	x
   float	y
   float	angle
   float	fjust
   char *	text
-  float *	xbox
-  float *	ybox
+  float *	xbox = NO_INIT
+  float *	ybox = NO_INIT
   CODE:
+    xbox = get_mortalspace(4,'f');
+    ybox = get_mortalspace(4,'f');
     cpgqtxt(x,y,angle,fjust,text,xbox,ybox);
-  OUTPUT:
-  xbox
-  ybox
-
+    unpack1D( (SV*)ST(5),  (void *)xbox, 'f', 4);
+    unpack1D( (SV*)ST(6),  (void *)ybox, 'f', 4);
 
 void
 pgqvp(units,x1,x2,y1,y2)
@@ -1073,6 +1105,11 @@ pgsitf(itf)
   CODE:
     cpgsitf(itf);
 
+void
+pgslct(id)
+  int	id
+  CODE:
+    cpgslct(id);
 
 void
 pgsls(ls)
@@ -1171,9 +1208,9 @@ pgupdt()
 
 
 void
-pgvect_r(a,b,idim,jdim,i1,i2,j1,j2,c,nc,tr,blank)
-  float *	a
-  float *	b
+pgvect(a,b,idim,jdim,i1,i2,j1,j2,c,nc,tr,blank)
+  float2D *	a
+  float2D *	b
   int	idim
   int	jdim
   int	i1
@@ -1240,11 +1277,3 @@ pgwnad(x1,x2,y1,y2)
   float	y2
   CODE:
     cpgwnad(x1,x2,y1,y2);
-
-
-void
-pgperlcv()
-  CODE:
-        printf("pgperl C code built Sat Jun 17 21:58:03 BST 1995 on\n");
-        printf("cass33 for PGPLOT v5.0.2\n");
-

@@ -3,19 +3,16 @@ int *	T_INTP
 float	T_NV
 float *	T_FLOATP
 Logical	T_IV
+int2D *	T_INT2DP
+float2D *	T_FLOAT2DP
 
 INPUT 
 
 T_INTP
-        $var = ($type)SvPV($arg,na)
+        $var = ($type)pack1D($arg,'i')
 T_FLOATP
-        $var = ($type)SvPV($arg,na)
-
-
-OUTPUT
-
-T_INTP
-        sv_setpv((SV*)$arg, (char *)$var);
-T_FLOATP
-        sv_setpv((SV*)$arg, (char *)$var);
-
+        $var = ($type)pack1D($arg,'f')
+T_INT2DP
+        $var = ($type)pack2D($arg,'i')
+T_FLOAT2DP
+        $var = ($type)pack2D($arg,'f')

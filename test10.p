@@ -1,16 +1,8 @@
 #!/usr/local/bin/perl
-#
-# testpgperl10
-#
-# Test multiple ways of passing things in perl5
-#
-# ***PERL5 ONLY***
 
 use PGPLOT;
 
-print "\n\nTesting multiple ways of passing things in perl5...\n\n";
-
-pgperlv; 
+print "\n\nTesting multiple ways of passing things...\n\n";
 
 # Create image
 
@@ -22,7 +14,14 @@ for($i=0; $i<128; $i++) { for($j=0; $j<128; $j++) {
 
 $imgchar = pack("f*",@img1D);
 
-pgbegin(0,"?",2,2);
+print "PGPLOT module version $PGPLOT::VERSION\n\n";
+
+pgqinf("VERSION",$val,$len);
+print "PGPLOT $val library\n\n";
+
+$dev = "?" unless defined $dev; # "?" will prompt for device
+
+pgbegin(0,$dev,2,2);     # Open plot device 
 
 print "Plotting...\n";
 
@@ -33,30 +32,32 @@ print "Plotting...\n";
 
 print "--------------------------------------\n";
 
-&next('Points: scalars passed one by one','Image: packed char string');
+nextplot('Points: scalars passed one by one','Image: packed char string');
 
-pggray($imgchar,128,128,1,128,1,128,1,0,*tr);
+pggray($imgchar,128,128,1,128,1,128,1,0,\@tr);
 for($i=0; $i<11; $i++){ pgpt(1,$x[$i],$y[$i],17) }
 
-&next('Points: 1D array passed by glob','Image: 1D array passed by glob');
+nextplot('Points: 1D array passed by glob','Image: 1D array passed by glob');
 
-pggray(*img1D,128,128,1,128,1,128,1,0,*tr);
+pggray(*img1D,128,128,1,128,1,128,1,0,\@tr);
 pgpt(11,*x,*y,17);
 
-&next('Points: 1D array passed by reference','Image: 1D array passed by reference');
+nextplot('Points: 1D array passed by reference','Image: 1D array passed by reference');
 
-pggray(\@img1D,128,128,1,128,1,128,1,0,*tr);
+pggray(\@img1D,128,128,1,128,1,128,1,0,\@tr);
 pgpt(11,\@x,\@y,17);
 
-&next('Line: 1D cross-section of 2D array','Image: 2D array passed by reference');
+nextplot('Line: 1D cross-section of 2D array','Image: 2D array passed by reference');
 
-pggray($img2D,128,128,1,128,1,128,1,0,*tr);
+pggray($img2D,128,128,1,128,1,128,1,0,\@tr);
 pgwindow(0,128,0,1);
 pgline(128, \(0..127), $$img2D[127]);
 
+$len=1; # -w fudge
+
 pgend;
 
-sub next {
+sub nextplot {
   print $_[0],"\n";
   print $_[1],"\n";
 print "--------------------------------------\n";

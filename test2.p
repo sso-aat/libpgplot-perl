@@ -1,3 +1,91 @@
+#!/usr/local/bin/perl
+
+use PGPLOT;
+
+print "\n\nTesting advanced point and line plot routines...\n\n";
+
+print "PGPLOT module version $PGPLOT::VERSION\n\n";
+
+pgqinf("VERSION",$val,$len);
+print "PGPLOT $val library\n\n";
+
+
+$dev = "?" unless defined $dev;
+
+pgbegin(0,$dev,1,1);
+
+pgscf(2);       # Set label character font
+pgslw(4);       # Set line width
+pgsch(1.6);     # Set label character height
+
+pgenv(10.0,30.0,-2.0,6.0,0,0);
+
+pgsci(6);
+
+pglabel("X axis \\gP","Y axis \\gF","Top Label \\gW");
+
+pgsci(7);
+
+$i=-1;
+while(<DATA>){
+   $i++;
+   ($x[$i], $y[$i]) = split(' ');
+}
+pgline($i,*x,*y);
+
+pgsci(3);
+
+for($i=0; $i<10; $i++) {
+   $x[$i] = $i+15;
+   $y[$i] = $i-1;
+   $e[$i] = 0.9;
+   $x1[$i] = $x[$i] - $e[$i];
+   $x2[$i] = $x[$i] + 2.0* $e[$i];
+   $y1[$i] = $y[$i] - 0.7* $e[$i];
+   $y2[$i] = $y[$i] + 0.3* $e[$i];
+}
+
+
+pgpoint(10,\@x,\@y,14);
+pgerrx(10,\@x1,\@x2,*y,1);
+pgerry(10,*x,*y2,*y1,.1);  # Note we can also pass globs
+pgsci(2);
+pgsah(1,30,0.5);
+pgarro(20,0,25,2);
+
+pgmtext('B', -2.0, 0.95, 1, "This is a test");
+
+pgsci(9);
+
+pgptxt(25,2,35,0,'This way...');
+
+pgqinf("CURSOR",$ans,$l);
+if ($ans eq "YES") {
+
+   print "Entering interactive cursor test...\n";
+   
+   pgsci(4);
+   
+   print "Enter some points with the cursor\n";
+   
+   pglcur(5,$n,\@xt,\@yt);
+   pgsci(9);
+   pgpoint($n,*xt,*yt,20);
+   
+   for(@xt) { printf "%5.2f ",$_; } print "\n";
+   for(@yt) { printf "%5.2f ",$_; } print "\n";
+   
+   pgsci(2); 
+   pgpoly($n,\@xt,\@yt);
+}
+
+$l=1; $len=1; # Get past -w
+pgiden;
+
+pgend;
+
+
+__DATA__
     17.000000000000    1.8515548576633
     17.090909090909    1.8907204814559
     17.181818181818    1.9295359694614
