@@ -27,3 +27,4 @@ test9.p
 typemap
 pgcompatbility.p
 HINTS.irix
+HINTS.osf

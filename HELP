@@ -2,9 +2,16 @@
 List of various gotchas!
 ------------------------
 
-Last Change: May 15th, 1998.
+Last Change: Dec 15th, 2000.
 
 Karl Glazebrook.
+
+ExtUtils::F77
+-------------
+
+This module requires installation of ExtUtils::F77 to compile. The
+latest version is v1.13 so you probably better get that from
+CPAN (www.cpan.org)
 
 
 perl5.004_?? problem
@@ -39,6 +46,8 @@ Then type 'make' again and everything should work.
 
 Common Problems and Possible Solutions
 --------------------------------------
+
+*** First check the HINTS.* files for OS-specific problems. ***
 
 If you have libpgplot set up following the recommended defaults and the
 Makefile.PL recognises your system then Perl/PGPLOT should build out of the

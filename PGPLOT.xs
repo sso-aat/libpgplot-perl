@@ -39,6 +39,9 @@ struct PGPLOT_function_handle {
    I32 binversion;
    void (*cpgmove) (float x, float y);
    void (*cpgdraw) (float x, float y);
+   void (*cpgqcir) (int *icilo, int *icihi);
+   void (*cpgsci)  (int ci);
+   void (*cpgpt1)  (float x, float y, int sym);
 };
 
 typedef struct PGPLOT_function_handle PGPLOT_function_handle;
@@ -734,7 +737,6 @@ pgpnts(n,x,y,symbol,ns)
   CODE:
     cpgpnts(n,x,y,symbol,ns);
 
-
 void
 pgpoly(n,xpts,ypts)
   int	n
@@ -1400,9 +1402,12 @@ BOOT:
    
    /* Initialise structure of pointers to core C routines */
 
-   myPGPLOT_handle.binversion  = 20000302; /* Date structure redefined */
+   myPGPLOT_handle.binversion  = 20001129; /* Date structure redefined */
    myPGPLOT_handle.cpgdraw     = cpgdraw;
    myPGPLOT_handle.cpgmove     = cpgmove;
+   myPGPLOT_handle.cpgqcir     = cpgqcir;
+   myPGPLOT_handle.cpgsci      = cpgsci;
+   myPGPLOT_handle.cpgpt1      = cpgpt1;
    
    /*
       "Publish" pointer to this structure in perl variable for use

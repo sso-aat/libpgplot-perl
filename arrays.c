@@ -591,8 +591,8 @@ AV* coerce1D ( SV* arg, int n ) {
    }else if (SvROK(arg) && SvTYPE(SvRV(arg))==SVt_PVAV) {
        array = (AV *) SvRV(arg);                           /* reference */
    }else{
-       array = newAV();                                    /* Create */
-       sv_setsv(arg, newRV((SV*) array));                            
+       array = (AV*)sv_2mortal((SV*)newAV());  /* Create */
+       sv_setsv(arg, sv_2mortal(newRV((SV*) array)));
    }
    
    m = av_len(array);

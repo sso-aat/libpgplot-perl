@@ -23,7 +23,7 @@ my $idir = defined $ENV{PGPLOT_DIR} ? "-I$ENV{PGPLOT_DIR}" : "";
 
 WriteMakefile(
     'NAME'	=> 'PGPLOT',
-    'PREREQ_PM' => { 'ExtUtils::F77' => 1.11 },
+    'PREREQ_PM' => { 'ExtUtils::F77' => 1.13 },
     'VERSION_FROM'	=> 'PGPLOT.pm',
      ($^O eq 'VMS' ? ('LIBS' => 'pgplot_dir:cpgplot.olb') :
      (-d 'pgplot_tmp' ? 

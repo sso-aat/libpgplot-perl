@@ -1,6 +1,14 @@
 PGPLOT module Changes list
 --------------------------
 
+CHANGES v2.18, released Dec 28th 2000
+-------------------------------------
+
+* Added file HINTS.osf, updated HELP
+* Fixed memory leak in coerce1D (thanks to Pete Ratzlaff)
+* Added Doug Hunt's internals patch to export more pgplot C routines
+* Improvements to HELP file
+
 CHANGES v2.17, released May 8th, 2000
 -------------------------------------
 
