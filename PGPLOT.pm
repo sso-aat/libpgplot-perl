@@ -7,7 +7,7 @@ package PGPLOT;
 #
 #  WWW info: http://www.aao.gov.au/local/www/kgb/pgperl/
 
-$VERSION="2.02";
+$VERSION="2.04";
 
 use Exporter;
 use DynaLoader;
@@ -170,6 +170,25 @@ C<"f*"> for example to use C<pggray>. This is intended as a short-cut for
 sophisticated users. Even more sophisticated users will want to download
 the C<PDL> module which provides a wealth of functions for manipulating
 binary data.
+
+
+PLEASE NOTE: As PGPLOT is a Fortran library it expects it's images to be
+be stored in row order. Thus a 1D list is interpreted as a sequence of
+rows end to end. Perl is similar to C in that 2D arrays are arrays of
+pointers thus images end up stored in column order. 
+
+Thus using perl multidimensional arrays the coordinate ($i,$j) should be
+stored in $img[$j][$i] for things to work as expected, e.g:
+
+   $img = [];
+   for $j (0..$nx-1) for $i (0..$ny-1) { 
+      $$img[$j][$i] = whatever();
+   }}
+   pggray($$img, $nx, $ny, ...);
+   
+Also PGPLOT displays coordinate (0,0) at the bottom left (this is
+natural as the subroutine library was written by an astronomer!).
+
 
 =back
 

@@ -28,6 +28,11 @@ o Check Perl normal dynamic loading works, try:
   perl -e 'use Socket'
 
   and see if there are any errors.
+  
+  
+o Using Linux and G77, you might need to ensure that libf2c.a is present
+  in the normal library search path. You might also need to add ' -lgcc'
+  after the fortran runtime library in Makefile.PL
 
 o If using G77 check the library /usr/lib/libf2c.a is the one that came
   with g77 and not an older one that comes with F2C. Check also that is is not picking up
@@ -36,8 +41,7 @@ o If using G77 check the library /usr/lib/libf2c.a is the one that came
   
   lrwxrwxrwx   1 root     root           42 Aug 28 16:17 /usr/lib/libf2c.a -> 
   /usr/lib/gcc-lib/i486-linux/2.7.2/libg77.a
-   
-  
+
 o Check the cc compiler you used to build cpgplot is the same one
   you used to build Perl (this is the one invoked by Makefile.PL)
 

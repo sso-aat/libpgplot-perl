@@ -125,7 +125,7 @@ $shape1->rotate(20);  # Rotate the shape bigger
 
 $shape1->plot(-20,-50);
 
-print "Inheriting Square methods in Trangles...\n";
+print "Inheriting Square methods in Triangles...\n";
 
 $shape2 = new Triangle;
 

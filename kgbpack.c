@@ -15,7 +15,7 @@
 Dec 95: Add double precision arrays 	        - frossie@jach.hawaii.edu
 Dec 96: Add 'ref to scalar is binary' handling  - kgb@aaoepp.aao.gov.au
 Jan 97: Handles undefined values as zero        - kgb@aaoepp.aao.gov.au
-Feb 97: Fixed a few type cast howlers           - kgb@aaoepp.aao.gov.au
+Feb 97: Fixed a few type cast howlers+bugs      - kgb@aaoepp.aao.gov.au
    
 */
 
@@ -273,7 +273,7 @@ void* pack2D ( SV* arg, char packtype ) {
    
             if (isref) {
                array2 = (AV *) SvRV(*work2);  /* array of 2nd dimension */
-               m = av_len(array);            /* Length */
+               m = av_len(array2);            /* Length */
             }else{
                m=0;                          /* 1D array */
                nval = SvNV(*work2);               
@@ -300,7 +300,7 @@ void* pack2D ( SV* arg, char packtype ) {
                         goto errexit;     /*  Croak if reference [i.e. not 1D] */
                      nval = SvNV(*work2);               
                   }      
-               }               
+               }
                
                if (packtype=='f') {
                   scalar = (float) nval;

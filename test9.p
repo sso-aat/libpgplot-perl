@@ -37,6 +37,11 @@ pgimag(\@image,128,128,1,128,1,128,0,5000,\@tr);
 pglabel("\\ga","\\gd","Galaxy");
 pgtbox("ZYHBCNST",0,0,"ZYDBCNST",0,0);
 
+# Note: pgimag() usually defaults to a grey scale unless you explicitly set
+# a colour ramp look-up table with pgctab(). Because it is a look
+# up table it can be set after drawing the image. It is best to set an
+# explicit LUT as a grey scale default can not be guaranteed on all devices.
+
 # Set PHIL2 colour table
 
 @l=(0,0.004,0.502,0.941,1); @r=(0,0,1,1,1); 
