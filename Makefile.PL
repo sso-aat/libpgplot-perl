@@ -3,7 +3,10 @@ require 5.003;
 use lib ".";
 use ExtUtils::MakeMaker;
 
-use blib "../ExtUtils"; # For KGB development
+BEGIN {
+eval 'use blib "../ExtUtils";' # For KGB development
+if -e "../ExtUtils";
+}
 
 use ExtUtils::F77; # This should work most of the time
 

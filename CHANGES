@@ -1,6 +1,11 @@
 PGPLOT module Changes list
 --------------------------
 
+CHANGES 2.15 released Oct 26th 1999
+-----------------------------------
+
+* Fixed Makefile.PL minor problem
+
 CHANGES 2.14 released Oct 15th 1999
 -----------------------------------
 
