@@ -1,6 +1,14 @@
 CHANGES 
 -------
 
+v1.10 released May 14th 1999
+-----------------------------
+
+Tim Jenness <t.jenness@jach.hawaii.edu>:
+* Fixes for Redhat 6.0 searching for libg2c.a
+* Better POD documentation
+* New runtimeok() method
+
 v1.09 released May 11th, 1999
 -----------------------------
 

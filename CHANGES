@@ -1,3 +1,7 @@
+CHANGES v2.13 released May 14th, 1999
+--------------------------------------
+
+* Updates to ExtUtils::F77 (now v1.10) (q.t.) for RedHat 6.0 etc.
 
 CHANGES v2.12 released May 11th, 1999
 --------------------------------------

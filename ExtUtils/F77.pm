@@ -32,7 +32,7 @@ variable F77LIBS, e.g.
 
 =cut
 
-$VERSION = "1.09";
+$VERSION = "1.10";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -92,16 +92,27 @@ $F77config{Solaris}{DEFAULT} = 'F77';
 ### Generic GNU-77 or F2C system ###
 
 $F77config{Generic}{G77}{Link} = sub {
-    my $dir = `g77 -print-file-name=libf2c.a`;
-    if( $dir ) {
-        $dir =~ s,/libf2c.a$,,;
+    my @libs = ( 'f2c', 'g2c');
+    my ($dir, $lib);
+    foreach my $test (@libs) {
+      $dir = `g77 -print-file-name=lib$test.a`;
+      chomp $dir;
+      # Note that -print-file-name returns just the library name
+      # if it cant be found - make sure that we only accept the
+      # directory if it returns a proper path (or matches a /)
+      if (defined $dir && $dir ne "lib$test.a") {
+        $lib = $test; # Found an existing library
+        last; 
+      }
+    }
+
+    if( defined $dir  && defined $lib) {
+        $dir =~ s,/lib$lib.a$,,;
     } else {
         $dir = "/usr/local/lib";
+        $lib = "f2c";
     }    
-    chomp $dir;
-    my @files = glob("$dir/libg2c.*");
-    return( "-L$dir -lg2c -lm" ) if scalar(@files)>0;
-    return( "-L$dir -L/usr/lib -lf2c -lm" );
+    return( "-L$dir -L/usr/lib -l$lib -lm" );
 };
 $F77config{Generic}{G77}{Trail_} = 1;
 $F77config{Generic}{G77}{Compiler} = find_in_path('g77','f77','fort77');
@@ -192,6 +203,7 @@ $F77config{VMS}{Fortran}{Compiler} = 'Fortran';
   use ExtUtils::F77;               # Automatic guess 
   use ExtUtils::F77 qw(sunos);     # Specify system
   use ExtUtils::F77 qw(linux g77); # Specify system and compiler
+  $fortranlibs = ExtUtils::F77->runtime;
 
 =cut
 
@@ -298,16 +310,41 @@ EOD
    
 } # End of import ()
 
-=head2 METHODS
+=head1 METHODS
 
- runtime()    - Returns list of F77 runtime libraries
- runtimeok()  - Returns TRUE only if runtime libraries have been found successfully
- trail_()     - Returns true if F77 names have trailing underscores
- compiler()   - Returns command to execute the compiler (e.g. 'f77')
- cflags()     - Returns compiler flags
- testcompiler - Test to see if compiler actually works
+The following methods are provided:
 
- [probably more to come.]
+=over 4
+
+=item * B<runtime>
+
+Returns a list of F77 runtime libraries.
+
+  $fortranlibs = ExtUtils::F77->runtime;
+
+=item * B<runtimeok>
+
+Returns TRUE only if runtime libraries have been found successfully.
+
+=item * B<trail_>
+
+Returns true if F77 names have trailing underscores.
+
+=item * B<compiler>
+
+Returns command to execute the compiler (e.g. 'f77').
+
+=item * B<cflags>
+
+Returns compiler flags.
+
+=item * B<testcompiler>
+
+Test to see if compiler actually works.
+
+=back
+
+More methods  will probably be added in the future.
 
 =cut
 	
@@ -413,10 +450,16 @@ sub testcompiler {
 sub gcclibs {
    my $isgcc = $Config{'cc'} eq 'gcc';
    if (!$isgcc && $^O ne 'VMS') {
-      print "Checking for gcc in disguise\n";
+      print "Checking for gcc in disguise:\n";
       $isgcc = 1 if $Config{gccversion};
-      print "Compiler is gcc version $Config{gccversion}" if $isgcc;
-      print "Not gcc\n" unless $isgcc;
+      my $string;
+      if ($isgcc) {
+        $string = "Compiler is gcc version $Config{gccversion}";
+        $string .= "\n" unless $string =~ /\n$/;
+      } else {
+        $string = "Not gcc\n";
+      }
+      print $string;
    }
    if ($isgcc) {
        $gccdir = `gcc -print-libgcc-file-name`; chomp $gccdir;
@@ -443,9 +486,17 @@ sub find_in_path {
    return '' if $^O eq 'VMS';
    die "Unable to find a fortran compiler using names: ".join(" ",@names);
 }
-   
+
+
+=head1 AUTHOR
+
+Karl Glazebrook (kgb@aaoepp.aao.GOV.AU).
+
+=cut
 
 
 1; # Return true
+
+
 
 
