@@ -8,6 +8,8 @@ print "PGPLOT module version $PGPLOT::VERSION\n\n";
 
 pgqinf("VERSION",$val,$len);
 print "PGPLOT $val library\n\n";
+$val =~ s/\.//g; $val =~ s/v//; 
+die "PGPLOT version must be > 5.2.0 for this test $val\n" if $val<520;
 
 # Read in image (int*2)
 

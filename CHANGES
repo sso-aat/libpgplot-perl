@@ -1,3 +1,10 @@
+
+CHANGES v2.08 released 8/Jan/98
+-------------------------------
+
+* Added improved -lgcc support.
+* PGPLOT version check in test12.p
+
 CHANGES (v2.06 to 2.07)
 ------------------------
 

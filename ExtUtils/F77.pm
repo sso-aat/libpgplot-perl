@@ -19,7 +19,7 @@ your system to kgb@aaoepp.aao.gov.au
 
 =cut
 
-$VERSION = "1.04";
+$VERSION = "1.05";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -84,14 +84,8 @@ $F77config{Generic}{G77}{Link} = sub {
         $dir =~ s,/libf2c.a$,,;
     } else {
         $dir = "/usr/local/lib";
-    }
-    $gcc = "";
-    if ($Config{'cc'} eq 'gcc') {
-       $gccdir = `gcc -print-libgcc-file-name`; chomp $gccdir;
-       $gccdir =~ s/libgcc.a//;
-       $gcc = "-L$gccdir -lgcc";
-    }
-    return( "-L$dir -L/usr/lib -lf2c $gcc -lm" );
+    }    
+    return( "-L$dir -L/usr/lib -lf2c -lm" );
 };
 $F77config{Generic}{G77}{Trail_} = 1;
 $F77config{Generic}{G77}{Compiler} = 'g77';
@@ -168,11 +162,11 @@ sub import {
    $compiler = get $F77config{$system}{DEFAULT} unless $compiler;
 
    print "$Pkg: Using system=$system compiler=$compiler\n";
-
+   
    # Try this combination
 
    if (defined( $F77config{$system} )){
-      $Runtime = get $F77config{$system}{$compiler}{Link};  
+      $Runtime = get ($F77config{$system}{$compiler}{Link}) . gcclibs();  
       $ok = validate_libs($Runtime) if $Runtime;
    }else {
       $Runtime = $ok = "";
@@ -187,7 +181,7 @@ $Pkg: Will try system=Generic Compiler=G77
 EOD
       $system   = "Generic";
       $compiler = "G77";
-      $Runtime = get $F77config{$system}{$compiler}{Link};  
+      $Runtime = get ($F77config{$system}{$compiler}{Link}) . gcclibs();  
       $ok = validate_libs($Runtime) if $Runtime;
       print "$Pkg: Well that didn't appear to validate. Well I will try it anyway.\n"
            unless $Runtime && $ok;
@@ -230,8 +224,9 @@ $Pkg: necessary.
 EOD
 	$Cflags = '';
    }
-print "$Pkg: Cflags: $Cflags\n";
 
+   print "$Pkg: Cflags: $Cflags\n";
+   
 } # End of import ()
 
 =head2 METHODS
@@ -343,6 +338,26 @@ sub testcompiler {
     unlink("${file}_exe"); unlink("$file.f"); unlink("$file.o") if -e "$file.o";
     return $ret;
 };
+
+# Return gcc libs (e.g. -L/usr/local/lib/gcc-lib/sparc-sun-sunos4.1.3_U1/2.7.0 -lgcc)
+
+sub gcclibs {
+   my $isgcc = $Config{'cc'} eq 'gcc';
+   if (!$isgcc) {
+      print "Checking for gcc in disguise\n";
+      open(T, "cc -v 2>&1 |"); my @tmp = <T>; close(T);
+      $isgcc = 1 if grep(/gcc/,@tmp)>0;
+      print "Compiler is $tmp[1]" if $isgcc;
+      print "Not gcc\n" unless $isgcc;
+   }
+   if ($isgcc) {
+       $gccdir = `gcc -print-libgcc-file-name`; chomp $gccdir;
+       $gccdir =~ s/\/libgcc.a//;
+       return " -L$gccdir -lgcc";   
+   }else{
+       return "";
+   }
+}
 
 
 1; # Return true
