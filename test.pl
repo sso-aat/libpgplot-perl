@@ -16,7 +16,7 @@ $dev = "/XSERVE" unless $dev=~/\w/;
 
 $ENV{PGPLOT_XW_WIDTH}=0.3;
 
-foreach $jjj (1..11) {
+foreach $jjj (1..12) {
 
    print "============== Running test$jjj.p ==============\n";
    %@ = ();       # Clear error status

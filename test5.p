@@ -1,4 +1,4 @@
-#!/usr/my/bin/perl
+#!/usr/local/bin/perl
 
 use PGPLOT;
 

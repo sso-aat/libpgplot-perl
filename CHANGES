@@ -1,3 +1,16 @@
+CHANGES (v2.06 to 2.07)
+------------------------
+
+* Added support for new functions in PGPLOT 5.2.0 library. Note: TK
+  driver looks nice but haven't yet implemented this in perl version.
+  Presumably can be done with perl/Tk.
+  
+* Extra test12.p for new routines
+
+* No longer supporting binary versions in any shape or form. Life is too 
+  short. Get a FORTRAN compiler. :-)
+
+* Added -lgcc for gcc built perls in ExtUtils::F77
 
 CHANGES (v2.02 to 2.06)
 ------------------------
@@ -65,5 +78,4 @@ o Removed special one-point routine versions (hang-over from
 o Removed pgplot.pl (again a hang-over from old perl4 version).
 
 o General tidy up and reorganisation of distribution
-
 

@@ -20,10 +20,10 @@
 typedef int   int2D;    /* So 2D arrays are handled automagically */
 typedef float float2D;  /* by typemap */
 
-/* Buffer for routines that return a string - fortunately
-   there are no routines that return 2 strings!            */
+/* Buffers for routines that return strings  */
    
 static char strbuff[256]; 
+static char strbuff2[256];  
 #define SIZEOF(X) sizeof(strbuff)
 
 void MAIN__ () {
@@ -48,6 +48,26 @@ pgask(flag)
   Logical	flag
   CODE:
     cpgask(flag);
+
+void
+pgaxis(opt,x1,y1,x2,y2,v1,v2,step,nsub,dmajl,dmajr,fmin,disp,orient)
+  char *	opt
+  float	x1
+  float	y1
+  float	x2
+  float	y2
+  float	v1
+  float	v2
+  float	step
+  int	nsub
+  float	dmajl
+  float	dmajr
+  float	fmin
+  float	disp
+  float	orient
+  CODE:
+    cpgaxis(opt,x1,y1,x2,y2,v1,v2,step,nsub,dmajl,dmajr,fmin,disp,orient);
+ 
 
 
 int
@@ -150,6 +170,21 @@ pgconb(a,idim,jdim,i1,i2,j1,j2,c,nc,tr,blank)
   CODE:
     cpgconb(a,idim,jdim,i1,i2,j1,j2,c,nc,tr,blank);
 
+
+void
+pgconf(a,idim,jdim,i1,i2,j1,j2,c1,c2,tr)
+  float2D *	a
+  int	idim
+  int	jdim
+  int	i1
+  int	i2
+  int	j1
+  int	j2
+  float	c1
+  float	c2
+  float *	tr
+  CODE:
+    cpgconf(a,idim,jdim,i1,i2,j1,j2,c1,c2,tr);
 
 void
 pgconl(a,idim,jdim,i1,i2,j1,j2,c,tr,label,intval,minint)
@@ -296,6 +331,15 @@ pgeras()
   CODE:
     cpgeras();
 
+void
+pgerr1(dir,x,y,e,t)
+  int	dir
+  float	x
+  float	y
+  float	e
+  float	t
+  CODE:
+    cpgerr1(dir,x,y,e,t);
 
 void
 pgerrb(dir,n,x,y,e,t)
@@ -700,6 +744,13 @@ pgpt(n,xpts,ypts,symbol)
   CODE:
     cpgpt(n,xpts,ypts,symbol);
 
+void
+pgpt1(xpts,ypts,symbol)
+  float	xpts
+  float	ypts
+  int	symbol
+  CODE:
+    cpgpt1(xpts,ypts,symbol);
 
 void
 pgpoint(n,xpts,ypts,symbol)
@@ -785,6 +836,14 @@ pgqcir(icilo,icihi)
 
 
 void
+pgqclp(state)
+  int	state = NO_INIT
+  CODE:
+    cpgqclp(&state);
+  OUTPUT:
+  state
+
+void
 pgqcol(ci1,ci2)
   int	ci1 = NO_INIT
   int	ci2 = NO_INIT
@@ -793,7 +852,6 @@ pgqcol(ci1,ci2)
   OUTPUT:
   ci1
   ci2
-
 
 void
 pgqcr(ci,cr,cg,cb)
@@ -820,6 +878,26 @@ pgqcs(units,xch,ych)
   xch
   ych
 
+void
+pgqdt(n,type,tlen,descr,dlen,inter)
+  int	n
+  char *	type = NO_INIT
+  int	tlen = NO_INIT
+  char *	descr = NO_INIT
+  int	dlen = NO_INIT
+  int	inter = NO_INIT
+  CODE:
+    type = strbuff;
+    tlen = SIZEOF(type);
+    descr = strbuff2;
+    dlen = SIZEOF(descr);
+    cpgqdt(n,type,&tlen,descr,&dlen,&inter);
+  OUTPUT:
+    type
+    tlen
+    descr
+    dlen
+    inter
 
 void
 pgqfs(fs)
@@ -857,7 +935,7 @@ pgqinf(item,value,length)
   int	length = NO_INIT
   CODE:
     value = strbuff;
-           length = SIZEOF(value);  
+    length = SIZEOF(value);  
     cpgqinf(item,value,&length);
   OUTPUT:
   value
@@ -890,6 +968,13 @@ pgqlw(lw)
   OUTPUT:
   lw
 
+void
+pgqndt(n)
+  int	n = NO_INIT
+  CODE:
+    cpgqndt(&n);
+  OUTPUT:
+  n
 
 void
 pgqpos(x,y)
@@ -1048,7 +1133,7 @@ pgsci(ci)
   int	ci
   CODE:
     cpgsci(ci);
-
+    
 
 void
 pgscir(icilo,icihi)
@@ -1057,6 +1142,11 @@ pgscir(icilo,icihi)
   CODE:
     cpgscir(icilo,icihi);
 
+void
+pgsclp(state)
+  int	state
+  CODE:
+    cpgsclp(state);
 
 void
 pgscr(ci,cr,cg,cb)
@@ -1067,6 +1157,12 @@ pgscr(ci,cr,cg,cb)
   CODE:
     cpgscr(ci,cr,cg,cb);
 
+void
+pgscrl(dx,dy)
+  float	dx
+  float	dy
+  CODE:
+    cpgscrl(dx,dy);
 
 void
 pgscrn(ci,name,ier)
@@ -1197,6 +1293,20 @@ pgtbox(xopt,xtick,nxsub,yopt,ytick,nysub)
   CODE:
     cpgtbox(xopt,xtick,nxsub,yopt,ytick,nysub);
 
+void
+pgtick(x1,y1,x2,y2,v,tikl,tikr,disp,orient,str)
+  float	x1
+  float	y1
+  float	x2
+  float	y2
+  float	v
+  float	tikl
+  float	tikr
+  float	disp
+  float	orient
+  char *	str
+  CODE:
+    cpgtick(x1,y1,x2,y2,v,tikl,tikr,disp,orient,str);
 
 void
 pgtext(x,y,text)

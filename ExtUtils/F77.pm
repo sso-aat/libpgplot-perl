@@ -19,7 +19,7 @@ your system to kgb@aaoepp.aao.gov.au
 
 =cut
 
-$VERSION = "1.03";
+$VERSION = "1.04";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -85,10 +85,16 @@ $F77config{Generic}{G77}{Link} = sub {
     } else {
         $dir = "/usr/local/lib";
     }
-    return( "-L$dir -L/usr/lib -lf2c -lm" );
+    $gcc = "";
+    if ($Config{'cc'} eq 'gcc') {
+       $gccdir = `gcc -print-libgcc-file-name`; chomp $gccdir;
+       $gccdir =~ s/libgcc.a//;
+       $gcc = "-L$gccdir -lgcc";
+    }
+    return( "-L$dir -L/usr/lib -lf2c $gcc -lm" );
 };
 $F77config{Generic}{G77}{Trail_} = 1;
-$F77config{Generic}{G77}{Compiler} = 'f77';
+$F77config{Generic}{G77}{Compiler} = 'g77';
 $F77config{Generic}{G77}{Cflags} = '-O';
 $F77config{Generic}{DEFAULT} = 'G77';
 $F77config{Generic}{F2c}     = $F77config{Generic}{G77};
@@ -323,18 +329,18 @@ sub testcompiler {
     print OUT "      end\n";
     close(OUT);
     print "Compiling the test Fortran program...\n";
-    system "$Compiler $Cflags $file.f -o $file.e";
+    system "$Compiler $Cflags $file.f -o ${file}_exe";
     print "Executing the test program...\n";
-    if (`$file.e` ne " Hello World\n") {
+    if (`${file}_exe` ne " Hello World\n") {
        print "Test of Fortran Compiler FAILED. \n";
        print "Do not know how to compile Fortran on your system\n";
        $ret=0;
     }
     else{
-       print "Congratualations you seem to have a working f77!\n";
+       print "Congratulations you seem to have a working f77!\n";
        $ret=1;
     }
-    unlink("$file.e"); unlink("$file.f"); unlink("$file.o") if -e "$file.o";
+    unlink("${file}_exe"); unlink("$file.f"); unlink("$file.o") if -e "$file.o";
     return $ret;
 };
 

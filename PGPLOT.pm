@@ -7,23 +7,23 @@ package PGPLOT;
 #
 #  WWW info: http://www.aao.gov.au/local/www/kgb/pgperl/
 
-$VERSION="2.06";
+$VERSION="2.07";
 
 use Exporter;
 use DynaLoader;
 
 @ISA = qw(Exporter DynaLoader);
-@EXPORT = qw( pgarro pgask pgband pgbbuf pgbeg pgbegin pgbin pgbox
-pgcirc pgclos pgconb pgconl pgcons pgcont pgconx pgctab pgcurs pgcurse pgdraw
-pgebuf pgend pgenv pgeras pgerrb pgerrx pgerry pgetxt pgfunt pgfunx
+@EXPORT = qw( pgarro pgask pgaxis pgband pgbbuf pgbeg pgbegin pgbin pgbox
+pgcirc pgclos pgconb pgconf pgconl pgcons pgcont pgconx pgctab pgcurs pgcurse pgdraw
+pgebuf pgend pgenv pgeras pgerr1 pgerrb pgerrx pgerry pgetxt pgfunt pgfunx
 pgfuny pggray pghi2d pghist pgiden pgimag pglab pglabel pglcur pgldev
-pglen pgline pgmove pgmtxt pgmtext pgncur pgncurse pgnumb pgolin pgopen pgpage
-pgadvance pgpanl pgpap pgpaper pgpixl pgpnts pgpoly pgpt pgpoint pgptxt
-pgptext pgqah pgqcf pgqch pgqci pgqcir pgqcol pgqcr pgqcs pgqfs pgqhs
-pgqid pgqinf pgqitf pgqls pgqlw pgqpos pgqtbg pgqtxt pgqvp pgqvsz pgqwin
-pgrect pgrnd pgrnge pgsah pgsave pgunsa pgscf pgsch pgsci pgscir pgscr
-pgscrn pgsfs pgshls pgshs pgsitf pgslct pgsls pgslw pgstbg pgsubp pgsvp
-pgvport pgswin pgwindow pgtbox pgtext pgupdt pgvect pgvsiz pgvsize
+pglen pgline pgmove pgmtxt pgmtext pgncur pgncurse pgndt pgnumb pgolin pgopen pgpage
+pgadvance pgpanl pgpap pgpaper pgpixl pgpnts pgpoly pgpt pgpt1 pgpoint pgptxt
+pgptext pgqah pgqcf pgqch pgqci pgqclp pgqcir pgqcol pgqcr pgqcs pgqdt pgqfs pgqhs
+pgqid pgqinf pgqitf pgqls pgqlw pgqndt pgqpos pgqtbg pgqtxt pgqvp pgqvsz pgqwin
+pgrect pgrnd pgrnge pgsah pgsave pgunsa pgscf pgsch pgsci pgscir pgsclp pgscr
+pgscrl pgscrn pgsfs pgshls pgshs pgsitf pgslct pgsls pgslw pgstbg pgsubp pgsvp
+pgvport pgswin pgwindow pgtbox pgtick pgtext pgupdt pgvect pgvsiz pgvsize
 pgvstd pgvstand pgwedg pgwnad );
 
 bootstrap PGPLOT;
@@ -36,8 +36,7 @@ __DATA__
 
 =head1 NAME
 
-PGPLOT - allow subroutines in the PGPLOT graphics library
-to be called from Perl.
+PGPLOT - allow subroutines in the PGPLOT graphics library to be called from Perl.
 
 =head1 SYNOPSIS
 

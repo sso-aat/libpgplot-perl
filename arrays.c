@@ -514,7 +514,6 @@ void unpack1D ( SV* arg, void * var, char packtype, int n ) {
    double* dvar;
    short* svar;
    unsigned char* uvar;
-   double foo;
    SV* work;
    AV* array;
    I32 i,m;
@@ -547,7 +546,6 @@ void unpack1D ( SV* arg, void * var, char packtype, int n ) {
    /* Unpack into the array */
    
    for(i=0; i<m; i++) {
-      foo = (double) fvar[i];
       if (packtype=='i') 
          av_store( array, i, newSViv( (IV)ivar[i] ) );
       if (packtype=='f') 

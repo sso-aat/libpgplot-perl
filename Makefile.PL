@@ -19,12 +19,12 @@ WriteMakefile(
         'LIBS'	=> ['-L/usr/openwin/lib -L/usr/X11/lib -L/usr/X11R6/lib -lX11 '.
                     ExtUtils::F77->runtime])
        :
-         ('LIBS' => ['-L/usr/local/lib -L/usr/local/pgplot -lcpgplot -lpgplot '.
+         ('LIBS' => ['-L/home/aaossm/kgb/soft/pgplot/bld -L/usr/local/pgplot -L/usr/local/lib -lcpgplot -lpgplot '.
                     '-L/usr/openwin/lib -L/usr/X11/lib -L/usr/X11R6/lib -lX11 '.
                     ExtUtils::F77->runtime])
      ),
     'DEFINE'	=>  ExtUtils::F77->trail_ ? "" : "-DNO_TRAILING_USCORE",
-    'INC'	=> '-I/usr/local/pgplot',  # where cpgplot.h should be
+    'INC'	=> '-I/home/aaossm/kgb/soft/pgplot/bld -I/usr/local/pgplot',  # where cpgplot.h should be
     'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" }
 );
 
