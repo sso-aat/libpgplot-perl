@@ -3,8 +3,15 @@ require 5.003;
 use lib ".";
 use ExtUtils::MakeMaker;
 
-use ExtUtils::F77;
-#use ExtUtils::F77 qw(generic g77); # Try this for GNU-77
+use blib "../ExtUtils"; # For KGB development
+
+use ExtUtils::F77; # This should work most of the time
+
+# Examples of how to explicitly override default automatic choice
+# of OS and compiler (currently commented out):
+
+#use ExtUtils::F77 qw(solaris); 
+#use ExtUtils::F77 qw(generic g77); 
 
 use Config;
 
@@ -13,9 +20,8 @@ my $idir = defined $ENV{PGPLOT_DIR} ? "-I$ENV{PGPLOT_DIR}" : "";
 
 WriteMakefile(
     'NAME'	=> 'PGPLOT',
+    'PREREQ_PM' => { 'ExtUtils::F77' => 1.11 },
     'VERSION_FROM'	=> 'PGPLOT.pm',
-    'PM'        => {'PGPLOT.pm' => '$(INST_LIBDIR)/PGPLOT.pm',
-                    'ExtUtils/F77.pm' => '$(INST_LIBDIR)/ExtUtils/F77.pm'},
      ($^O eq 'VMS' ? ('LIBS' => 'pgplot_dir:cpgplot.olb') :
      (-d 'pgplot_tmp' ? 
         ('OBJECT' => '$(BASEEXT)$(OBJ_EXT) pgplot_tmp/libcpgplot.a '.

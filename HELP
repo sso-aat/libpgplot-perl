@@ -46,6 +46,10 @@ box. If you don't you may experience problems. Read on for possible
 fixes. Patches for ExtUtils::F77, to make it even smarter, are very
 welcome!
 
+o Check the -lX11 you are linking with is the same one that libpgplot
+  was built against! This can cause the module to die with a very
+  unhelpful error. Use -L/dir to fix this.
+
 o If 'make test' does not work try 'perl -Mblib test.pl'. Sometimes
   one can get funny dynamic loading problem. [The former sets 
   PERL_DL_NONLAZY=1 which makes it fail on any unresolved symbol.

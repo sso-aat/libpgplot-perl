@@ -1,3 +1,15 @@
+PGPLOT module Changes list
+--------------------------
+
+CHANGES 2.14 released Oct 15th 1999
+-----------------------------------
+
+* Updated HELP some more.
+* Removed ExtUtils from distribution and made seperate to avoid confusing
+  CPAN, is now a PREREQ_PM
+* Removed erroneous reference in PGPLOT.pm (Charles Lane).
+* Added HINTS.irix
+
 CHANGES v2.13 released May 14th, 1999
 --------------------------------------
 

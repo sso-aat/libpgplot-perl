@@ -7,7 +7,7 @@ package PGPLOT;
 #
 #  WWW info: http://www.aao.gov.au/local/www/kgb/pgperl/
 
-$VERSION="2.13";
+$VERSION="2.14";
 
 use Exporter;
 use DynaLoader;
@@ -17,7 +17,7 @@ use DynaLoader;
 pgcirc pgclos pgconb pgconf pgconl pgcons pgcont pgconx pgctab pgcurs pgcurse pgdraw
 pgebuf pgend pgenv pgeras pgerrb pgerrx pgerry pgetxt pgfunt pgfunx
 pgfuny pggray pghi2d pghist pgiden pgimag pglab pglabel pglcur pgldev
-pglen pgline pgmove pgmtxt pgmtext pgncur pgncurse pgndt pgnumb pgolin pgopen pgpage
+pglen pgline pgmove pgmtxt pgmtext pgncur pgncurse pgnumb pgolin pgopen pgpage
 pgadvance pgpanl pgpap pgpaper pgpixl pgpnts pgpoly pgpt pgpoint pgptxt
 pgptext pgqah pgqcf pgqch pgqci pgqclp pgqcir pgqcol pgqcr pgqcs pgqdt pgqfs pgqhs
 pgqid pgqinf pgqitf pgqls pgqlw pgqndt pgqpos pgqtbg pgqtxt pgqvp pgqvsz pgqwin

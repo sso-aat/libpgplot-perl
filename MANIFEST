@@ -1,8 +1,6 @@
 README
 CHANGES
 HELP
-ExtUtils/F77.pm
-ExtUtils/CHANGES
 LICENSE
 MANIFEST
 Makefile.PL
@@ -28,3 +26,4 @@ test8.p
 test9.p
 typemap
 pgcompatbility.p
+HINTS.irix
