@@ -32,12 +32,23 @@ PGPLOT.pm   /usr/local/lib/perl5/PGPLOT.pm               Module definitions
 PGPLOT.so   /usr/local/lib/perl5/auto/PGPLOT/PGPLOT.so   Compiled object*
 PGPLOT.bs   /usr/local/lib/perl5/auto/PGPLOT/PGPLOT.bs   DynaLoader Bootstrap
 
-* Note: on Linux this is called PGPLOT.o, and Linux users may
-  have to edit PGPLOT.bs to reflect the location of libm and libc on
-  their system. In fact Linux dynamic loading is tricky and this may
-  not work at all due to differing versions of libc and libm (you may
-  get a 'bad magic number' error message), so you may have to resort to
-  compiling pgperl as described below.
+   *Important Notes:
+    ----------------
+   
+  (a) It is quite common to have TWO auto directories - with one for the
+      architecture-dependent object files. e.g. on a Sun this might
+      be: /usr/local/lib/perl5/sun4-solaris/auto. In this case the
+      two last files must be placed here - e.g. something like:
+      cp PGPLOT.so /usr/local/lib/perl5/sun4-solaris/auto/PGPLOT/
+   
+  (b) Note: on Linux this is called PGPLOT.o, and Linux users may
+      have to edit PGPLOT.bs to reflect the location of libm and libc on
+      their system. In fact Linux dynamic loading is tricky and this may
+      not work at all due to differing versions of libc and libm (you may
+      get a 'bad magic number' error message), so you may have to resort to
+      compiling pgperl as described below.
+   
+  (c) Object file is alled PGPLOT.sl for HP-UX systems.
 
 
 2) There are some auxiliary files required by pgplot, copies of
@@ -125,13 +136,14 @@ Here is the recipe for compilation:
 
    Also if you think your system supports standard C/F77 function
    passing you should use the compilation flag -DHAS_UNIX_FUNCTIONS
-   with the DEFINE line.  Don't worry if you don't know - it should
-   build fine without it and only a few rarely used PGPLOT functions -
-   pgfunx, pgfuny, pgfunt, pgconx - are disabled. You can test this
-   later with testpgperl4.pg and testpgperl5.pg. If you think your
-   version of UNIX, unlike most, doesn't append trailing underscores 
-   to F77 subroutine names (e.g. HP-UX) then try compiling again with 
-   the additional flag -DNO_TRAILING_USCORE in Makefile.PL
+   with the DEFINE line. (These use callback from PGPLOT into perl.)
+   Don't worry if you don't know - it should build fine without it and
+   only a few rarely used PGPLOT functions - pgfunx, pgfuny, pgfunt,
+   pgconx - are disabled. You can test this later with testpgperl4.pg
+   and testpgperl5.pg. If you think your version of UNIX, unlike most,
+   doesn't append trailing underscores to F77 subroutine names (e.g.
+   HP-UX) then try compiling again with the additional flag
+   -DNO_TRAILING_USCORE in Makefile.PL
 
 
 3) Then:
@@ -174,7 +186,31 @@ Here is the recipe for compilation:
    linked statically when running the Configure program.
 
 
-5) TESTING
+5) COMMON PROBLEMS
+
+       The most common problem is undefined symbols due to the
+       list of FORTRAN runtime libraries (required by PGPLOT) being
+       incomplete or having an unknown location. This usually generates
+       a tremendous error list of unresolved symbols when doing 'make
+       dynamic'.
+
+       You may well have f77 on your system but have no idea where or
+       what the runtime libraries are!  Solaris is particularly
+       wonderful in this respect as it does not use the sensible
+       /usr/lib - rather on my box it they are in
+       /opt/SUNWspro/SC3.0.1/lib - and the version number in that name
+       can vary from system to system too!
+
+       The Makefile.PL's for the various architectures are known to
+       work on at least one machine, looking at them should assist you
+       in tracking them down if the directory names vary slightly - the
+       actual list of libs should be the same on a particular
+       architecture.
+
+       IF your f77 compiler is in fact f2c (e.g. on Linux) then the
+       runtime library is easy - /usr/lib/libf2c.a
+
+6) TESTING
 
    (a) setenv PGPLOT_DIR /dir/where/you/built/pgplot/
        (This makes sure auxiliary files such as fonts and X
@@ -196,4 +232,4 @@ kgb@ast.cam.ac.uk  Institute of Astronomy, Cambridge, U.K.
 pgperl software:   http://www.ast.cam.ac.uk/~kgb/pgperl.html
 
 -----------------------------------------------------------------------------
-                                               Last Modified. 13/June/1995.
+                                               Last Modified. 9/August/1995.

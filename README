@@ -77,6 +77,9 @@ pgperl can be obtained by anonymous ftp from:
 ftp.ast.cam.ac.uk:/pub/kgb/pgperl/     (United Kingdom home site)
 linux.nrao.edu:/pub/packages/pgperl/   (United States ftp mirror)
 
+(The perl5 module can also be obtained from the various perl
+archives, e.g. the CPAN network, under "PGPLOT" - i.e. the module name.)
+
 
 Choose the perl/ or perl5/ directory according to the version you
 require.
@@ -90,14 +93,14 @@ You then have a choice:
     pgperl1.0_sol2.tar.Z
     pgperl1.0_sun4.tar.Z
 
-    (pgperl5_*.tar.Z for perl5)
+    (PGPLOT_*.tar.Z for perl5 "PGPLOT" module)
 
     This has the advantage that you will not need to obtain and build
     PGPLOT as well. Install according to instructions in the
     file BUILDING.
 
 (b) ftp the compressed tar file containing the source only 
-    (pgperl1.0_src.tar.Z). Build according to instructions in the
+    (e.g. pgperl1.0_src.tar.Z). Build according to instructions in the
     file BUILDING. You will have to also obtain and build pgplot
     and perl.
 
@@ -108,4 +111,4 @@ See the file BUILDING in the distribution for a building/installation guide.
 See the file README.perl5 for the enhancements/use of the perl5 version.
 
 -----------------------------------------------------------------------------
-                                               Last Modified. 13/June/1995.
+                                               Last Modified. 7/Dec/1996.

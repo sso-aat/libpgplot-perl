@@ -14,18 +14,19 @@ require Exporter;
 require DynaLoader;
 
 @ISA = qw(Exporter DynaLoader);
-@EXPORT = qw(pgarro pgask pgband pgbbuf pgbeg pgbegin pgbin pgbox
+@EXPORT = qw( pgarro pgask pgband pgbbuf pgbeg pgbegin pgbin pgbox
 pgcirc pgconb pgconl pgcons pgcont pgconx pgctab pgcurs pgcurse pgdraw
 pgebuf pgend pgenv pgeras pgerrb pgerrx pgerry pgetxt pgfunt pgfunx
 pgfuny pggray pghi2d pghist pgiden pgimag pglab pglabel pglcur pgldev
 pglen pgline pgmove pgmtxt pgmtext pgncur pgncurse pgnumb pgolin pgpage
 pgadvance pgpanl pgpap pgpaper pgpixl pgpnts pgpoly pgpt pgpoint pgptxt
-pgptext pgqah pgqcf pgqch pgqci pgqcir pgqcol pgqcr pgqcs pgqfs pgqinf
-pgqitf pgqls pgqlw pgqpos pgqtbg pgqtxt pgqvp pgqvsz pgqwin pgrect
-pgrnd pgrnge pgsah pgsave pgunsa pgscf pgsch pgsci pgscir pgscr pgscrn
-pgsfs pgshls pgsitf pgsls pgslw pgstbg pgsubp pgsvp pgvport pgswin
-pgwindow pgtbox pgtext pgupdt pgvect pgvsiz pgvsize pgvstd pgvstand
-pgwedg pgwnad pgerrb1 pgerrx1 pgerry1 pgpoint1 pgpt1 pgperlv);
+pgptext pgqah pgqcf pgqch pgqci pgqcir pgqcol pgqcr pgqcs pgqfs pgqhs
+pgqinf pgqitf pgqls pgqlw pgqpos pgqtbg pgqtxt pgqvp pgqvsz pgqwin
+pgrect pgrnd pgrnge pgsah pgsave pgunsa pgscf pgsch pgsci pgscir pgscr
+pgscrn pgsfs pgshls pgshs pgsitf pgsls pgslw pgstbg pgsubp pgsvp
+pgvport pgswin pgwindow pgtbox pgtext pgupdt pgvect pgvsiz pgvsize
+pgvstd pgvstand pgwedg pgwnad pgerrb1 pgerrx1 pgerry1 pgpoint1
+pgpt1 pgperlcv pgperlv );
 
 bootstrap PGPLOT;
 
@@ -276,6 +277,17 @@ sub pgpt1 {
     die 'Usage: &pgpt1($xpts,$ypts,$symbol)' if (scalar(@_)!=3);
     local($xpts,$ypts,$symbol) = @_;
     pgpt(1,$xpts,$ypts,$symbol);
+}
+
+;# Version info     
+
+sub pgperlv {   
+  print "-"x55,"\n"; 
+  print "pgperl v1.0b - perl5 code for PGPLOT v5.0.2\n\n";
+  pgperlcv(); print "\n";
+  print "Comments to: kgb\@ast.cam.ac.uk\n";
+  print "WWW info:    http://www.ast.cam.ac.uk/~kgb/pgperl.html\n";
+  print "-"x55,"\n";
 }
 
 ;# Exit with OK status

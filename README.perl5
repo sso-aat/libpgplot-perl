@@ -67,7 +67,7 @@ pgpoint($n, \@x, \@y, 17); # Direct reference
 or using variables to hold references:
 
 $xref = \@x; $yref = \@y;
-pgpoint($n, \@x, \@y, 17);
+pgpoint($n, $xref, $yref, 17);
 
 or even:
 

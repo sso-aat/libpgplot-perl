@@ -1,6 +1,6 @@
 
 /* 
-   PGPLOT.xs   v1.0a
+   PGPLOT.xs   1.0b
 
    This file contains the routines provide the glue which 
    allow perl5 to call C and hence f77/pgplot via the CPGPLOT
@@ -9,7 +9,7 @@
 
    Karl Glazebrook [email: kgb@ast.cam.ac.uk]
 
-   Built Tue Jun 13 15:07:32 BST 1995 for PGPLOT v5.0.1
+   Built Sat Jun 17 21:58:03 BST 1995 for PGPLOT 5.0.2
 
    pgperl WWW info: http://www.ast.cam.ac.uk/~kgb/pgperl.html
 
@@ -800,6 +800,19 @@ pgqfs(fs)
 
 
 void
+pgqhs(angle,sepn,phase)
+  float	angle = NO_INIT
+  float	sepn = NO_INIT
+  float	phase = NO_INIT
+  CODE:
+    cpgqhs(&angle,&sepn,&phase);
+  OUTPUT:
+  angle
+  sepn
+  phase
+
+
+void
 pgqinf(item,value,length)
   char *	item
   char *	value = NO_INIT
@@ -1046,6 +1059,15 @@ pgshls(ci,ch,cl,cs)
 
 
 void
+pgshs(angle,sepn,phase)
+  float	angle
+  float	sepn
+  float	phase
+  CODE:
+    cpgshs(angle,sepn,phase);
+
+
+void
 pgsitf(itf)
   int	itf
   CODE:
@@ -1221,9 +1243,8 @@ pgwnad(x1,x2,y1,y2)
 
 
 void
-pgperlv()
+pgperlcv()
   CODE:
-  printf("PGPLOT module v1.0a - C code built Tue Jun 13 15:07:32 BST 1995 for PGPLOT v5.0.1\n");
-  printf("Comments to: kgb@ast.cam.ac.uk\n");
-  printf("WWW info:    http://www.ast.cam.ac.uk/~kgb/pgperl.html\n");
+        printf("pgperl C code built Sat Jun 17 21:58:03 BST 1995 on\n");
+        printf("cass33 for PGPLOT v5.0.2\n");
 
