@@ -1,6 +1,6 @@
 
 /* 
-   PGPLOT.xs   2.0
+   PGPLOT.xs  
 
    This file contains the routines provide the glue which 
    allow perl to call C and hence f77/pgplot via the CPGPLOT

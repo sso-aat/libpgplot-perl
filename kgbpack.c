@@ -14,6 +14,7 @@
 	
 Dec 95: Add double precision arrays 	        - frossie@jach.hawaii.edu
 Dec 96: Add 'ref to scalar is binary' handling  - kgb@aaoepp.aao.gov.au
+Jan 97: Handles undefined values as zero        - kgb@aaoepp.aao.gov.au
    
 */
 
@@ -85,7 +86,8 @@ void* pack1D ( SV* arg, char packtype ) {
    AV* array;
    I32 i,n;
    SV* work;
-   SV* work2;
+   SV** work2;
+   double nval;
    STRLEN len;
 
    if (is_scalar_ref(arg))                 /* Scalar ref */
@@ -115,10 +117,10 @@ void* pack1D ( SV* arg, char packtype ) {
          iscalar = (int) SvNV(arg);             /* Get the scalar value */
          sv_setpvn(work, (char *) &iscalar, sizeof(int)); /* Pack it in */
       }
-	  if (packtype=='d') {
-		dscalar = (double) SvNV(arg);		/*Get the scalar value */
-		sv_setpvn(work, (char *) &dscalar, sizeof(double)); /* Pack it in */
-		}
+      if (packtype=='d') {
+          dscalar = (double) SvNV(arg);		/*Get the scalar value */
+	  sv_setpvn(work, (char *) &dscalar, sizeof(double)); /* Pack it in */
+      }
    
       return (void *) SvPV(work, na);        /* Return the pointer */
    }
@@ -141,30 +143,32 @@ void* pack1D ( SV* arg, char packtype ) {
           SvGROW( work, sizeof(int)*(n+1) );   
 		if (packtype=='d')
 		  SvGROW( work, sizeof(double)*(n+1) );
-   
-      work2 = sv_newmortal(); /* Scratch variable */
-   
+      
       /* Pack array into string */
    
       for(i=0; i<=n; i++) {
    
-            work2 = *(av_fetch( array, i, 0 )); /* Fetch */
-   
-            if (SvROK(work2)) 
-               goto errexit;     /*  Croak if reference [i.e. not 1D] */
+            work2 = av_fetch( array, i, 0 ); /* Fetch */
+            if (work2==NULL) 
+               nval = 0.0;   /* Undefined */
+            else {
+               if (SvROK(*work2)) 
+                  goto errexit;     /*  Croak if reference [i.e. not 1D] */
+               nval = SvNV(*work2);               
+            }   
    
             if (packtype=='f') {
-               scalar = (float) SvNV(work2);
+               scalar = (float) nval;
                sv_catpvn( work, (char *) &scalar, sizeof(float));
             }
             if (packtype=='i') {
-               iscalar = (int) SvNV(work2);
+               iscalar = (int) nval;
                sv_catpvn( work, (char *) &iscalar, sizeof(int));
             }
-			if (packtype=='d') {
-				dscalar = (double) SvNV(work2);
-				sv_catpvn( work, (char *) &dscalar, sizeof(double));
-			}
+	    if (packtype=='d') {
+	        dscalar = (double) nval;
+	        sv_catpvn( work, (char *) &dscalar, sizeof(double));
+	    }
       }
    
       /* Return a pointer to the byte array */
@@ -222,7 +226,8 @@ void* pack2D ( SV* arg, char packtype ) {
    AV* array2;
    I32 i,j,n,m;
    SV* work;
-   SV* work2;
+   SV** work2;
+   double nval;
    int isref;
    STRLEN len;
 
@@ -256,22 +261,21 @@ void* pack2D ( SV* arg, char packtype ) {
       }
    
       n = av_len(array);
-   
-      work2 = sv_newmortal(); /* Scratch variable */
-   
+      
       /* Pack array into string */
    
       for(i=0; i<=n; i++) {  /* Loop over 1st dimension */
    
-            work2 = *(av_fetch( array, i, 0 )); /* Fetch */
+            work2 = av_fetch( array, i, 0 ); /* Fetch */
    
-            isref = SvROK(work2); /* Is is a reference */
+            isref = work2!=NULL && SvROK(*work2); /* Is is a reference */
    
             if (isref) {
-               array2 = (AV *) SvRV(work2);  /* array of 2nd dimension */
+               array2 = (AV *) SvRV(*work2);  /* array of 2nd dimension */
                m = av_len(array);            /* Length */
             }else{
                m=0;                          /* 1D array */
+               nval = SvNV(*work2);               
             }
    
             /* Pregrow storage for efficiency on first row - note assumes 
@@ -287,18 +291,22 @@ void* pack2D ( SV* arg, char packtype ) {
             for(j=0; j<=m; j++) {  /* Loop over 2nd dimension */
    
                if (isref) {
-                  work2 = *(av_fetch( array2, j, 0 )); /* Fetch element */
-                  if (SvROK(work2)) 
-                     goto errexit;    /*  Croak if further reference [i.e. > 2D] */
+                  work2 = av_fetch( array2, j, 0 ); /* Fetch element */
+                  if (work2==NULL) 
+                     nval = 0.0;   /* Undefined */
+                  else {
+                     if (SvROK(*work2)) 
+                        goto errexit;     /*  Croak if reference [i.e. not 1D] */
+                     nval = SvNV(*work2);               
+                  }      
                }               
-   
-            
+               
                if (packtype=='f') {
-                  scalar = (float) SvNV(work2);
+                  scalar = (float) nval;
                   sv_catpvn( work, (char *) &scalar, sizeof(float));
                }
                if (packtype=='i') {
-                  iscalar = (int) SvNV(work2);
+                  iscalar = (int) nval;
                   sv_catpvn( work, (char *) &iscalar, sizeof(int));
                }
             }
@@ -343,12 +351,12 @@ void* packND ( SV* arg, char packtype ) {
 
    SV* work;
    STRLEN len;
-   void pack_element(SV* work, SV* arg, char packtype);   /* Called by packND */
+   void pack_element(SV* work, SV** arg, char packtype);   /* Called by packND */
    
    if (is_scalar_ref(arg))                 /* Scalar ref */
       return (void*) SvPV(SvRV(arg), len);
 
-   if (packtype!='f' && packtype!='i')
+   if (packtype!='f' && packtype!='i' && packtype!='d')
        croak("Programming error: invalid type conversion specified to packND");
    
    /* 
@@ -360,7 +368,7 @@ void* packND ( SV* arg, char packtype ) {
    
    work = sv_2mortal(newSVpv("", 0));
    
-   pack_element(work, arg, packtype);
+   pack_element(work, &arg, packtype);
    
    return (void *) SvPV(work, na);
 
@@ -368,26 +376,35 @@ void* packND ( SV* arg, char packtype ) {
 
 /* Internal function of packND - pack an element recursively */
 
-void pack_element(SV* work, SV* arg, char packtype) { 
+void pack_element(SV* work, SV** arg, char packtype) { 
 
    I32 i,n;
    AV* array;
    int iscalar;
    float scalar;
-   
+   double nval;
+
    /* Pack element arg onto work recursively */
    
    /* Is arg a scalar? Pack and return */
    
-   if (!SvROK(arg) && SvTYPE(arg)!=SVt_PVGV) {
+   if (arg==NULL || (!SvROK(*arg) && SvTYPE(*arg)!=SVt_PVGV)) {
+
+      if (arg==NULL)
+          nval = 0.0;
+      else 
+          nval = SvNV(*arg);
    
       if (packtype=='f') {
-         scalar = (float) SvNV(arg);             /* Get the scalar value */
+         scalar = (float) nval;             /* Get the scalar value */
          sv_catpvn(work, (char *) &scalar, sizeof(float)); /* Pack it in */
       }
       if (packtype=='i') {
-         iscalar = (int) SvNV(arg);             /* Get the scalar value */
+         iscalar = (int) nval;             /* Get the scalar value */
          sv_catpvn(work, (char *) &iscalar, sizeof(int)); /* Pack it in */
+      }
+      if (packtype=='d') {
+         sv_catpvn(work, (char *) &nval, sizeof(double)); /* Pack it in */
       }
    
       return;
@@ -395,14 +412,14 @@ void pack_element(SV* work, SV* arg, char packtype) {
    
    /* Is it a glob or reference to an array? */
    
-   if (SvTYPE(arg)==SVt_PVGV || (SvROK(arg) && SvTYPE(SvRV(arg))==SVt_PVAV)) {
+   if (SvTYPE(*arg)==SVt_PVGV || (SvROK(*arg) && SvTYPE(SvRV(*arg))==SVt_PVAV)) {
    
       /* Dereference */
    
-      if (SvTYPE(arg)==SVt_PVGV) {
-         array = GvAVn(arg);          /* glob */
+      if (SvTYPE(*arg)==SVt_PVGV) {
+         array = GvAVn(*arg);          /* glob */
       }else{
-         array = (AV *) SvRV(arg);   /* reference */
+         array = (AV *) SvRV(*arg);   /* reference */
       }
    
       /* Pack each array element */
@@ -412,8 +429,8 @@ void pack_element(SV* work, SV* arg, char packtype) {
       for (i=0; i<=n; i++) {
    
          /* To curse is human, to recurse divine */
-   
-         pack_element(work, *(av_fetch(array, i, 0)), packtype );
+       
+         pack_element(work, av_fetch(array, i, 0), packtype );
       }
       return;
    }
