@@ -17,14 +17,16 @@ AV*   coerce1D ( SV* arg, int n );     /* Coerce/create array to specified size 
 void* get_mortalspace( int n, char packtype ); /* Utility to just get workspace */
 
 
-/* Sort out macro name changes in 5.004_53 */
+/* Sort out macro name changes in 5.004_53 (PATCHLEVEL < 5)
+   Note that recent Perl versions don't define PATCHLEVEL by default */
 
-#include "patchlevel.h"
-#if SUBVERSION < 53
-#define PL_na na
+#ifndef PATCHLEVEL
+#include <patchlevel.h>
 #endif
 
-
+#if defined(PATCHLEVEL) && (PATCHLEVEL < 5)
+#define PL_na     na
+#endif
 /* Prevent the prototypes being defined twice */
 
 #define _INC_ARRAYS_

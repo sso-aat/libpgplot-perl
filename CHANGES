@@ -1,13 +1,17 @@
 PGPLOT module Changes list
 --------------------------
 
+CHANGES v2.17, released May 8th, 2000
+-------------------------------------
+
+* Charles Lane's patch to do with new perl versions (PL_XXX stuff)
+* Changed my email address.
+
 CHANGES v2.16, released Mar 10th, 2000
 --------------------------------------
 
 * Added function struct to allow access to expose certain PGPLOT
   routines to the outside (currently cpgmove, cpgdraw)
-
-
 
 CHANGES 2.15 released Oct 26th 1999
 -----------------------------------
