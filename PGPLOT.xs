@@ -31,6 +31,25 @@ void MAIN__ () {
    croak("This should never happen");
 }
 
+/* New struct stuff */ 
+
+/* Create structure to hold pointers to PGPLOT functions */
+   
+struct PGPLOT_function_handle {
+   I32 binversion;
+   void (*cpgmove) (float x, float y);
+   void (*cpgdraw) (float x, float y);
+};
+
+typedef struct PGPLOT_function_handle PGPLOT_function_handle;
+
+/* Now create an instance of this */
+
+PGPLOT_function_handle myPGPLOT_handle;
+
+/* See BOOT section for the rest of the struct stuff */
+
+
 MODULE = PGPLOT     PACKAGE = PGPLOT 
 
 void
@@ -1375,3 +1394,21 @@ pgwnad(x1,x2,y1,y2)
   float	y2
   CODE:
     cpgwnad(x1,x2,y1,y2);
+    
+BOOT:
+   /* New struct stuff */ 
+   
+   /* Initialise structure of pointers to core C routines */
+
+   myPGPLOT_handle.binversion  = 20000302; /* Date structure redefined */
+   myPGPLOT_handle.cpgdraw     = cpgdraw;
+   myPGPLOT_handle.cpgmove     = cpgmove;
+   
+   /*
+      "Publish" pointer to this structure in perl variable for use
+       by other modules
+   */
+
+   sv_setiv(perl_get_sv("PGPLOT::HANDLE",TRUE), (IV) (void*) &myPGPLOT_handle);
+   
+
