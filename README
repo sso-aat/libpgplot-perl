@@ -1,0 +1,111 @@
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    PGPERL        - A GRAPHICS EXTENSION FOR PERL.
+    ------        - A MACRO LANGUAGE FOR PGPLOT.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+***Now available for perl5***
+
+INTRODUCTION
+------------
+
+'pgperl' is a version of the Perl language which has available
+the PGPLOT FORTRAN library, a very popular package for plotting
+astronomical data. (As a glance through any issue of ApJ or MNRAS will
+confirm.) The details of this involve some complicated C glue routines
+but are transparent to the user.
+
+The idea is to provide a command langage for PGPLOT and a more
+beautiful alternative to the various (incompatible) flavours of MONGO.
+Personally I have always thought that PGPLOT produced far nicer plots
+but at greater pain owing to the long compile/link/run cycle of F77 or
+C.  Wouldn't it be nice if one could call PGPLOT subroutines directrly
+from the elegant perl language?  Five days after reading `Programming
+Perl' I found myself at a telescope with little to do, so I hacked out
+the basics of `pgperl'.  The rest followed during the odd spare evening
+in Cambridge.
+
+Unlike MONGO, perl is a real C-like language with full control
+structures, and is very fast and efficient. All the power of perl (and
+believe me that is a *lot*) is available to extract data to plot from
+multitudes of files in complicated free formats. Using pgperl one has
+all the extra functionality of SM (v.t. `SuperMongo') and IMHO the
+language is far more robust and elegant.  Unlike the MONGOs pgperl is
+free and public domain - though I trust people will communicate
+improvements back to me to avoid version explosions.
+
+pgperl is *complete* - all the PGPLOT routines can be used and I have
+tested most of them.
+
+I have tried very hard to keep the pgperl calls "obvious" to anybody
+who knows PGPLOT and perl. See the notes below for examples of PGPLOT
+use from pgperl. I refer people to the excellent reference manuals
+available for PGPLOT and perl for complete information.
+
+The current version is 1.0 and is built with PGPLOT v5.0 commands.
+There are versions availalable for perl4 (which requires making a new
+perl executable linked with pgplot) and perl5 (as a dynamically loadble
+perl5 module). If you use pgperl please drop me an email and I can put
+you on my mailing list for updates.
+
+See the file LICENSE in the pgperl distribution for copyright/licensing
+information and the file pgperl.doc on how to use pgplot from perl.
+This is also similar documentation on the pgperl WWW Home Page at:
+
+http://www.ast.cam.ac.uk/~kgb/pgperl.html
+
+Many thanks to Frossie for the original inspiration, and to Larry Wall
+and Tim Pearson for providing the excellent ingredients I stuck
+together.
+
+enjoy (I hope),
+
+Karl Glazebrook, 
+---
+kgb@mail.ast.cam.ac.uk              
+Institute of Astronomy, Cambridge
+
+-----------------------------------------------------------------------------
+
+OBTAINING PGPERL
+----------------
+
+pgperl can be obtained by anonymous ftp from:
+
+ftp.ast.cam.ac.uk:/pub/kgb/pgperl/     (United Kingdom home site)
+linux.nrao.edu:/pub/packages/pgperl/   (United States ftp mirror)
+
+
+Choose the perl/ or perl5/ directory according to the version you
+require.
+
+You then have a choice:
+
+(a) ftp the compressed tar file containing a pre-compiled version, e.g.:
+
+    pgperl1.0_linux.tar.Z
+    pgperl1.0_osf1.tar.Z
+    pgperl1.0_sol2.tar.Z
+    pgperl1.0_sun4.tar.Z
+
+    (pgperl5_*.tar.Z for perl5)
+
+    This has the advantage that you will not need to obtain and build
+    PGPLOT as well. Install according to instructions in the
+    file BUILDING.
+
+(b) ftp the compressed tar file containing the source only 
+    (pgperl1.0_src.tar.Z). Build according to instructions in the
+    file BUILDING. You will have to also obtain and build pgplot
+    and perl.
+
+See the file CHANGES for a list of recent changes in the current version.
+
+See the file BUILDING in the distribution for a building/installation guide.
+
+See the file README.perl5 for the enhancements/use of the perl5 version.
+
+-----------------------------------------------------------------------------
+                                               Last Modified. 13/June/1995.

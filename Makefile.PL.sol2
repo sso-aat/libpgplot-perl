@@ -1,0 +1,10 @@
+use ExtUtils::MakeMaker;
+# See lib/ExtUtils/MakeMaker.pm for details of how to influence
+# the contents of the Makefile that is written.
+WriteMakefile(
+    'NAME'	=> 'PGPLOT',
+    'VERSION'	=> '1.0',
+    'LIBS'	=> ['-lcpgplot -lpgplot -L/opt/SUNWspro/SC3.0.1/lib -lF77 -lM77 -lsunmath -lX11 -lm'],   # e.g., '-lX11 -lm' 
+    'DEFINE'	=> '-DHAS_UNIX_FUNCTIONS',     # e.g., '-DHAVE_SOMETHING' 
+    'INC'	=> '',     # e.g., '-I/usr/local/pgplot' 
+);

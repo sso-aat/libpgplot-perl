@@ -1,0 +1,78 @@
+#!/usr/local/bin/perl
+#
+# testpgperl9
+#
+# Test some of the new PGPLOT 5.0 routines based around PGIMAG
+#
+
+require "pgplot.pl";
+
+print "\n\nTesting PGPLOT 5.0 colour image routines...\n\n";
+
+&pgperlv; 
+
+# Read in image (int*2)
+
+open(IMG,"testpgperl3.img") || die "Data file testpgperl3.img not found";
+read(IMG, $img, 32768);
+close(IMG);
+
+print length($img)," bytes read\n";
+
+@image = unpack("n*",$img);
+
+print $#image+1," element image stored\n";
+
+&pgbegin(0,"?",1,1);
+
+print "Plotting...\n";
+
+&pgsci(3);
+&pgwnad(12000,13000,13000,12000);
+
+@tr=(12000,8,0,12000,0,8);
+
+&pgimag(*image,128,128,1,128,1,128,0,5000,*tr);
+&pglabel("\\ga","\\gd","Galaxy");
+&pgtbox("ZYHBCNST",0,0,"ZYDBCNST",0,0);
+
+# Set PHIL2 colour table
+
+@l = (0,0.004,0.502,0.941,1); @r=(0,0,1,1,1); 
+@g=(0,0,0.2,1,1); @b=(0,0.2,0,0.1,1);
+
+&pgctab(*l,*r,*g,*b,5,1,0.5);
+
+&pgsci(4); &pgsls(1);
+@cont = (-1,1000,2000,3000,4000,5000);
+&pgcons(*image, 128, 128, 1,128,1,128, *cont, 6, *tr);
+
+for(@cont){
+   &pgconl(*image, 128, 128, 1,128,1,128, $_, *tr, $_,200,100);
+}
+
+&pgsci(4); &pgscf(2); 
+&pgqtxt(12125,12100,45,0.5,'pgperl...',*xbox,*ybox);
+&pgpoly(4,*xbox, *ybox);
+&pgsci(7); 
+&pgptxt(12125,12100,45,0.5,'pgperl...');
+
+
+&pgqinf("CURSOR",$ans,$l);
+if ($ans eq "YES") { for($mode=0; $mode<8; $mode++){
+
+   print "Entering interactive PGBAND test MODE=$mode, hit any key, Q to exit early...\n";
+
+   &pgsci($mode+1);
+   &pgband($mode,0,12500,12500,$x,$y,$ch);
+   last if $ch eq "q" || $ch eq "Q";
+   &pgqtxt($x,$y,45,0.5,'pgperl...',*xbox,*ybox);
+   &pgpoly(4,*xbox, *ybox);
+   &pgsci($mode+2);
+   &pgptxt($x,$y,45,0.5,'pgperl...');
+   
+}}
+
+
+&pgend;
+

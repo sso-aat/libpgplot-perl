@@ -1,0 +1,21 @@
+TYPEMAP
+int *	T_INTP
+float	T_NV
+float *	T_FLOATP
+Logical	T_IV
+
+INPUT 
+
+T_INTP
+        $var = ($type)SvPV($arg,na)
+T_FLOATP
+        $var = ($type)SvPV($arg,na)
+
+
+OUTPUT
+
+T_INTP
+        sv_setpv((SV*)$arg, (char *)$var);
+T_FLOATP
+        sv_setpv((SV*)$arg, (char *)$var);
+

@@ -1,0 +1,42 @@
+
+
+CHANGES IN PGPERL FOR PERL5
+---------------------------
+
+
+v1.0a
+-----
+
+IMPORTANT: the binaries were not relinked (because most of the 
+	   changes are cosmetic it made no difference and I was
+           too lazy to do this for 4 architectures) so version
+	   will still be reported as 1.0 by pgperlv. I ought to move
+	   this routine from C into perl on the next major release...
+
+o Changed pgperl.h to allow use of -DNO_TRAILING_USCORE
+  in Makefile.PL with architectures where C calls F77 with no 
+  trailing underscore (e.g. HP-UX).
+
+o Fixed small typo in PGPLOT.pm which caused pgpnts not to
+  work. (Ooops).
+
+o Added user contributed Makefile.PL files for SGI and HP-UX 
+  to distribution.
+
+o Minor additions to documentation in response to common
+  use problems.
+
+
+v1.0
+----
+
+As described in README, README.perl5, pgperl.doc.
+
+
+Karl Glazebrook, 
+---
+kgb@ast.cam.ac.uk  Institute of Astronomy, Cambridge, U.K.
+pgperl software:   http://www.ast.cam.ac.uk/~kgb/pgperl.html
+
+-----------------------------------------------------------------------------
+                                               Last Modified. 13/June/1995.

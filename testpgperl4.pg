@@ -1,0 +1,52 @@
+#!/usr/local/bin/perl
+#
+# testpgperl4
+#
+# Test passing perl functions to pgplot. 
+#
+
+require "pgplot.pl";
+
+print "\n\nTesting perl function passing to pgfunx, pgfunx, pgfunt...\n\n";
+
+&pgperlv; 
+
+&pgbegin(0,"?",2,2);
+
+&pgsci(3); &pgscf(2); &pgsch(1.4);
+
+$pi=3.141592654;
+
+&pgfunx("fun_x",500, 0, 10, 0);
+&pgfuny("fun_y",360, 0, 2*$pi, 0);
+
+&pgfunt("funt_x", "funt_y", 360,0, 2*$pi, 0);
+&pgfunt("funt_x2","funt_y2",360,0, 2*$pi, 0);
+
+&pgend;
+
+sub fun_x { return sqrt($_[0]) }
+
+sub fun_y { return sin(4*$_[0]) }
+
+sub funt_x {
+   local($t)=$_[0];
+   return cos($t);;
+}
+
+sub funt_y {
+   local($t)=$_[0];
+   return sin($t);
+}
+
+sub funt_x2 {
+   local($t)=$_[0];
+   return cos(4*$t)*cos($t);;
+}
+
+sub funt_y2 {
+   local($t)=$_[0];
+   return cos(4*$t)*sin($t);
+}
+
+

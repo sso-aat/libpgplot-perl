@@ -1,0 +1,279 @@
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    PGPERL        - A GRAPHICS EXTENSION FOR PERL.
+    ------        - A MACRO LANGUAGE FOR PGPLOT.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+INTRODUCTION
+------------
+
+'pgperl' is a version of the Perl 4.0 language which has been linked
+against the PGPLOT FORTRAN library, a very popular package for plotting
+astronomical data. (As a glance through any issue of ApJ or MNRAS will
+confirm.) The details of this involve some complicated C glue routines
+but are transparent to the user.
+
+The idea is to provide a command langage for PGPLOT and a more
+beautiful alternative to the various (incompatible) flavours of MONGO.
+Personally I have always thought that PGPLOT produced far nicer plots
+but at greater pain owing to the long compile/link/run cycle of F77 or
+C.  Wouldn't it be nice if one could call PGPLOT subroutines directrly
+from the elegant perl language?  Five days after reading `Programming
+Perl' I found myself at a telescope with little to do, so I hacked out
+the basics of `pgperl'.  The rest followed during the odd spare evening
+in Cambridge.
+
+Unlike MONGO, perl is a real C-like language with full control
+structures, and is very fast and efficient. All the power of perl (and
+believe me that is a *lot*) is available to extract data to plot from
+multitudes of files in complicated free formats. Using pgperl one has
+all the extra functionality of SM (v.t. `SuperMongo') and IMHO the
+language is far more robust and elegant.  Unlike the MONGOs pgperl is
+free and public domain - though I trust people will communicate
+improvements back to me to avoid version explosions.
+
+pgperl is *complete* - all the PGPLOT routines can be used and I have
+tested most of them.
+
+I have tried very hard to keep the pgperl calls "obvious" to anybody
+who knows PGPLOT and perl. See the notes below for examples of PGPLOT
+use from pgperl. I refer people to the excellent reference manuals
+available for PGPLOT and perl for complete information.
+
+The current version is 1.0 and is built with PGPLOT v5.0 commands and
+linked with perl v4.036. (A perl5 version may emerge in the next year
+when perl5 stabilises and becomes widely accepted.) It now uses the
+new C-PGPLOT interface so should be more portable to different
+architectures. If you use pgperl please drop me an email and I can put
+you on my mailing list for updates.
+
+See the file LICENSE in the pgperl distribution for copyright/licensing
+information and the file pgperl.doc on how to use pgplot from perl.
+This is also similar documentation on the pgperl WWW Home Page at:
+
+http://www.ast.cam.ac.uk/~kgb/pgperl.html
+
+Many thanks to Frossie for the original inspiration, and to Larry Wall
+and Tim Pearson for providing the excellent ingredients I stuck
+together.
+
+enjoy (I hope),
+
+Karl Glazebrook, 
+---
+kgb@mail.ast.cam.ac.uk              Institute of Astronomy, Cambridge
+http://www.ast.cam.ac.uk/~kgb/      Will measure redshifts for IP
+
+-----------------------------------------------------------------------------
+
+USING PGPERL - HOW TO CALL PGPLOT FROM PERL
+--------------------------------------------
+
+   This is best explained by example more than anything - basically all
+   the pgplot routines are available as perl subroutines and there is a
+   1:1 correspondence between the subroutine arguments.
+
+   Here is a very simple example script (testpgperl0.pg in the
+   distribution):
+
+   
+#!/usr/local/bin/pgperl  
+                          # The first line tells UNIX that the
+                          # script uses the pgperl executable
+                          # - a directory will usually be needed.
+                          # One could also type "pgperl filename"
+
+require "pgplot.pl";      # Include header file - directory may be needed
+                          # if PERLLIB is undefined. This statement is 
+                          # required at the start of all pgperl scripts.
+
+print "\n\nTesting simple point plot routines...\n\n";
+
+&pgperlv;                 # Print pgperl version
+
+# Open data file, if not found print error and exit
+
+open(FILE,"testpgperl0.dat") || die "Data file testpgperl0.dat not found"; 
+
+&pgbegin(0,"?",1,1);      # Open plot device interactively
+
+&pgscf(2);                # Set character font
+&pgslw(4);                # Set line width
+&pgsch(1.6);              # Set character height
+
+&pgenv(0,10,-5,5,0,0);    # Define data limits and plot axes
+
+&pglabel("X","Y","Data"); # Labels
+
+&pgsci(5);                # Change colour
+
+while(<FILE>){                    # Read data in 2 columns from file using perl
+   ($x[$i], $y[$i]) = split(' '); # and put in two perl arrays
+   $i++;
+}
+&pgpoint($i,*x,*y,17);    # Plot points - note how perl arrays are passed
+                          # (see below)
+
+&pgend;                   # Close plot
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                              NOTES
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+PGPLOT.PL
+---------
+
+   The line:
+   
+   require "pgplot.pl";
+   
+   is needed at the start of all pgperl programs. It includes
+   routines essential to the proper passing of perl arrays
+   to PGPLOT.
+   
+   If the file "pgplot.pl" is not installed in the standard perl
+   library location (usually /usr/local/lib/perl) then you will
+   have to set the UNIX environment variable PERLLIB - this is
+   a colon seperated list of directories to search.
+
+
+VARIABLES
+---------- 
+
+   Normal perl variables are passed to PGPLOT in the
+   obvious way. e.g.:
+
+   &pgmove(1,1);
+   &pgdraw($x,$y);
+
+   perl does not distinguish types such as integer or floating point
+   - conversions for PGPLOT are automatic.
+
+   If the PGPLOT subroutine modifies the values of the variables passed
+   to it this is picked up by perl.
+
+ARRAYS
+-------
+
+   Perl arrays have to be passed to PGPLOT using the "*"
+   notation. e.g.:
+
+   @xpts = (1,2,3,4,5);
+   @ypts = (2,4,6,8,10);
+   &pgpoint(5, *xpts, *ypts, 17);
+
+   The reason for this is explained on page 101 of "Programming Perl" -
+   basically a pointer to the array must be passed instead of the
+   list itself to stop perl getting confused as to which elements 
+   belong to which array.
+
+   Don't worry about it - just use "*"!
+
+   pgperl keeps with the PGPLOT convention that the absolute
+   number of elements in the array is passed. Thus in the example
+   just above the array runs from $xpts[0] to $xpts[4] and so "5"
+   is passed as the first pgpoint parameter (perl is like C in starting 
+   from base zero though this can be changed by setting the $[ variable).
+   This is actually sensible and makes for more elegant code such as 
+   test.pg above.
+
+   Associative arrays can't be passed directly because PGPLOT 
+   doesn't understand such things. Either convert to a normal
+   array first using some rule, or plot the points one at a
+   time as below.
+
+   Unlike C/F77 perl can have scalar variables ($x) and arrays (@x) of
+   the same name and you can't pass scalar variables as single element
+   arrays, e.g.:
+
+   &pgpoint(1, $x, $y, 17); # WILL NOT WORK!!!!!!!!!!!!!!!
+
+   Since it *IS* occassionally useful to plot a single point, or error
+   bar, (e.g. plotting elements of an array one at a time) the 
+   following additional routines, which take simple scalar variables, 
+   are defined to conveniently do this:
+
+   pgpt1/pgpoint1  -  usage: &pgpt1($xpts,$ypts,$symbol)
+   pgerrb1         -  usage: &pgerrb1($dir,$x,$y,$e,$t)
+   pgerrx1         -  usage: &pgerrx1($x1,$x2,$y,$t)
+   pgerry1         -  usage: &pgerry1($x,$y1,$y2,$t)
+
+   If a great deal of use is made of these one-point routines 
+   remember to use pgbbuf/pgebuf to buffer your plotting as 
+   this can greatly speed up your program.
+
+   
+FUNCTIONS.
+----------
+
+   Some PGPLOT routines require functions to be passed
+   to them. e.g. PGFUNX to plot a function.
+
+   Yes you *CAN* pass a perl function to PGPLOT! (This was the hardest
+   part of the port).
+
+   You simply pass the name of the perl function as a string, e.g.
+
+   &pgfuny("fun_y",360, 0, 6.2, 0); 
+
+   sub fun_y { return sin(4*$_[0]) }
+
+   Plots a vertical sine wave. See testpgperl4.pg and testpgperl5.pg
+   for further examples.
+
+   [Note: this is not available on all architectures due to the machine
+   dependence of c<->f77 calling. It is so far tested and available on
+   SunOS, Solaris, OSF and Linux - other systems will cause a graceful
+   error. If you think it will work on your system try compiling pgperl
+   with -DHAS_UNIX_FUNCTIONS and see.]
+
+
+IMAGES.
+-------
+
+   Perl only supports 1D arrays but you can plot images/contours etc.
+   by reading the image into a 1D perl array and passing the X Y size
+   to PGPLOT. e.g.:
+
+   &pggray(*image,128,128,1,128,1,128,5000,0,*tr);
+
+   Plots a 128x128 image as a grey scale. @image would have
+   16384 elements. The ordering is the same as f77, i.e.
+   X increases first then Y.
+
+   See testpgperl3.pg for further examples.
+
+   Note perl might not be as efficient as C/F77 for handling
+   large (typically >=256x256) images as arrays!
+
+
+PGPLOT ENVIRONMENT VARIABLES.
+-----------------------------
+
+   (a) PGPLOT_DIR
+   
+   You will probably have to set the variable PGPLOT_DIR to point to your
+   PGPLOT directory - this is where the PGPLOT fonts and some driver
+   programs are found and is specified during the PGPLOT install.
+
+   (b) PGPLOT_DEV
+   
+   This is the default plotting device when you do &pgbegin(0,"?",1,1);
+         
+
+PGPLOT PLOTTING DEVICES.
+------------------------
+
+   Devices /XWINDOW (temporary window) or /XSERVE (permanent resizable
+   window) on X11 screens, /TEK on Tektronix emulation dumb terminals
+   and /PS for Postscript output are straight forward and work fine.
+
+   Another, probably obsolete, X device is /XDISP which plots in
+   permanent window driven by the figdisp/pgdisp program developed
+   for the FIGARO data reduction system.
+
+-----------------------------------------------------------------------------
+                                               Last Modified. 12/Mar/1995.
