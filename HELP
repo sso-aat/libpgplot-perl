@@ -1,3 +1,12 @@
+
+List of various gotchas!
+------------------------
+
+Last Change: May 15th, 1998.
+
+Karl Glazebrook.
+
+
 perl5.004_?? problem
 --------------------
 
@@ -32,18 +41,27 @@ Common Problems and Possible Solutions
 --------------------------------------
 
 If you have libpgplot set up following the recommended defaults and the
-Makefile.PL recognises your system. Perl/PGPLOT should build out of the
+Makefile.PL recognises your system then Perl/PGPLOT should build out of the
 box. If you don't you may experience problems. Read on for possible
-fixes. Patches for ExtUtils::F77, which is in its early days, are very
+fixes. Patches for ExtUtils::F77, to make it even smarter, are very
 welcome!
-
-  Karl Glazebrook, January 11th, 1997.
 
 o You may experience problems if the module does not 'know' about
   the FORTRAN/C interface on your architecture. Please contact me and I
   will try to help if I have time. Alternatively - install GNU-77! (You
   gnu it makes sense...) and edit 'Makefile.PL' to select GNU-77 (this
   is the default on Linux, etc. anyway).
+
+o If you are using f2c based Fortran compilers (e.g. g77 or f2c) then
+  it is possible that it is not picking this fact up. [e.g. on systems
+  where the default f77 is something else like Solaris. Note is is SUPPOSED
+  to figure this out. :-)]. In such cases try editing the line:
+  
+  use ExtUtils::F77;
+  
+  to become:
+  
+  use ExtUtils::F77 qw(generic g77);
 
 o Make sure when you build the pgplot library you did a 'make cpg' to
   create the C library and the cpgplot.h header file.
@@ -56,8 +74,8 @@ o Check Perl normal dynamic loading works, try:
 
   perl -e 'use Socket'
 
-  and see if there are any errors.
-  
+  and see if there are any errors. If you contact me I can supply a
+  simple test module.
   
 o Using Linux and G77, you might need to ensure that libf2c.a is present
   in the normal library search path. You might also need to add ' -lgcc'
@@ -99,7 +117,7 @@ o Finally, if you mail me for help include in your message the complete log
   output of:
 
   perl -V; perl Makefile.PL; make; make test
-
+  
 
 Architecture-Specific Problems/Tips
 -----------------------------------

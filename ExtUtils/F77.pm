@@ -17,9 +17,16 @@ for figuring out how to link for various combinations of OS and
 compiler. Please help save the world by sending database entries for
 your system to kgb@aaoepp.aao.gov.au
 
+The libs can be explicitly overridden by setting the environment 
+variable F77LIBS, e.g.
+
+  % setenv F77LIBS "-lfoo -lbar"
+  % perl Makefile.PL
+  ...
+  
 =cut
 
-$VERSION = "1.06";
+$VERSION = "1.07";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -88,7 +95,7 @@ $F77config{Generic}{G77}{Link} = sub {
     return( "-L$dir -L/usr/lib -lf2c -lm" );
 };
 $F77config{Generic}{G77}{Trail_} = 1;
-$F77config{Generic}{G77}{Compiler} = 'g77';
+$F77config{Generic}{G77}{Compiler} = find_in_path('g77','f77','fort77');
 $F77config{Generic}{G77}{Cflags} = '-O';
 $F77config{Generic}{DEFAULT} = 'G77';
 $F77config{Generic}{F2c}     = $F77config{Generic}{G77};
@@ -123,7 +130,7 @@ $F77config{Irix}{DEFAULT}     = 'F77';
 
 ### AIX ###
 
-$F77config{Aix}{F77}{Link}   = "-L/usr/lib -lxlf -lc -lm";
+$F77config{Aix}{F77}{Link}   = "-L/usr/lib -lxlf90 -lxlf -lc -lm";
 $F77config{Aix}{F77}{Trail_} = 0;
 $F77config{Aix}{DEFAULT}     = 'F77';
 
@@ -132,6 +139,13 @@ $F77config{Aix}{DEFAULT}     = 'F77';
 $F77config{Freebsd}{F77}{Trail_} = 1;
 $F77config{Freebsd}{F77}{Link}   = '-L/usr/lib -lf2c -lm';
 $F77config{Freebsd}{DEFAULT}     = 'F77';
+
+### VMS ###
+
+$F77config{VMS}{Fortran}{Trail_} = 0;
+$F77config{VMS}{Fortran}{Link}   = '';
+$F77config{VMS}{DEFAULT}     = 'Fortran';
+$F77config{VMS}{Fortran}{Compiler} = 'Fortran';
 
 ############ End of database is here ############ 
 
@@ -169,31 +183,41 @@ sub import {
 
    print "$Pkg: Using system=$system compiler=$compiler\n";
    
-   # Try this combination
-
-   if (defined( $F77config{$system} )){
-      $Runtime = get ($F77config{$system}{$compiler}{Link}) . gcclibs();  
-      $ok = validate_libs($Runtime) if $Runtime;
-   }else {
-      $Runtime = $ok = "";
+   if (defined($ENV{F77LIBS})) {
+      print "Overriding Fortran libs from value of enviroment variable F77LIBS = $ENV{F77LIBS}\n";
+      $Runtime = $ENV{F77LIBS};
    }
+   else {
+      
+     # Try this combination
 
-   # If it doesn't work try Generic + GNU77
+     if (defined( $F77config{$system} )){
+     	my $flibs = get ($F77config{$system}{$compiler}{Link});
+     	$Runtime = $flibs . gcclibs();
+     	$ok = validate_libs($Runtime) if $flibs ne "";
+     }else {
+     	$Runtime = $ok = "";
+     }
 
-   unless ($Runtime && $ok) {
-      print <<"EOD";
+     # If it doesn't work try Generic + GNU77
+
+     unless (defined($Runtime) && $ok) {
+     	print <<"EOD";
 $Pkg: Unable to guess and/or validate system/compiler configuration
 $Pkg: Will try system=Generic Compiler=G77
 EOD
-      $system   = "Generic";
-      $compiler = "G77";
-      $Runtime = get ($F77config{$system}{$compiler}{Link}) . gcclibs();  
-      $ok = validate_libs($Runtime) if $Runtime;
-      print "$Pkg: Well that didn't appear to validate. Well I will try it anyway.\n"
-           unless $Runtime && $ok;
-    }
-    
-   $RuntimeOK = $ok;
+    	 $system   = "Generic";
+    	 $compiler = "G77";
+    	 my $flibs = get ($F77config{$system}{$compiler}{Link});
+    	 $Runtime =  $flibs. gcclibs();
+    	 $ok = validate_libs($Runtime) if $flibs ne "";
+    	 print "$Pkg: Well that didn't appear to validate. Well I will try it anyway.\n"
+    	      unless $Runtime && $ok;
+       }
+ 
+      $RuntimeOK = $ok;
+      
+   } # Not overriding   
 
    # Now get the misc info for the methods.
       
@@ -349,7 +373,7 @@ sub testcompiler {
 
 sub gcclibs {
    my $isgcc = $Config{'cc'} eq 'gcc';
-   if (!$isgcc) {
+   if (!$isgcc && $^O ne 'VMS') {
       print "Checking for gcc in disguise\n";
       open(T, "cc -v 2>&1 |"); my @tmp = <T>; close(T);
       $isgcc = 1 if grep(/gcc/,@tmp)>0;
@@ -364,6 +388,23 @@ sub gcclibs {
        return "";
    }
 }
+
+# Try and find a program in the users PATH
+
+sub find_in_path {
+   my @names = @_;
+   my @path = split(":",$ENV{PATH});
+   for my $name (@names) {
+      for my $dir (@path) {
+         if (-x $dir."/$name") {
+	    print "Found compiler $name\n";
+	    return $name;
+	  }
+      }
+   }
+   die "Unable to find a fortran compiler using names: ".join(" ",@names);
+}
+   
 
 
 1; # Return true

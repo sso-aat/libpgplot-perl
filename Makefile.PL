@@ -13,6 +13,7 @@ WriteMakefile(
     'VERSION_FROM'	=> 'PGPLOT.pm',
     'PM'        => {'PGPLOT.pm' => '$(INST_LIBDIR)/PGPLOT.pm',
                     'ExtUtils/F77.pm' => '$(INST_LIBDIR)/ExtUtils/F77.pm'},
+     ($^O eq 'VMS' ? ('LIBS' => 'pgplot_dir:cpgplot.olb') :
      (-d 'pgplot_tmp' ? 
         ('OBJECT' => '$(BASEEXT)$(OBJ_EXT) pgplot_tmp/libcpgplot.a '.
                     'pgplot_tmp/libpgplot.a',
@@ -22,9 +23,12 @@ WriteMakefile(
          ('LIBS' => ['-L/home/aaossm/kgb/soft/pgplot/bld -L/usr/local/pgplot -L/usr/local/lib -lcpgplot -lpgplot '.
                     '-L/usr/openwin/lib -L/usr/X11/lib -L/usr/X11R6/lib -lX11 '.
                     ExtUtils::F77->runtime])
-     ),
+     )),
     'DEFINE'	=>  ExtUtils::F77->trail_ ? "" : "-DNO_TRAILING_USCORE",
-    'INC'	=> '-I/home/aaossm/kgb/soft/pgplot/bld -I/usr/local/pgplot',  # where cpgplot.h should be
-    'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" }
+    ($^O eq 'VMS' ? ('INC' => 'pgplot_dir:') : (
+    'INC'	=> '-I/home/aaossm/kgb/soft/pgplot/bld -I/usr/local/pgplot'  # where cpgplot.h should be
+    )),
+    'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" },
+    'depend'    => { '$(OBJECT)' => 'pgfun.c'}
 );
 

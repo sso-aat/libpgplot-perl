@@ -28,9 +28,12 @@
 static SV*  pgfunname[2];
 float pgfun1();
 float pgfun2();
-int   pgfunplot();
-
-
+void   pgfunplot();
+void PGFUNX(float fy(), int *n, float *xmin, float *xmax, int *pgflag);
+void PGFUNY(float fx(), int *n, float *ymin, float *ymax, int *pgflag);
+void PGFUNT(float fx(), float fy(), int *n, float *tmin, float *tmax, int *pgflag);
+void PGCONX(float *a, int *idim, int *jdim, int *i1, int *i2, int *j1, int *j2,
+            float *c, int *nc, void plot());
 /* 
 
 CPGPLOT prototypes missing in PGPLOT 5 - these handle passed
@@ -61,7 +64,7 @@ cpgfunt (float pgfun1(), float pgfun2(), int n, float tmin, float tmax,
 
 
 cpgconx ( float* a, int idim, int jdim, int i1, int i2, 
-          int j1, int j2, float* c, int nc, int pgfunplot()) {
+          int j1, int j2, float* c, int nc, void pgfunplot()) {
 
    PGCONX(a,&idim,&jdim,&i1,&i2,&j1,&j2,c,&nc,pgfunplot);
 }
@@ -155,7 +158,7 @@ float pgfun2(x)
 
 /* pgplot called function perl intermediate for PGCONX */
 
-int pgfunplot(visible,x,y,z)  
+void pgfunplot(visible,x,y,z)  
    int *visible;
    float *x,*y,*z; {
 

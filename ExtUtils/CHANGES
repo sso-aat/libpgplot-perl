@@ -1,0 +1,15 @@
+CHANGES v1.07 released May 21st, 1998.
+--------------------------------------
+
+* Now supports VMS! Thanks to Charles Lane for his patch
+
+* Added -lxlf90 to AIX libs (Andreas Heitmann)
+
+* Added g77/f77/fort77 search for Generic g77/f2c
+
+* Fixed minor bug in falling back to g77/f2c
+
+* Added support for explicit overriding of Fortran libs
+  using the environment variable F77LIBS.
+  
+  
