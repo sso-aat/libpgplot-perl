@@ -1,5 +1,17 @@
 
+CHANGES v2.12 released May 11th, 1999
+--------------------------------------
 
+* Added PGPLOT_DIR to path for include files.
+* Removed pgpt1 and pgerrb1 left over from old perl4 version - see
+  pgcompatbility.p if you still need them.
+* Changed macro names for perl 5.004_53 (Joshua Pritikin 
+  <joshua.pritikin@db.com>) and inserted a conditional so older perl's
+  still work.
+* More ExtUtils::F77 changes (now at v1.09)  
+* Small test.pl patch from Chuck Lane <lane@duphy4.physics.drexel.edu>
+* Fixed error in test12.p
+  
 CHANGES v2.11 released Sep 11th, 1998
 --------------------------------------
 

@@ -9,15 +9,21 @@ ExtUtils::F77 - Simple interface to F77 libs
 
 =head1 DESCRIPTION
 
-Simple interface to F77 libs based on 'rule-of-thumb' knowledge of
-various flavours of UNIX systems.
+This module tries to figure out how to link C programs with
+Fortran subroutines on your system. Basically one must add a list
+of Fortran runtime libraries. The problem is their location
+and name varies with each OS/compiler combination!
 
-Includes a simple self-documenting Perl database of knowledge/code
+This module tries to implement a simple  
+'rule-of-thumb' database for various flavours of UNIX systems.
+A simple self-documenting Perl database of knowledge/code
 for figuring out how to link for various combinations of OS and
-compiler. Please help save the world by sending database entries for
+compiler is embedded in the modules Perl code. Please help 
+save the world by sending database entries for
 your system to kgb@aaoepp.aao.gov.au
 
-The libs can be explicitly overridden by setting the environment 
+The library list which the module returns 
+can be explicitly overridden by setting the environment 
 variable F77LIBS, e.g.
 
   % setenv F77LIBS "-lfoo -lbar"
@@ -26,7 +32,7 @@ variable F77LIBS, e.g.
 
 =cut
 
-$VERSION = "1.08";
+$VERSION = "1.09";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -92,6 +98,9 @@ $F77config{Generic}{G77}{Link} = sub {
     } else {
         $dir = "/usr/local/lib";
     }    
+    chomp $dir;
+    my @files = glob("$dir/libg2c.*");
+    return( "-L$dir -lg2c -lm" ) if scalar(@files)>0;
     return( "-L$dir -L/usr/lib -lf2c -lm" );
 };
 $F77config{Generic}{G77}{Trail_} = 1;
@@ -124,9 +133,37 @@ $F77config{Hpux}{DEFAULT}     = 'F77';
 
 ### IRIX ###
 
-$F77config{Irix}{F77}{Link}   =  $Config{cc} =~ /-n32/ ? '-L/usr/lib32 -lftn -lm' :
-   "-L/usr/lib -lF77 -lI77 -lU77 -lisam -lm" ;
+if ($Config{'cc'} =~ /-n32/)	# Modified by Allen Smith
+  {
+    if (($Config{'cc'} =~ /-mips4/) && (-r "/usr/lib32/mips4") && (-d _) && (-x _))
+      {
+	$F77config{Irix}{F77}{Cflags} = "-n32 -mips4";
+	if ((-r "/usr/lib32/mips4") && (-d _) && (-x _))
+	  {
+	    $F77config{Irix}{F77}{Link} = "-L/usr/lib32/mips4 -L/usr/lib32 -lftn -lm";
+	  }
+      }
+    elsif (($Config{'cc'} =~ /-mips3/) && (-r "/usr/lib32/mips3") && (-d _) && (-x _))
+      {
+	$F77config{Irix}{F77}{Cflags} = "-n32 -mips3";
+	if ((-r "/usr/lib32/mips3") && (-d _) && (-x _))
+	  {
+	    $F77config{Irix}{F77}{Link} = "-L/usr/lib32/mips4 -L/usr/lib32 -lftn -lm";
+	  }
+      }
+    else
+      {
+	$F77config{Irix}{F77}{Cflags} = "-n32";
+	$F77config{Irix}{F77}{Link} = "-L/usr/lib32 -lftn -lm";
+      }
+  }
+else
+  {
+    $F77config{Irix}{F77}{Link} = "-L/usr/lib -lF77 -lI77 -lU77 -lisam -lm";
+  }
 $F77config{Irix}{F77}{Trail_} = 1;
+$F77config{Irix}{F77}{Compiler} = $Config{cc} =~ /-n32/ ?
+    'f77 -n32' : 'f77 -o32';
 $F77config{Irix}{DEFAULT}     = 'F77';
 
 ### AIX ###
@@ -195,6 +232,7 @@ sub import {
      if (defined( $F77config{$system} )){
      	my $flibs = get ($F77config{$system}{$compiler}{Link});
      	$Runtime = $flibs . gcclibs();
+        $ok = 1;
      	$ok = validate_libs($Runtime) if $flibs ne "";
      }else {
      	$Runtime = $ok = "";
@@ -402,6 +440,7 @@ sub find_in_path {
 	  }
       }
    }
+   return '' if $^O eq 'VMS';
    die "Unable to find a fortran compiler using names: ".join(" ",@names);
 }
    

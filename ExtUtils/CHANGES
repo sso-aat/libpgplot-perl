@@ -1,6 +1,16 @@
 CHANGES 
 -------
 
+v1.09 released May 11th, 1999
+-----------------------------
+
+* Yet another IRIX patch (Allen Smith <easmith@beatrice.rutgers.edu>, Nov 1998)
+* Added -lg2c support provisionally
+* Yet another IRIX mod from Christian Soeller  <c.soeller@auckland.ac.nz>
+* Improved docs slightly.
+* Small VMS patch from Chuck Lane <lane@duphy4.physics.drexel.edu>
+
+
 v1.08 released Sep 11th, 1998
 -----------------------------
 

@@ -9,6 +9,7 @@ use ExtUtils::F77;
 use Config;
 
 my $ldir = defined $ENV{PGPLOT_DIR} ? "-L$ENV{PGPLOT_DIR}" : "";
+my $idir = defined $ENV{PGPLOT_DIR} ? "-I$ENV{PGPLOT_DIR}" : "";
 
 WriteMakefile(
     'NAME'	=> 'PGPLOT',
@@ -28,9 +29,9 @@ WriteMakefile(
      )),
     'DEFINE'	=>  ExtUtils::F77->trail_ ? "" : "-DNO_TRAILING_USCORE",
     ($^O eq 'VMS' ? ('INC' => 'pgplot_dir:') : (
-    'INC'	=> '-I/home/aaossm/kgb/soft/pgplot/bld -I/usr/local/pgplot'  # where cpgplot.h should be
+    'INC'	=> $idir.' -I/home/aaossm/kgb/soft/pgplot/bld -I/usr/local/pgplot'  # where cpgplot.h should be
     )),
     'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" },
-    'depend'    => { '$(OBJECT)' => 'pgfun.c'}
+    'depend'    => { '$(OBJECT)' => q[pgfun.c arrays.c PGPLOT.c]}
 );
 

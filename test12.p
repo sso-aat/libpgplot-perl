@@ -49,10 +49,6 @@ pgaxis('LN2',12500,12800,12900,12100,1,4,0,0, 1,2,0.5, -2,30);
 
 pgtick(12500,12800,12900,12100, 0.35, 3,5, 6,90,'pgperl!');
 
-pgerr1(1,12100,12200,200,3);
-pgerr1(2,12100,12200,50,3);
-pgpt1(12100,12200,17);
-
 pgqndt($ndrivers);
 
 print "Testing pgqdt() - $ndrivers drivers found...\n";

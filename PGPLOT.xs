@@ -332,16 +332,6 @@ pgeras()
     cpgeras();
 
 void
-pgerr1(dir,x,y,e,t)
-  int	dir
-  float	x
-  float	y
-  float	e
-  float	t
-  CODE:
-    cpgerr1(dir,x,y,e,t);
-
-void
 pgerrb(dir,n,x,y,e,t)
   int	dir
   int	n
@@ -743,14 +733,6 @@ pgpt(n,xpts,ypts,symbol)
   int	symbol
   CODE:
     cpgpt(n,xpts,ypts,symbol);
-
-void
-pgpt1(xpts,ypts,symbol)
-  float	xpts
-  float	ypts
-  int	symbol
-  CODE:
-    cpgpt1(xpts,ypts,symbol);
 
 void
 pgpoint(n,xpts,ypts,symbol)
