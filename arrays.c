@@ -1,4 +1,3 @@
-
 /* 
 
    Library of typemap functions for C arrays, idea is to provide 
@@ -16,6 +15,7 @@ Dec 95: Add double precision arrays 	        - frossie@jach.hawaii.edu
 Dec 96: Add 'ref to scalar is binary' handling  - kgb@aaoepp.aao.gov.au
 Jan 97: Handles undefined values as zero        - kgb@aaoepp.aao.gov.au
 Feb 97: Fixed a few type cast howlers+bugs      - kgb@aaoepp.aao.gov.au
+Apr 97: Add support for unsigned char and shorts- timj@jach.hawaii.edu
    
 */
 
@@ -28,15 +28,7 @@ Feb 97: Fixed a few type cast howlers+bugs      - kgb@aaoepp.aao.gov.au
 /* Functions defined in this module, see header comments on each one
    for more details:                                                  */
 
-void* pack1D(SV* arg, char packtype);         /* Pack perl 1D array        */
-void* pack2D(SV* arg, char packtype);         /* Pack perl 1-2D array      */
-void* packND(SV* arg, char packtype);         /* Pack perl array N-D array */
-void  unpack1D(SV* arg, void * var,           /* Unpack 1D array           */
-               char packtype, int n);                        
-
-AV*   coerce1D ( SV* arg, int n );     /* Coerce/create array to specified size */
-
-void* get_mortalspace( int n, char packtype ); /* Utility to just get workspace */
+#include "arrays.h"
 
 int is_scalar_ref (SV* arg) { /* Utility to determine if ref to scalar */
     SV* foo;
@@ -75,7 +67,7 @@ T_INTP
 T_FLOATP
         $var = ($type)pack1D($arg,'f')
 T_DOUBLEP
-		$var = ($type)pack1D($arg,'d')
+	$var = ($type)pack1D($arg,'d')
 
 */
 
@@ -83,7 +75,9 @@ void* pack1D ( SV* arg, char packtype ) {
 
    int iscalar;
    float scalar;
-	double dscalar;
+   double dscalar;
+   short sscalar;
+   unsigned char uscalar;
    AV* array;
    I32 i,n;
    SV* work;
@@ -94,7 +88,8 @@ void* pack1D ( SV* arg, char packtype ) {
    if (is_scalar_ref(arg))                 /* Scalar ref */
       return (void*) SvPV(SvRV(arg), len);
    
-   if (packtype!='f' && packtype!='i' && packtype!='d')
+   if (packtype!='f' && packtype!='i' && packtype!='d' && packtype!='s'
+       && packtype != 'u')
        croak("Programming error: invalid type conversion specified to pack1D");
    
    /* 
@@ -122,7 +117,14 @@ void* pack1D ( SV* arg, char packtype ) {
           dscalar = (double) SvNV(arg);		/*Get the scalar value */
 	  sv_setpvn(work, (char *) &dscalar, sizeof(double)); /* Pack it in */
       }
-   
+      if (packtype=='s') {
+          sscalar = (short) SvNV(arg);		/*Get the scalar value */
+	  sv_setpvn(work, (char *) &sscalar, sizeof(short)); /* Pack it in */
+      }
+      if (packtype=='u') {
+          uscalar = (unsigned char) SvNV(arg);	/*Get the scalar value */
+	  sv_setpvn(work, (char *) &uscalar, sizeof(char)); /* Pack it in */
+      }
       return (void *) SvPV(work, na);        /* Return the pointer */
    }
    
@@ -142,9 +144,14 @@ void* pack1D ( SV* arg, char packtype ) {
           SvGROW( work, sizeof(float)*(n+1) );  /* Pregrow for efficiency */
       if (packtype=='i')
           SvGROW( work, sizeof(int)*(n+1) );   
-		if (packtype=='d')
-		  SvGROW( work, sizeof(double)*(n+1) );
+      if (packtype=='d')
+	  SvGROW( work, sizeof(double)*(n+1) );
+      if (packtype=='s')
+          SvGROW( work, sizeof(short)*(n+1) );   
+      if (packtype=='u')
+	  SvGROW( work, sizeof(char)*(n+1) );
       
+
       /* Pack array into string */
    
       for(i=0; i<=n; i++) {
@@ -169,6 +176,14 @@ void* pack1D ( SV* arg, char packtype ) {
 	    if (packtype=='d') {
 	        dscalar = (double) nval;
 	        sv_catpvn( work, (char *) &dscalar, sizeof(double));
+	    }
+            if (packtype=='s') {
+               sscalar = (short) nval;
+               sv_catpvn( work, (char *) &sscalar, sizeof(short));
+            }
+	    if (packtype=='u') {
+	        uscalar = (unsigned char) nval;
+	        sv_catpvn( work, (char *) &uscalar, sizeof(char));
 	    }
       }
    
@@ -223,6 +238,9 @@ void* pack2D ( SV* arg, char packtype ) {
 
    int iscalar;
    float scalar;
+   short sscalar;
+   double dscalar;
+   unsigned char uscalar;
    AV* array;
    AV* array2;
    I32 i,j,n,m;
@@ -235,7 +253,8 @@ void* pack2D ( SV* arg, char packtype ) {
    if (is_scalar_ref(arg))                 /* Scalar ref */
       return (void*) SvPV(SvRV(arg), len);
 
-   if (packtype!='f' && packtype!='i')
+   if (packtype!='f' && packtype!='i' && packtype!='d' && packtype!='s'
+       && packtype!='u')
        croak("Programming error: invalid type conversion specified to pack2D");
    
    /* Is arg a scalar? Return pointer to char part */
@@ -287,6 +306,12 @@ void* pack2D ( SV* arg, char packtype ) {
                  SvGROW( work, sizeof(float)*(n+1)*(m+1) );  
                if (packtype=='i')
                  SvGROW( work, sizeof(int)*(n+1)*(m+1) );   
+	       if (packtype=='s')
+                 SvGROW( work, sizeof(short)*(n+1)*(m+1) );  
+               if (packtype=='u')
+                 SvGROW( work, sizeof(char)*(n+1)*(m+1) );
+	       if (packtype=='d')
+		 SvGROW( work, sizeof(double)*(n+1) );
             }
    
             for(j=0; j<=m; j++) {  /* Loop over 2nd dimension */
@@ -302,6 +327,10 @@ void* pack2D ( SV* arg, char packtype ) {
                   }      
                }
                
+	       if (packtype=='d') {
+		 dscalar = (double) nval;
+		 sv_catpvn( work, (char *) &dscalar, sizeof(double));
+	       }
                if (packtype=='f') {
                   scalar = (float) nval;
                   sv_catpvn( work, (char *) &scalar, sizeof(float));
@@ -309,6 +338,14 @@ void* pack2D ( SV* arg, char packtype ) {
                if (packtype=='i') {
                   iscalar = (int) nval;
                   sv_catpvn( work, (char *) &iscalar, sizeof(int));
+               }
+               if (packtype=='s') {
+                  sscalar = (short) nval;
+                  sv_catpvn( work, (char *) &sscalar, sizeof(short));
+               }
+               if (packtype=='u') {
+                  uscalar = (unsigned char) nval;
+                  sv_catpvn( work, (char *) &uscalar, sizeof(char));
                }
             }
       }
@@ -357,7 +394,8 @@ void* packND ( SV* arg, char packtype ) {
    if (is_scalar_ref(arg))                 /* Scalar ref */
       return (void*) SvPV(SvRV(arg), len);
 
-   if (packtype!='f' && packtype!='i' && packtype!='d')
+   if (packtype!='f' && packtype!='i' && packtype!='d'
+       && packtype!='s' && packtype!='u')
        croak("Programming error: invalid type conversion specified to packND");
    
    /* 
@@ -383,6 +421,8 @@ void pack_element(SV* work, SV** arg, char packtype) {
    AV* array;
    int iscalar;
    float scalar;
+   short sscalar;
+   unsigned char uscalar;
    double nval;
 
    /* Pack element arg onto work recursively */
@@ -406,6 +446,14 @@ void pack_element(SV* work, SV** arg, char packtype) {
       }
       if (packtype=='d') {
          sv_catpvn(work, (char *) &nval, sizeof(double)); /* Pack it in */
+      }
+      if (packtype=='s') {
+         sscalar = (short) nval;             /* Get the scalar value */
+         sv_catpvn(work, (char *) &sscalar, sizeof(short)); /* Pack it in */
+      }
+      if (packtype=='u') {
+	uscalar = (unsigned char) nval;
+	sv_catpvn(work, (char *) &uscalar, sizeof(char)); /* Pack it in */
       }
    
       return;
@@ -463,7 +511,9 @@ void unpack1D ( SV* arg, void * var, char packtype, int n ) {
    
    int* ivar;
    float* fvar;
-	double* dvar;
+   double* dvar;
+   short* svar;
+   unsigned char* uvar;
    double foo;
    SV* work;
    AV* array;
@@ -474,7 +524,8 @@ void unpack1D ( SV* arg, void * var, char packtype, int n ) {
    if (is_scalar_ref(arg)) /* Do nothing */
        return;
 
-   if (packtype!='f' && packtype!='i' && packtype!= 'd')
+   if (packtype!='f' && packtype!='i' && packtype!= 'd' &&
+       packtype!='u' && packtype!='s')
        croak("Programming error: invalid type conversion specified to unpack1D");
    
    m=n;  array = coerce1D( arg, m );   /* Get array ref and coerce */
@@ -486,8 +537,12 @@ void unpack1D ( SV* arg, void * var, char packtype, int n ) {
       ivar = (int *) var;
    if (packtype=='f') 
       fvar = (float *) var;
-     if (packtype=='d') 
+   if (packtype=='d') 
       dvar = (double *) var;
+   if (packtype=='u') 
+     uvar = (unsigned char *) var;
+   if (packtype=='s') 
+     svar = (short *) var;
  
    /* Unpack into the array */
    
@@ -499,7 +554,10 @@ void unpack1D ( SV* arg, void * var, char packtype, int n ) {
          av_store( array, i, newSVnv( (double)fvar[i] ) );
      if (packtype=='d') 
          av_store( array, i, newSVnv( (double)dvar[i] ) );
-
+      if (packtype=='u') 
+         av_store( array, i, newSViv( (IV)uvar[i] ) );
+      if (packtype=='s') 
+         av_store( array, i, newSViv( (IV)svar[i] ) );
    }
    
    return;
@@ -564,18 +622,25 @@ void* get_mortalspace( int n, char packtype ) {
    
    SV* work;
    
-   if (packtype!='f' && packtype!='i' && packtype!='d')
-       croak("Programming error: invalid type conversion specified to get_mortalspace");
+   if (packtype!='f' && packtype!='i' && packtype!='d'
+       && packtype!='u' && packtype!='s')
+     croak("Programming error: invalid type conversion specified to get_mortalspace");
 
    work = sv_2mortal(newSVpv("", 0));
    
    if (packtype=='f')
-       SvGROW( work, sizeof(float)*n );  /* Pregrow for efficiency */
+     SvGROW( work, sizeof(float)*n );  /* Pregrow for efficiency */
    if (packtype=='i')
-       SvGROW( work, sizeof(int)*n );  
-	if (packtype=='d')
-		SvGROW( work, sizeof(double)*n);
+     SvGROW( work, sizeof(int)*n );  
+   if (packtype=='d')
+     SvGROW( work, sizeof(double)*n);
+   if (packtype=='u')
+     SvGROW( work, sizeof(char)*n);
+   if (packtype=='s')
+     SvGROW( work, sizeof(short)*n);
    
    return (void *) SvPV(work, na);
 }
+
+
 

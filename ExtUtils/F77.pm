@@ -19,7 +19,7 @@ your system to kgb@aaoepp.aao.gov.au
 
 =cut
 
-$VERSION = "1.01";
+$VERSION = "1.03";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -53,6 +53,14 @@ $F77config{Sunos}{F77}{Trail_} = 1;
 
 $F77config{Sunos}{DEFAULT} = 'F77'; 
 
+# Program to run to actually compile stuff
+
+$F77config{Sunos}{F77}{Compiler} = 'f77';
+
+# Associated compiler flags
+
+$F77config{Sunos}{F77}{Cflags} = '-O';
+
 ############ Rest of database is here ############ 
 
 ### Solaris ###
@@ -64,12 +72,24 @@ $F77config{Solaris}{F77}{Link} = sub {
        return "-L$dir -lF77 -lM77 -lsunmath -lm";
 };
 $F77config{Solaris}{F77}{Trail_} = 1;
+$F77config{Solaris}{F77}{Compiler} = 'f77';
+$F77config{Solaris}{F77}{Cflags} = '-O';
 $F77config{Solaris}{DEFAULT} = 'F77';
 
 ### Generic GNU-77 or F2C system ###
 
-$F77config{Generic}{G77}{Link} = '-L/usr/lib -lf2c -lm';
+$F77config{Generic}{G77}{Link} = sub {
+    my $dir = `gcc -print-file-name=libf2c.a`;
+    if( $dir ) {
+        $dir =~ s,/libf2c.a$,,;
+    } else {
+        $dir = "/usr/local/lib";
+    }
+    return( "-L$dir -L/usr/lib -lf2c -lm" );
+};
 $F77config{Generic}{G77}{Trail_} = 1;
+$F77config{Generic}{G77}{Compiler} = 'f77';
+$F77config{Generic}{G77}{Cflags} = '-O';
 $F77config{Generic}{DEFAULT} = 'G77';
 $F77config{Generic}{F2c}     = $F77config{Generic}{G77};
 
@@ -83,12 +103,16 @@ $F77config{Linux}{DEFAULT} = 'G77';
 
 $F77config{Dec_osf}{F77}{Link}   = "-L/usr/lib -lUfor -lfor -lFutil -lm -lots -lc";
 $F77config{Dec_osf}{F77}{Trail_} = 1;
+$F77config{Dec_osf}{F77}{Compiler} = 'f77';
+$F77config{Dec_osf}{F77}{Cflags} = '-O';
 $F77config{Dec_osf}{DEFAULT}     = 'F77';
 
 ### HP/UX ###
 
 $F77config{Hpux}{F77}{Link}   = "-L/usr/lib -lcl -lm";
 $F77config{Hpux}{F77}{Trail_} = 0;
+$F77config{Hpux}{F77}{Compiler} = 'f77';
+$F77config{Hpux}{F77}{Cflags} = '-O';
 $F77config{Hpux}{DEFAULT}     = 'F77';
 
 ### IRIX ###
@@ -116,8 +140,11 @@ $F77config{Aix}{DEFAULT}     = 'F77';
 # Package variables
 
 $Runtime = "-LSNAFU -lwontwork";
+$RuntimeOK = 0;
 $Trail_  = 1;
 $Pkg   = "";
+$Compiler = "";
+$Cflags = "";
 
 sub get; # See below
 
@@ -159,6 +186,8 @@ EOD
       print "$Pkg: Well that didn't appear to validate. Well I will try it anyway.\n"
            unless $Runtime && $ok;
     }
+    
+   $RuntimeOK = $ok;
 
    # Now get the misc info for the methods.
       
@@ -173,21 +202,50 @@ $Pkg: F77 names have trailing underscores.
 EOD
       $Trail_ = 1;
    }
-   
+  
+   if (defined( $F77config{$system}{$compiler}{Compiler} )) {
+	$Compiler = $F77config{$system}{$compiler}{Compiler};
+   } else {
+	print << "EOD";
+$Pkg: There does not appear to be any configuration info about
+$Pkg: the F77 compiler name. Will assume 'f77'.
+EOD
+	$Compiler = 'f77';
+   }
+print "$Pkg: Compiler: $Compiler\n";
+
+   if (defined( $F77config{$system}{$compiler}{Cflags} )) {
+	$Cflags = $F77config{$system}{$compiler}{Cflags};
+   } else {
+	print << "EOD";
+$Pkg: There does not appear to be any configuration info about
+$Pkg: the options for the F77 compiler. Will assume none
+$Pkg: necessary.
+EOD
+	$Cflags = '';
+   }
+print "$Pkg: Cflags: $Cflags\n";
+
 } # End of import ()
 
 =head2 METHODS
 
-runtime() - Returns list of *checked* F77 runtime libraries
-trail_()  - Returns true if F77 names have trailing underscores
+ runtime()    - Returns list of F77 runtime libraries
+ runtimeok()  - Returns TRUE only if runtime libraries have been found successfully
+ trail_()     - Returns true if F77 names have trailing underscores
+ compiler()   - Returns command to execute the compiler (e.g. 'f77')
+ cflags()     - Returns compiler flags
+ testcompiler - Test to see if compiler actually works
 
-[probably more to come.]
+ [probably more to come.]
 
 =cut
-
+	
 sub runtime { return $Runtime; }
+sub runtimeok { return $RuntimeOK; }
 sub trail_  { return $Trail_; }
-
+sub compiler { return $Compiler; }
+sub cflags  { return $Cflags; }
 
 ### Minor internal utility routines ###
 
@@ -255,4 +313,32 @@ sub validate_libs {
    return $ret;
 }
 
+
+sub testcompiler {
+ 
+    my $file = "/tmp/testf77$$";
+    my $ret;
+    open(OUT,">$file.f");
+    print OUT "      print *, 'Hello World'\n";
+    print OUT "      end\n";
+    close(OUT);
+    print "Compiling the test Fortran program...\n";
+    system "$Compiler $Cflags $file.f -o $file.e";
+    print "Executing the test program...\n";
+    if (`$file.e` ne " Hello World\n") {
+       print "Test of Fortran Compiler FAILED. \n";
+       print "Do not know how to compile Fortran on your system\n";
+       $ret=0;
+    }
+    else{
+       print "Congratualations you seem to have a working f77!\n";
+       $ret=1;
+    }
+    unlink("$file.e"); unlink("$file.f"); unlink("$file.o") if -e "$file.o";
+    return $ret;
+};
+
+
 1; # Return true
+
+

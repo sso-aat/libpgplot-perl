@@ -4,12 +4,13 @@ use PGPLOT;
 
 print "\n\nTesting multiple ways of passing things...\n\n";
 
-# Create image
+# Create 138x128 image - note must use transpose as 
+# perl is column major like C (see docs)
 
 $k=0;
-for($i=0; $i<128; $i++) { for($j=0; $j<128; $j++) {
+for($i=0; $i<128; $i++) { for($j=0; $j<138; $j++) {
    $$img2D[$i][$j] = sqrt($i*$j) / 128; 
-   $img1D[$k]      = $$img2D[$i][$j];  $k++;
+   $img1D[$k]      = $$img2D[$i][$j];  $k++;  # For 1D test
 }}
 
 $imgchar = pack("f*",@img1D);
@@ -34,22 +35,22 @@ print "--------------------------------------\n";
 
 nextplot('Points: scalars passed one by one','Image: packed char string');
 
-pggray($imgchar,128,128,1,128,1,128,1,0,\@tr);
+pggray($imgchar,138,128,1,138,1,128,1,0,\@tr);
 for($i=0; $i<11; $i++){ pgpt(1,$x[$i],$y[$i],17) }
 
 nextplot('Points: 1D array passed by glob','Image: 1D array passed by glob');
 
-pggray(*img1D,128,128,1,128,1,128,1,0,\@tr);
+pggray(*img1D,138,128,1,138,1,128,1,0,\@tr);
 pgpt(11,*x,*y,17);
 
 nextplot('Points: 1D array passed by reference','Image: 1D array passed by reference');
 
-pggray(\@img1D,128,128,1,128,1,128,1,0,\@tr);
+pggray(\@img1D,138,128,1,138,1,128,1,0,\@tr);
 pgpt(11,\@x,\@y,17);
 
 nextplot('Line: 1D cross-section of 2D array','Image: 2D array passed by reference');
 
-pggray($img2D,128,128,1,128,1,128,1,0,\@tr);
+pggray($img2D,138,128,1,138,1,128,1,0,\@tr);
 pgwindow(0,128,0,1);
 pgline(128, \(0..127), $$img2D[127]);
 

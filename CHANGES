@@ -1,4 +1,29 @@
 
+CHANGES (v2.02 to 2.06)
+------------------------
+
+(OK I know I should have been more organised about updating this
+file!)
+
+* Important bug fixes to array packing code which is now 
+  called arrays.{c,h}
+
+* Added fake MAIN__ symbol to stop annoying bug reports about some
+  versions of gcc. :-)
+
+* arrays.c now supports unsigned chars and shorts. (Thanks Tim!)
+
+* Additions to HELP and documentation
+
+* Patches to improve ExtUtils::F77
+
+* Improvements to tests
+
+* pgcompatibilty.p (NOT INSTALLED!) defines simple compatibilty
+  routines for perl4 pgperl version. This had some gnarly single point
+  versions of routines which are now superfluous.
+
+
 CHANGES (v2.02 from 2.01) 
 -------------------------
 

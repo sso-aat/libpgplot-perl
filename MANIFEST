@@ -7,7 +7,8 @@ Makefile.PL
 PGPLOT.pm
 PGPLOT.xs
 README
-kgbpack.c
+arrays.c
+arrays.h
 pgfun.c
 test.img
 test.pl
@@ -23,3 +24,4 @@ test7.p
 test8.p
 test9.p
 typemap
+pgcompatbility.p

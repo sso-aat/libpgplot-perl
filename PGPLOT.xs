@@ -14,7 +14,8 @@
 #include "cpgplot.h"  /* CPGPLOT prototypes */
 
 #include "pgfun.c"    /* Function callback code */
-#include "kgbpack.c"  /* Pack functions */
+#include "arrays.h"   /* Pack functions decs */
+#include "arrays.c"   /* Pack functions defs */
 
 typedef int   int2D;    /* So 2D arrays are handled automagically */
 typedef float float2D;  /* by typemap */
