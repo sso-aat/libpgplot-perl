@@ -19,7 +19,7 @@ your system to kgb@aaoepp.aao.gov.au
 
 =cut
 
-$VERSION = "1.05";
+$VERSION = "1.06";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -126,6 +126,12 @@ $F77config{Irix}{DEFAULT}     = 'F77';
 $F77config{Aix}{F77}{Link}   = "-L/usr/lib -lxlf -lc -lm";
 $F77config{Aix}{F77}{Trail_} = 0;
 $F77config{Aix}{DEFAULT}     = 'F77';
+
+### FreeBSD ###
+
+$F77config{Freebsd}{F77}{Trail_} = 1;
+$F77config{Freebsd}{F77}{Link}   = '-L/usr/lib -lf2c -lm';
+$F77config{Freebsd}{DEFAULT}     = 'F77';
 
 ############ End of database is here ############ 
 

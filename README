@@ -7,9 +7,7 @@ Karl Glazebrook, Anglo-Australian Observatory
 
 kgb@aaoepp.aao.gov.au
 
-Module Version 2.07  June 25th, 1997 for pgplot library v5.2.0
-
-[see file CHANGES for new features in 2.0 versions]
+[see file CHANGES for new features]
 
 This module allows the use of the the PGPLOT graphics library from the
 popular Perl scripting language. PGPLOT makes it very easy to process
