@@ -25,6 +25,11 @@ typedef float float2D;  /* by typemap */
 static char strbuff[256]; 
 #define SIZEOF(X) sizeof(strbuff)
 
+void MAIN__ () {
+   /* Cheat to define MAIN__ symbol */
+   croak("This should never happen");
+}
+
 MODULE = PGPLOT     PACKAGE = PGPLOT 
 
 void
