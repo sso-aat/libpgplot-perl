@@ -1,3 +1,13 @@
+
+
+CHANGES v2.11 released Sep 11th, 1998
+--------------------------------------
+
+* Added support for PGPLOT_DIR in Makefile.PL, updated HELP.
+* Mentioned 'perl Makefile.PL PREFIX=...' in README.
+* More HELP stuff.
+* ExtUtils::F77 v1.08
+
 CHANGES v2.10 released May 21st, 1998.
 --------------------------------------
 

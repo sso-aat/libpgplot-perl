@@ -68,6 +68,13 @@ Installation
    procedure:
 
    perl Makefile.PL
+   
+   If you want to install somewhere other than the standard perl 
+   location (e.g. in your home directory) replace this line with
+   something like:
+   
+   perl Makefile.PL PREFIX=/home/me
+   
    make
    make test
 
@@ -77,4 +84,16 @@ Installation
    If something goes wrong read the file HELP, if everything works:
 
    make install
+   
+   If you want to install in the standard perl location you will need to 
+   do this as root.
+   
+   If you used PREFIX above the files will install themselves
+   in /home/me/lib/perl5/site_perl/...
+   
+   Then to use them you will need to set the environment variable PERL5LIB 
+   to point to this, e.g. for csh users:
+   
+   setenv PERL5LIB /home/me/lib/perl5/site_perl
+   
 

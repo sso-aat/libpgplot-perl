@@ -23,10 +23,10 @@ variable F77LIBS, e.g.
   % setenv F77LIBS "-lfoo -lbar"
   % perl Makefile.PL
   ...
-  
+
 =cut
 
-$VERSION = "1.07";
+$VERSION = "1.08";
 
 # Database starts here. Basically we have a large hash specifying
 # entries for each os/compiler combination. Entries can be code refs
@@ -86,7 +86,7 @@ $F77config{Solaris}{DEFAULT} = 'F77';
 ### Generic GNU-77 or F2C system ###
 
 $F77config{Generic}{G77}{Link} = sub {
-    my $dir = `gcc -print-file-name=libf2c.a`;
+    my $dir = `g77 -print-file-name=libf2c.a`;
     if( $dir ) {
         $dir =~ s,/libf2c.a$,,;
     } else {
@@ -124,7 +124,8 @@ $F77config{Hpux}{DEFAULT}     = 'F77';
 
 ### IRIX ###
 
-$F77config{Irix}{F77}{Link}   = "-L/usr/lib -lF77 -lI77 -lU77 -lisam -lm";
+$F77config{Irix}{F77}{Link}   =  $Config{cc} =~ /-n32/ ? '-L/usr/lib32 -lftn -lm' :
+   "-L/usr/lib -lF77 -lI77 -lU77 -lisam -lm" ;
 $F77config{Irix}{F77}{Trail_} = 1;
 $F77config{Irix}{DEFAULT}     = 'F77';
 
@@ -375,9 +376,8 @@ sub gcclibs {
    my $isgcc = $Config{'cc'} eq 'gcc';
    if (!$isgcc && $^O ne 'VMS') {
       print "Checking for gcc in disguise\n";
-      open(T, "cc -v 2>&1 |"); my @tmp = <T>; close(T);
-      $isgcc = 1 if grep(/gcc/,@tmp)>0;
-      print "Compiler is $tmp[1]" if $isgcc;
+      $isgcc = 1 if $Config{gccversion};
+      print "Compiler is gcc version $Config{gccversion}" if $isgcc;
       print "Not gcc\n" unless $isgcc;
    }
    if ($isgcc) {

@@ -1,5 +1,17 @@
-CHANGES v1.07 released May 21st, 1998.
---------------------------------------
+CHANGES 
+-------
+
+v1.08 released Sep 11th, 1998
+-----------------------------
+
+* Better gcc detection (Anton Berezin)
+* Improved libf2c directory location
+* fixed pod2man bugs in documentation
+* IRIX n32 fix
+
+
+v1.07 released May 21st, 1998.
+------------------------------
 
 * Now supports VMS! Thanks to Charles Lane for his patch
 

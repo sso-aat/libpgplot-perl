@@ -46,6 +46,20 @@ box. If you don't you may experience problems. Read on for possible
 fixes. Patches for ExtUtils::F77, to make it even smarter, are very
 welcome!
 
+o If 'make test' does not work try 'perl -Mblib test.pl'. Sometimes
+  one can get funny dynamic loading problem. [The former sets 
+  PERL_DL_NONLAZY=1 which makes it fail on any unresolved symbol.
+  Sometimes this is wrong.]
+  
+  If 'perl -Mblib test.pl' produces sensible graphs it is probably
+  safe to do a 'make install'. 
+
+o Next make sure you can compile, link and run successfully PGPLOT
+  C programs (e.g. 'cpgdemo' in the PGPLOT distribution). If not you
+  will not be able to run the perl version. A common requirement is
+  to set the environment variable PGPLOT_DIR if PGPLOT is installed
+  in a non-standard location.
+
 o You may experience problems if the module does not 'know' about
   the FORTRAN/C interface on your architecture. Please contact me and I
   will try to help if I have time. Alternatively - install GNU-77! (You
@@ -128,3 +142,12 @@ HP systems - Try using c89 with HP's fort77 compiler rather than gcc.
 
 DEC Alphas - are suceptible to the LD_LIBRARY_PATH problems mentioned
 above.
+
+
+RedHat 5.2 is reported to work with the following RPMs for C and FORTRAN :-
+        egcs-c++-1.0.3a-1
+	egcs-1.0.3a-1
+	egcs-objc-1.0.3a-1
+        egcs-g77-1.0.3a-1
+	f2c-19970805-3
+

@@ -8,6 +8,8 @@ use ExtUtils::F77;
 
 use Config;
 
+my $ldir = defined $ENV{PGPLOT_DIR} ? "-L$ENV{PGPLOT_DIR}" : "";
+
 WriteMakefile(
     'NAME'	=> 'PGPLOT',
     'VERSION_FROM'	=> 'PGPLOT.pm',
@@ -20,7 +22,7 @@ WriteMakefile(
         'LIBS'	=> ['-L/usr/openwin/lib -L/usr/X11/lib -L/usr/X11R6/lib -lX11 '.
                     ExtUtils::F77->runtime])
        :
-         ('LIBS' => ['-L/home/aaossm/kgb/soft/pgplot/bld -L/usr/local/pgplot -L/usr/local/lib -lcpgplot -lpgplot '.
+         ('LIBS' => [$ldir.' -L/usr/local/pgplot -L/usr/local/lib -lcpgplot -lpgplot '.
                     '-L/usr/openwin/lib -L/usr/X11/lib -L/usr/X11R6/lib -lX11 '.
                     ExtUtils::F77->runtime])
      )),
