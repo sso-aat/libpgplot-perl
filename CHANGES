@@ -1,6 +1,13 @@
 PGPLOT module Changes list
 --------------------------
 
+CHANGES v2.19, released Jan 3rd, 2006
+-------------------------------------
+
+* Diab's patch to allow specifying alternate libary paths on the command line (see HELP)
+* Added pgpt1 and pgerr1 back for compatibility with latest C PGPLOT
+* Win32 patches from Rob - Sisyphus <kalinabears@iinet.net.au> (2005/1/25)
+
 CHANGES v2.18, released Dec 28th 2000
 -------------------------------------
 

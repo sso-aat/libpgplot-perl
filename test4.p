@@ -13,8 +13,9 @@ print "PGPLOT $val library\n\n";
 
 $img="";
 open(IMG,"test.img") || die "Data file test.img not found";
+if($^O =~ /mswin32/i) {binmode(IMG)}
 read(IMG, $img, 32768);
-close(IMG);
+close(IMG) or die "Can't close test.img: $!";
 
 print length($img)," bytes read\n";
 

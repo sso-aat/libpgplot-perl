@@ -52,7 +52,7 @@ nextplot('Line: 1D cross-section of 2D array','Image: 2D array passed by referen
 
 pggray($img2D,138,128,1,138,1,128,1,0,\@tr);
 pgwindow(0,128,0,1);
-pgline(128, \(0..127), $$img2D[127]);
+pgline(128, [0..127], $$img2D[127]);
 
 $len=1; # -w fudge
 

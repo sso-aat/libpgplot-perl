@@ -2,7 +2,7 @@
 List of various gotchas!
 ------------------------
 
-Last Change: Dec 15th, 2000.
+Last Change: Jan 3rd, 2006.
 
 Karl Glazebrook.
 
@@ -12,6 +12,21 @@ ExtUtils::F77
 This module requires installation of ExtUtils::F77 to compile. The
 latest version is v1.13 so you probably better get that from
 CPAN (www.cpan.org)
+
+Non-standard PATHs
+------------------
+
+If your PGPLOT, X11, etc. libs are located in non-standard places you may use the 
+following command line command line options to "perl Makefile.PL" which take comma 
+separated lists of values.  The possible options are:
+
+      * XDIR: The directories to search for X11 libraries (without the
+        -L)
+      * XLIB: The X11 libraries to link (without the -l
+      * IDIR: The PGPLOT include directory
+      * LDIR: The PGPLOT library directory
+      * EXLIB: extra libraries to link (in my case it's png,z)
+      * EXDIR: Library directories for the extra libraries
 
 
 perl5.004_?? problem

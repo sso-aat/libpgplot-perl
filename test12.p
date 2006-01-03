@@ -15,8 +15,9 @@ die "PGPLOT version must be > 5.2.0 for this test $val\n" if $val<520;
 
 $img="";
 open(IMG,"test.img") || die "Data file test.img not found";
+if($^O =~ /mswin32/i) {binmode(IMG)}
 read(IMG, $img, 32768);
-close(IMG);
+close(IMG) or die "can't close test.img: $!";
 
 print length($img)," bytes read\n";
 

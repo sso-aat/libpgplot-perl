@@ -7,7 +7,7 @@ package PGPLOT;
 #
 #  WWW info: http://www.aao.gov.au/local/www/kgb/pgperl/
 
-$VERSION="2.18";
+$VERSION="2.19";
 
 use Exporter;
 use DynaLoader;
@@ -15,10 +15,10 @@ use DynaLoader;
 @ISA = qw(Exporter DynaLoader);
 @EXPORT = qw( pgarro pgask pgaxis pgband pgbbuf pgbeg pgbegin pgbin pgbox
 pgcirc pgclos pgconb pgconf pgconl pgcons pgcont pgconx pgctab pgcurs pgcurse pgdraw
-pgebuf pgend pgenv pgeras pgerrb pgerrx pgerry pgetxt pgfunt pgfunx
+pgebuf pgend pgenv pgeras pgerrb pgerr1 pgerrx pgerry pgetxt pgfunt pgfunx
 pgfuny pggray pghi2d pghist pgiden pgimag pglab pglabel pglcur pgldev
 pglen pgline pgmove pgmtxt pgmtext pgncur pgncurse pgnumb pgolin pgopen pgpage
-pgadvance pgpanl pgpap pgpaper pgpixl pgpnts pgpoly pgpt pgpoint pgptxt
+pgadvance pgpanl pgpap pgpaper pgpixl pgpnts pgpoly pgpt pgpt1 pgpoint pgptxt
 pgptext pgqah pgqcf pgqch pgqci pgqclp pgqcir pgqcol pgqcr pgqcs pgqdt pgqfs pgqhs
 pgqid pgqinf pgqitf pgqls pgqlw pgqndt pgqpos pgqtbg pgqtxt pgqvp pgqvsz pgqwin
 pgrect pgrnd pgrnge pgsah pgsave pgunsa pgscf pgsch pgsci pgscir pgsclp pgscr
@@ -26,7 +26,12 @@ pgscrl pgscrn pgsfs pgshls pgshs pgsitf pgslct pgsls pgslw pgstbg pgsubp pgsvp
 pgvport pgswin pgwindow pgtbox pgtick pgtext pgupdt pgvect pgvsiz pgvsize
 pgvstd pgvstand pgwedg pgwnad );
 
-bootstrap PGPLOT;
+if($^O =~ /mswin32/i) {
+  local $DynaLoader::dl_dlext = 'xs.dll';
+  bootstrap PGPLOT $VERSION;
+  }
+
+else {bootstrap PGPLOT $VERSION}
 
 # Exit with OK status
 

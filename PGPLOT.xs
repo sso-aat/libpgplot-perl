@@ -364,6 +364,16 @@ pgerrb(dir,n,x,y,e,t)
   CODE:
     cpgerrb(dir,n,x,y,e,t);
 
+void
+pgerr1(dir,x,y,e,t)
+  int	dir
+  float	x
+  float	y
+  float	e
+  float	t
+  CODE:
+    cpgerr1(dir,x,y,e,t);
+
 
 void
 pgerrx(n,x1,x2,y,t)
@@ -754,6 +764,14 @@ pgpt(n,xpts,ypts,symbol)
   int	symbol
   CODE:
     cpgpt(n,xpts,ypts,symbol);
+
+void
+pgpt1(xpt,ypt,symbol)
+  float	xpt
+  float	ypt
+  int	symbol
+  CODE:
+    cpgpt1(xpt,ypt,symbol);
 
 void
 pgpoint(n,xpts,ypts,symbol)

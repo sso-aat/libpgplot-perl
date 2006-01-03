@@ -5,7 +5,9 @@ PGPLOT module for Perl
 
 Karl Glazebrook
 
-karlglazebrook@yahoo.com
+karl_pgplot@mac.com
+
+Last update to this file: Jan 3rd 2006
 
 [see file CHANGES for new features]
 
@@ -38,20 +40,10 @@ Perl interface to all of the PGPLOT library functions. The current
 module version is 2.0, it requires Perl 5.003 (or greater) and builds
 against the 5.2.0 version of the PGPLOT C/FORTRAN library.
 
-More information may be obtained from the 'pgperl' Web home page:
+The core module is available from The Comprehensive Perl Archive 
+(CPAN) network in the directory 
 
-http://www.aao.gov.au/local/www/kgb/pgperl
-
-The home ftp sites are:
-
-ftp.aao.gov.au:/pub/pgperl/ located in Australia. 
-
-ftp.ast.cam.ac.uk:/pub/kgb/pgperl/ located in Cambridge, U.K. 
-
-linux.nrao.edu:/pub/packages/pgperl/ located in the U.S. 
-
-The core module is also available from The Comprehensive Perl Archive 
-(CPAN) network in the directory CPAN/modules/by-module/PGPLOT.
+http://search.cpan.org/search%3fmodule=PGPLOT
 
 Installation
 ------------
@@ -96,4 +88,9 @@ Installation
    
    setenv PERL5LIB /home/me/lib/perl5/site_perl
    
+
+Problems
+--------
+
+See the file HELP
 
