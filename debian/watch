@@ -1,0 +1,3 @@
+version=3
+http://www.cpan.org/authors/id/K/KG/KGB/PGPLOT-(.*)\.tar\.gz \
+	debian	uupdate

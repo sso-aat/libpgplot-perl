@@ -1,0 +1,147 @@
+libpgplot-perl (1:2.20-1) unstable; urgency=low
+
+  * New upstream release
+  * Reinsert into archive (Closes: #441034)
+  * New maintainer - Debian Perl Group
+  * Rename to fit perl naming conventions, changing sections too
+  * Clean up debian/rules file a bit
+  * Upgrade Standards-Version to 3.8.0
+
+ -- Carlo Segre <segre@debian.org>  Mon, 12 Jan 2009 00:03:52 -0600
+
+pgperl (1:2.18-5) unstable; urgency=low
+
+  * QA Group upload orphaning this package
+
+ -- Andrew Pollock <apollock@debian.org>  Thu,  3 Mar 2005 13:36:34 +1100
+
+pgperl (1:2.18-4.1) unstable; urgency=low
+
+  * Non-maintainer upload: I uploaded an unrelated source package that was
+    also called pgperl (perl backend for PostgreSQL), which overwrote your
+    package. Sorry for that! I renamed my source package and do this upload to
+    restore your package. I did not change anything apart from the version
+    number.
+
+ -- Martin Pitt <mpitt@debian.org>  Wed, 11 Feb 2004 09:33:44 +0100
+
+pgperl (2.18-4) unstable; urgency=low
+
+  * Merge NMU into CVS repository,
+  Closes: #158965
+  * Add -lpng et al to library list as pgplot now produces png images,
+  Closes: #159229
+
+ -- Stephen Zander <gibreel@debian.org>  Tue,  3 Sep 2002 09:32:18 -0700
+
+pgperl (2.18-3.1) unstable; urgency=low
+
+  * NMU: Rebuilt against perl 5.8.
+
+ -- Ben Burton <benb@acm.org>  Sat, 31 Aug 2002 11:15:24 +1000
+
+pgperl (2.18-3) unstable; urgency=high
+
+  * Rebuild against latest pgplot5 and add versioned build dependency to
+    package,
+  Closes: #109543, #112596
+
+ -- Stephen Zander <gibreel@debian.org>  Sat, 16 Feb 2002 11:37:52 -0800
+
+pgperl (2.18-2) unstable; urgency=medium
+
+  * Fixed missing build dependency, Closes: #99101
+
+ -- Stephen Zander <gibreel@debian.org>  Fri,  1 Jun 2001 14:29:13 -0700
+
+pgperl (2.18-1) unstable; urgency=low
+
+  * New upstream source.
+  * Updated for policy 3.5.1 and the new perl packaging policy,
+    Closes: #80701, #83671
+
+ -- Stephen Zander <gibreel@debian.org>  Sun,  4 Mar 2001 17:11:17 -0800
+
+pgperl (2.17-1) unstable; urgency=low
+
+  * New upstream source
+
+ -- Stephen Zander <gibreel@debian.org>  Wed, 20 Sep 2000 21:41:39 -0700
+
+pgperl (2.16-1) unstable; urgency=low
+
+  * New upstream source.
+
+ -- Stephen Zander <gibreel@debian.org>  Tue, 18 Apr 2000 22:43:23 -0700
+
+pgperl (2.15-2) frozen unstable; urgency=low
+
+  * Recompile to fix X library dependancy, closes #57228
+
+ -- Stephen Zander <gibreel@debian.org>  Sat, 12 Feb 2000 22:43:34 -0800
+
+pgperl (2.15-1) unstable; urgency=low
+
+  * New maintainer.
+  * New version.
+  * Changed build to non-native package, Closes: #44321
+
+ -- Stephen Zander <gibreel@debian.org>  Thu,  4 Nov 1999 23:17:51 -0800
+
+pgperl (2.08-9) unstable; urgency=low
+
+  * rebuild for perl 5.005
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Thu,  1 Jul 1999 19:03:41 -0700
+  
+pgperl (2.08-8) unstable; urgency=low
+
+  *  Fixed i386-centrisms
+  *  cleanup rules a bit
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Wed,  7 Oct 1998 01:16:36 -0700
+	
+pgperl (2.08-7) unstable; urgency=low
+
+  *  Fixed misloading due to compiler problem
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Fri, 14 Aug 1998 19:00:15 -0700
+	
+pgperl (2.08-6) unstable; urgency=low
+
+  *  fixed several lintian bugs, perms, description violations
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Tue,  4 Aug 1998 15:55:44 -0700
+	
+pgperl (2.08-5) contrib; urgency=low
+
+  *  added pgplot to Dependencies
+	
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Tue, 28 Jul 1998 01:25:39 -0700
+	
+pgperl (2.08-4) contrib; urgency=low
+
+  * fixed i-386 to any
+  * removed package name from description body
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Mon, 23 Mar 1998 18:03:01 -0700
+	
+pgperl (2.08-3) contrib; urgency=low
+
+  * removed perllocal.pod; only for local build
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Fri, 23 Jan 1998 22:08:53 -0700
+
+pgperl (2.08-2) contrib; urgency=low
+
+  * existed a debstd bug; upgraded debstd and repackaged.
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Fri, 23 Jan 1998 21:09:05 -0700
+
+pgperl (2.08-1) contrib; urgency=low
+
+  * Initial Release.
+
+ -- John Lapeyre <lapeyre@physics.arizona.edu>  Sat, 17 Jan 1998 19:27:22 -0700
+
+

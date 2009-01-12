@@ -1,0 +1,21 @@
+Source: libpgplot-perl
+Section: contrib/perl
+Priority: optional
+Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
+Uploaders: Carlo Segre <segre@debian.org>
+Homepage: http://search.cpan.org/~kgb/PGPLOT/PGPLOT.pm
+Build-Depends: debhelper (>= 5.0.0), perl, pgplot5 (> 5.2.2), gfortran, 
+               x11proto-core-dev, libx11-dev, libpng12-dev, 
+               libextutils-f77-perl (>> 1.13)
+Standards-Version: 3.8.0
+XS-Vcs-Svn: svn://svn.debian.org/pkg-perl/trunk/libpgplot-perl/
+XS-Vcs-Browser: http://svn.debian.org/wsvn/pkg-perl/trunk/libpgplot-perl/
+
+Package: libpgplot-perl
+Architecture: any
+Depends: ${perl:Depends}, ${shlibs:Depends}
+Replaces: pgperl
+Conflicts: pgperl
+Description: perl interface to the pgplot plotting library
+ This module provides a perl interface to the pgplot libraries 
+ used for plotting and visualizing scientific data.
