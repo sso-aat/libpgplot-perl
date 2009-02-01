@@ -1,16 +1,14 @@
-libpgplot-perl (1:2.20-1) UNRELEASED; urgency=low
+libpgplot-perl (1:2.20-1) unstable; urgency=low
 
-  REJECTED by ftp-masters:
-  http://lists.alioth.debian.org/pipermail/pkg-perl-maintainers/2009-February/017606.html
-
-  * New upstream release
-  * Reinsert into archive (Closes: #441034)
-  * New maintainer - Debian Perl Group
-  * Rename to fit perl naming conventions, changing sections too
-  * Clean up debian/rules file a bit
+  * New upstream release.
+  * Reinsert into archive (Closes: #441034).
+  * New maintainer - Debian Perl Group.
+  * Rename to fit perl naming conventions, changing sections too.
+  * Clean up debian/rules file a bit.
+  * Fix debian/copyright to include upstream information.
   * Upgrade Standards-Version to 3.8.0
 
- -- Carlo Segre <segre@debian.org>  Mon, 12 Jan 2009 00:03:52 -0600
+ -- Carlo Segre <segre@debian.org>  Sun, 01 Feb 2009 15:36:49 -0600
 
 pgperl (1:2.18-5) unstable; urgency=low
 

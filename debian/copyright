@@ -1,24 +1,18 @@
 This is the Debian GNU/Linux version of the PGPLOT Perl module.
 
-From LICENSE:
+It was downloaded from http://www.cpan.org/authors/id/K/KG/KGB/
 
-LICENSE INFORMATION 
--------------------
+Upstream Author: Karl Glazebrook <kgb@cpan.org>
 
-    The PGPLOT module for Perl is distributed under the same licensing
-    terms as Perl itself. Please see the file "README" in the Perl
-    distribution for more details.
+Copyright (c) 2006 Karl Glazebrook. The PGPLOT module for Perl is 
+distributed under the same licensing terms as Perl itself. Please 
+see the file "README" in the Perl distribution for more details.
 
-Perl is distributed under either the Artistic licence or the GPL.
-
-The full text of the GPL is available on Debian systems in
-/usr/share/common-licenses/GPL
-
-The full text of the Artistic Licence is available on Debian systems in
-/usr/share/common-licenses/Artistic.
+On Debian GNU/Linux systems, the complete text of these licenses can be found
+in /usr/share/common-licenses/GPL and /usr/share/common-licenses/Artistic.
 
 This package has been through multiple maintainers (for a list see
 /usr/share/doc/pgperl/changelog.Debian.gz).
 
-Current Debian specific changes are copyright (c) 1999-2002,
-Stephen Zander <gibreel@debian.org>
+Current Debian specific changes are copyright (c) 2008,
+Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
