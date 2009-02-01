@@ -1,4 +1,7 @@
-libpgplot-perl (1:2.20-1) unstable; urgency=low
+libpgplot-perl (1:2.20-1) UNRELEASED; urgency=low
+
+  REJECTED by ftp-masters:
+  http://lists.alioth.debian.org/pipermail/pkg-perl-maintainers/2009-February/017606.html
 
   * New upstream release
   * Reinsert into archive (Closes: #441034)
