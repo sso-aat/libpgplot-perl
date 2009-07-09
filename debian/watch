@@ -1,3 +1,2 @@
 version=3
-http://www.cpan.org/authors/id/K/KG/KGB/PGPLOT-(.*)\.tar\.gz \
-	debian	uupdate
+http://search.cpan.org/dist/PGPLOT/   .*/PGPLOT-v?(\d[\d.-]+)\.(?:tar(?:\.gz|\.bz2)?|tgz|zip)$

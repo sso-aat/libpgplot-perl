@@ -3,6 +3,7 @@ libpgplot-perl (1:2.20-2) UNRELEASED; urgency=low
   * debian/control: Added: Vcs-Svn field (source stanza); Vcs-Browser
     field (source stanza). Removed: XS-Vcs-Svn fields (source stanza).
   * debian/control: Added: ${misc:Depends} to Depends: field.
+  * debian/watch: use dist-based URL.
 
  -- gregor herrmann <gregoa@debian.org>  Thu, 09 Jul 2009 23:06:02 +0200
 
