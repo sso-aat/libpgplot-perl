@@ -14,8 +14,6 @@ Vcs-Browser: http://svn.debian.org/viewsvn/pkg-perl/trunk/libpgplot-perl/
 Package: libpgplot-perl
 Architecture: any
 Depends: ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
-Replaces: pgperl
-Conflicts: pgperl
 Description: perl interface to the pgplot plotting library
  This module provides a perl interface to the pgplot libraries 
  used for plotting and visualizing scientific data.

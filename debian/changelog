@@ -5,6 +5,7 @@ libpgplot-perl (1:2.20-2) UNRELEASED; urgency=low
   * debian/control: Added: ${misc:Depends} to Depends: field.
   * debian/watch: use dist-based URL.
   * debian/control: fix dependency on pgplot5.
+  * Remove Conflicts:/Replaces: pgperl.
 
  -- gregor herrmann <gregoa@debian.org>  Thu, 09 Jul 2009 23:06:02 +0200
 
