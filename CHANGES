@@ -1,6 +1,15 @@
 PGPLOT module Changes list
 --------------------------
 
+v2.21, released Jan 1st, 2011
+-----------------------------
+
+* Semi-dirty hack in Makefile.PL to force i386/x86_64 single arch only builds on Mac OS X. - Karl 
+  (for libpgplot compatibility which seems to be generally built this way, e.g. in SciKarl)
+  Note added some clever code to try and match the arch of the pgplot binaries.
+* PGPLOT::HANDLE warning fix (Chris Phillips Jun 2010)
+* Make linking order -lcpgplot -lpgplot for cygwin (Chris Marshall Dec 2010)
+
 CHANGES v2.20, released, May 16th 2007
 --------------------------------------
 
