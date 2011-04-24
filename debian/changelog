@@ -1,4 +1,4 @@
-libpgplot-perl (1:2.21-1) UNRELEASED; urgency=low
+libpgplot-perl (1:2.21-1) unstable; urgency=low
 
   * debian/control: Added: Vcs-Svn field (source stanza); Vcs-Browser
     field (source stanza). Removed: XS-Vcs-Svn fields (source stanza).
@@ -18,7 +18,7 @@ libpgplot-perl (1:2.21-1) UNRELEASED; urgency=low
   * Add /me to Uploaders.
   * Add a patch to fix a spelling mistake.
 
- -- gregor herrmann <gregoa@debian.org>  Sun, 24 Apr 2011 18:42:17 +0200
+ -- gregor herrmann <gregoa@debian.org>  Sun, 24 Apr 2011 19:06:38 +0200
 
 libpgplot-perl (1:2.20-1) unstable; urgency=low
 
