@@ -7,7 +7,7 @@ package PGPLOT;
 #
 #  WWW info: http://www.aao.gov.au/local/www/kgb/pgperl/
 
-$VERSION="2.20";
+$VERSION="2.21";
 
 use Exporter;
 use DynaLoader;
