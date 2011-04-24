@@ -1,18 +1,38 @@
-This is the Debian GNU/Linux version of the PGPLOT Perl module.
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Maintainer: Karl Glazebrook <kgb@cpan.org>
+Source: http://search.cpan.org/dist/PGPLOT/
+Name: PGPLOT
+Disclaimer: The package is in contrib because it (build) depends on non-free
+ packages.
 
-It was downloaded from http://www.cpan.org/authors/id/K/KG/KGB/
+Files: *
+Copyright: 2006, Karl Glazebrook <kgb@cpan.org>
+License: Artistic or GPL-1+
+Comment: Under the Berne convention it is assumed that the author is also the
+ copyright holder.
 
-Upstream Author: Karl Glazebrook <kgb@cpan.org>
+Files: debian/*
+Copyright: 1998, 1999, John Lapeyre <lapeyre@physics.arizona.edu>
+ 1999, 2000, 2001, 2002, Stephen Zander <gibreel@debian.org>
+ 2002, Ben Burton <benb@acm.org>
+ 2004, Martin Pitt <mpitt@debian.org>
+ 2005, Andrew Pollock <apollock@debian.org>
+ 2009, Carlo Segre <segre@debian.org>
+ 2011, gregor herrmann <gregoa@debian.org>
+License: Artistic or GPL-1+
 
-Copyright (c) 2006 Karl Glazebrook. The PGPLOT module for Perl is 
-distributed under the same licensing terms as Perl itself. Please 
-see the file "README" in the Perl distribution for more details.
+License: Artistic
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the Artistic License, which comes with Perl.
+ .
+ On Debian systems, the complete text of the Artistic License can be
+ found in `/usr/share/common-licenses/Artistic'.
 
-On Debian GNU/Linux systems, the complete text of these licenses can be found
-in /usr/share/common-licenses/GPL and /usr/share/common-licenses/Artistic.
-
-This package has been through multiple maintainers (for a list see
-/usr/share/doc/pgperl/changelog.Debian.gz).
-
-Current Debian specific changes are copyright (c) 2008,
-Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
+License: GPL-1+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 1, or (at your option)
+ any later version.
+ .
+ On Debian systems, the complete text of version 1 of the GNU General
+ Public License can be found in `/usr/share/common-licenses/GPL-1'.
