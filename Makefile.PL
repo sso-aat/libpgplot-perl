@@ -64,7 +64,7 @@ my $LIBDIRS = join(' ', map {  "-L$_" }
 		  );
 
 my $LIBS = join(' ', map { "-l$_" }
-		qw/ pgplot cpgplot /,
+		qw/ cpgplot pgplot /,
 		map { split( ',', $_ ) } @Arg{qw/ XLIB EXLIB /}
 	       );
 
@@ -168,6 +168,28 @@ if ( $is_vms ) {
     #
     $items{LDDLFLAGS} = "$Config{lddlflags} -Wl,-framework -Wl,Foundation"
 	if $is_osx;
+ 
+    # Nasty hack to build only i386/x86_64 only instead of a Universal binary on OS X
+    # I put this in to avoid an error if linking with the pgplot libs in 
+    # SciKarl (2.4.6 and above). Hope one day to remove this.
+    # - Karl Glazebrook
+    if ($is_osx) {
+       
+       $items{CCFLAGS} = $Config{ccflags};
+       $items{LDFLAGS} = $Config{ldflags};
+       $items{LDDLFLAGS} = $Config{lddlflags};
+       
+       # Karl - now figure out automagically WHICH binary arch
+       # to build for and change the various flags
+       
+       mac_universal( \$items{CCFLAGS}, \$items{LDFLAGS}, \$items{LDDLFLAGS});
+       print "TEST $items{CCFLAGS}\n";
+       print "TEST $items{LDFLAGS}\n";
+       print "TEST $items{LDDLFLAGS}\n";
+
+  
+    }   
+
 }
 
 WriteMakefile(
@@ -179,3 +201,60 @@ WriteMakefile(
     %items
 );
 
+
+# This subroutine is a nasty hack to modify OS X compile strings
+# to only build for a single architectutre
+# Karl Glazebrook (Dec 2010);
+
+sub mac_universal { # Note args passed as refs otherwise don't get modified!
+	my @args = @_;
+	my $s = ${$args[0]};
+	
+	my $count=0;
+	
+	# Do matching against various combinations of 
+	# -arch ppc -arch i386 -arch x86_64
+	# Prefer i386 then prefer x86_64.
+	
+	
+	$count++ while $s =~ /-arch\s\S+/g;	
+	return  if $count <2;  # Do nothing
+	
+	print "\nMac OS X with multiple architecture perl detected...\n";
+	print "Trying to figure out which arch to build for...\n";
+	
+	# Figure out which single architecture to build for
+	# when we have more than one
+	
+	my $singlearch = 'x86_64';
+	$singlearch = 'i386' if $s=~/-arch\s+i386/ & $s=~/-arch\s+ppc/;
+	$singlearch = 'x86_64' if $s=~/-arch\s+x86_64/;
+		
+	# If we can find pgplot's xwindow server try and match the arch it is built for
+	
+	my $pgarch = '';
+	my $f1 =  `which pgxwin_server`; chomp $f1; # Find in path
+	$f1 = '/usr/local/bin/pgxwin_server' if !-e $f1; # Backuo choice
+	
+	if (-e $f1) {
+	    print "- Found $f1, trying to determine binary type\n";
+	    my $exe = `file $f1`; chomp $exe;
+	    $pgarch = (split(' ',$exe))[-1];
+	}
+	 if ($pgarch ne '') {
+	    print "- Found binary type $pgarch\n";
+	    $singlearch = $pgarch;
+	}
+	
+	print "- Building for single architecture -arch $singlearch\n";
+	# Now substitute the single arch for the multiple pnes
+	
+	my $t;
+	for $t (@args) {
+	   $$t =~ s/-arch\s\S+/TESTMARKER/; # Temp mark first occurence
+   	   $$t =~ s/-arch\s\S+/ /g; # Remove all -arch's
+	   $$t =~ s/TESTMARKER/-arch $singlearch/; # Put one back
+	   print "\nRESULT: $$t\n";
+	}
+	
+}
