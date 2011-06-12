@@ -5,3 +5,8 @@
 
 override_dh_auto_test:
 	# either is useless (without X) or interactive (with xvfb)
+
+# Strip RPATH from PGPLOT.so before installing
+override_dh_auto_install:
+	chrpath -d blib/arch/auto/PGPLOT/PGPLOT.so
+	dh_auto_install

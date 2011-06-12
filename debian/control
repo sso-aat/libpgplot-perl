@@ -11,8 +11,10 @@ Build-Depends: debhelper (>= 8), perl,
  libpng12-dev,
  libx11-dev,
  pgplot5,
- x11proto-core-dev
+ x11proto-core-dev,
+ chrpath
 Standards-Version: 3.9.2
+XS-Autobuild: yes
 Vcs-Svn: svn://svn.debian.org/pkg-perl/trunk/libpgplot-perl/
 Vcs-Browser: http://svn.debian.org/viewsvn/pkg-perl/trunk/libpgplot-perl/
 
