@@ -1,3 +1,9 @@
+libpgplot-perl (1:2.21-3) UNRELEASED; urgency=low
+
+  * debian/control: Convert Vcs-* fields to Git.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Wed, 27 Jul 2011 18:47:06 +0200
+
 libpgplot-perl (1:2.21-2) unstable; urgency=low
 
   * Add dependency on chrpath to remove RPATH from PGPLOT.so
