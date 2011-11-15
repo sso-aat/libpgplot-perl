@@ -7,6 +7,9 @@ libpgplot-perl (1:2.21-3) UNRELEASED; urgency=low
   * debian/copyright: Replace DEP5 Format-Specification URL from
     svn.debian.org to anonscm.debian.org URL.
 
+  [ gregor herrmann ]
+  * Spelling patch: forward and update DEP3 headers.
+
  -- Ansgar Burchardt <ansgar@debian.org>  Wed, 27 Jul 2011 18:47:06 +0200
 
 libpgplot-perl (1:2.21-2) unstable; urgency=low
