@@ -1,8 +1,9 @@
 Description: fix a spelling mistake
 Origin: vendor
-Forwarded: no
+Bug: https://rt.cpan.org/Ticket/Display.html?id=72447
+Forwarded: https://rt.cpan.org/Ticket/Display.html?id=72447
 Author: gregor herrmann <gregoa@debian.org>
-Last-Update: 2011-04-24
+Last-Update: 2011-11-15
 
 --- a/PGPLOT.pm
 +++ b/PGPLOT.pm
