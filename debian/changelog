@@ -1,4 +1,4 @@
-libpgplot-perl (1:2.21-3) UNRELEASED; urgency=low
+libpgplot-perl (1:2.21-3) unstable; urgency=low
 
   [ Ansgar Burchardt ]
   * debian/control: Convert Vcs-* fields to Git.
@@ -10,7 +10,10 @@ libpgplot-perl (1:2.21-3) UNRELEASED; urgency=low
   [ gregor herrmann ]
   * Spelling patch: forward and update DEP3 headers.
 
- -- Ansgar Burchardt <ansgar@debian.org>  Wed, 27 Jul 2011 18:47:06 +0200
+  [ Carlo Segre ]
+  * Rebuild with perl 5.14
+
+ -- Carlo Segre <segre@debian.org>  Thu, 29 Dec 2011 19:39:42 -0600
 
 libpgplot-perl (1:2.21-2) unstable; urgency=low
 
