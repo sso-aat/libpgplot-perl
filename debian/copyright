@@ -8,8 +8,10 @@ Disclaimer: The package is in contrib because it (build) depends on non-free
 Files: *
 Copyright: 2006, Karl Glazebrook <kgb@cpan.org>
 License: Artistic or GPL-1+
-Comment: Under the Berne convention it is assumed that the author is also the
- copyright holder.
+Comment: The upstream distribution does not contain an explicit statement of
+ copyright ownership. Pursuant to the Berne Convention for the Protection of
+ Literary and Artistic Works, it is assumed that all content is copyright by
+ its respective authors unless otherwise stated.
 
 Files: debian/*
 Copyright: 1998, 1999, John Lapeyre <lapeyre@physics.arizona.edu>
