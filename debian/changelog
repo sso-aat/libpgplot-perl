@@ -1,7 +1,11 @@
 libpgplot-perl (1:2.21-4) UNRELEASED; urgency=low
 
+  [ gregor herrmann ]
   * debian/copyright: update wording of Comment about copyright
     ownership.
+
+  [ Salvatore Bonaccorso ]
+  * Change Vcs-Git to canonical URI (git://anonscm.debian.org)
 
  -- gregor herrmann <gregoa@debian.org>  Fri, 07 Dec 2012 23:53:20 +0100
 
