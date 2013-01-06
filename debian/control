@@ -15,7 +15,7 @@ Build-Depends: debhelper (>= 8), perl,
  chrpath
 Standards-Version: 3.9.2
 XS-Autobuild: yes
-Vcs-Git: git://git.debian.org/pkg-perl/packages/libpgplot-perl.git
+Vcs-Git: git://anonscm.debian.org/pkg-perl/packages/libpgplot-perl.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-perl/packages/libpgplot-perl.git
 
 Package: libpgplot-perl
