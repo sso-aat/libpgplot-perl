@@ -1,6 +1,6 @@
 Format-Specification: http://anonscm.debian.org/viewvc/dep/web/deps/dep5.mdwn?view=markup&pathrev=135
 Maintainer: Karl Glazebrook <kgb@cpan.org>
-Source: http://search.cpan.org/dist/PGPLOT/
+Source: https://metacpan.org/release/PGPLOT/
 Name: PGPLOT
 Disclaimer: The package is in contrib because it (build) depends on non-free
  packages.
