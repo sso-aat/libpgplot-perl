@@ -8,6 +8,10 @@ libpgplot-perl (1:2.21-4) UNRELEASED; urgency=low
   * Change Vcs-Git to canonical URI (git://anonscm.debian.org)
   * Change search.cpan.org based URIs to metacpan.org based URIs
 
+  [ Axel Beckert ]
+  * debian/copyright: migrate pre-1.0 format to 1.0 using "cme fix dpkg-
+    copyright"
+
  -- gregor herrmann <gregoa@debian.org>  Fri, 07 Dec 2012 23:53:20 +0100
 
 libpgplot-perl (1:2.21-3) unstable; urgency=low
