@@ -23,4 +23,6 @@ Architecture: any
 Depends: ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
 Description: perl interface to the pgplot plotting library
  The PGPLOT module provides a perl interface to the pgplot libraries used for
- plotting and visualizing scientific data.
+ plotting and visualizing scientific data. It is particularly popular for
+ plotting astronomical data. Compared to using pgplot from C or FORTRAN,
+ these Perl bindings allow for a faster, more interactive development.
