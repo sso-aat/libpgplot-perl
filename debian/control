@@ -5,7 +5,7 @@ Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
 Uploaders: Carlo Segre <segre@debian.org>,
  gregor herrmann <gregoa@debian.org>
 Homepage: https://metacpan.org/release/PGPLOT
-Build-Depends: debhelper (>= 8), perl,
+Build-Depends: debhelper (>= 9.20120312~), perl,
  gfortran,
  libextutils-f77-perl,
  libpng12-dev,
