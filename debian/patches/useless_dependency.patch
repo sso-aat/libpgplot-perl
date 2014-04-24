@@ -1,0 +1,31 @@
+Description: do not link against unused libraries
+ dpkg-shlibdeps complained about useless dependencies on libgfortran.so.3,
+ libpng12.so.0, libX11.so.6 and libm.so.6
+Author: Florian Schlichting <fsfs@debian.org>
+Forwarded: https://rt.cpan.org/Public/Bug/Display.html?id=95006
+--- a/Makefile.PL
++++ b/Makefile.PL
+@@ -65,7 +65,6 @@
+ 
+ my $LIBS = join(' ', map { "-l$_" }
+ 		qw/ cpgplot pgplot /,
+-		map { split( ',', $_ ) } @Arg{qw/ XLIB EXLIB /}
+ 	       );
+ 
+ my $IDIRS = join( ' ', map { "-I$_" } split( ',', $Arg{IDIR} ) );
+@@ -147,7 +146,7 @@
+ 	'pgplot_tmp/libpgplot.a'
+ 	if -d 'pgplot_tmp';
+ 
+-    $items{LIBS} = [ join( ' ', $LIBDIRS, $LIBS, ExtUtils::F77->runtime ) ];
++    $items{LIBS} = [ join( ' ', $LIBDIRS, $LIBS ) ];
+ 
+     # This is not ideal since it assumes that:
+     #    objc is required
+@@ -257,4 +256,4 @@
+ 	   print "\nRESULT: $$t\n";
+ 	}
+ 	
+-}
+\ No newline at end of file
++}
