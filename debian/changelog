@@ -1,3 +1,9 @@
+libpgplot-perl (1:2.21-5) UNRELEASED; urgency=medium
+
+  * Update Vcs-Browser URL to cgit web frontend
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Sat, 16 Aug 2014 09:34:20 +0200
+
 libpgplot-perl (1:2.21-4) unstable; urgency=low
 
   * Team upload
