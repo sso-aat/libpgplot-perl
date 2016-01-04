@@ -1,3 +1,9 @@
+libpgplot-perl (1:2.21-6) UNRELEASED; urgency=medium
+
+  * Replace libpng12-dev with libpng-dev in Build-Depends. (Cf. #809864)
+
+ -- gregor herrmann <gregoa@debian.org>  Tue, 05 Jan 2016 00:32:07 +0100
+
 libpgplot-perl (1:2.21-5) unstable; urgency=medium
 
   * Team upload
