@@ -1,7 +1,8 @@
 libpgplot-perl (1:2.21-6) UNRELEASED; urgency=medium
 
   [ gregor herrmann ]
-  * Replace libpng12-dev with libpng-dev in Build-Depends. (Cf. #809864)
+  * Replace libpng12-dev with libpng-dev in Build-Depends.
+    (Closes: #809864)
 
   [ Salvatore Bonaccorso ]
   * debian/control: Use HTTPS transport protocol for Vcs-Git URI
