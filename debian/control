@@ -8,7 +8,7 @@ Homepage: https://metacpan.org/release/PGPLOT
 Build-Depends: debhelper (>= 9.20120312~), perl,
  gfortran,
  libextutils-f77-perl,
- libpng12-dev,
+ libpng-dev,
  libx11-dev,
  pgplot5,
  x11proto-core-dev,
