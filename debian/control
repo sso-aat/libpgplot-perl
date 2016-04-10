@@ -5,15 +5,15 @@ Uploaders: Carlo Segre <segre@debian.org>,
 Section: contrib/perl
 XS-Autobuild: yes
 Priority: optional
-Build-Depends: debhelper (>= 9.20120312~),
-               perl,
+Build-Depends: chrpath,
+               debhelper (>= 9.20120312~),
                gfortran,
                libextutils-f77-perl,
                libpng-dev,
                libx11-dev,
+               perl,
                pgplot5,
-               x11proto-core-dev,
-               chrpath
+               x11proto-core-dev
 Standards-Version: 3.9.8
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-perl/packages/libpgplot-perl.git
 Vcs-Git: https://anonscm.debian.org/git/pkg-perl/packages/libpgplot-perl.git
