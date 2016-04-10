@@ -1,26 +1,29 @@
 Source: libpgplot-perl
-Section: contrib/perl
-Priority: optional
 Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
 Uploaders: Carlo Segre <segre@debian.org>,
- gregor herrmann <gregoa@debian.org>
-Homepage: https://metacpan.org/release/PGPLOT
-Build-Depends: debhelper (>= 9.20120312~), perl,
- gfortran,
- libextutils-f77-perl,
- libpng-dev,
- libx11-dev,
- pgplot5,
- x11proto-core-dev,
- chrpath
-Standards-Version: 3.9.5
+           gregor herrmann <gregoa@debian.org>
+Section: contrib/perl
 XS-Autobuild: yes
-Vcs-Git: https://anonscm.debian.org/git/pkg-perl/packages/libpgplot-perl.git
+Priority: optional
+Build-Depends: debhelper (>= 9.20120312~),
+               perl,
+               gfortran,
+               libextutils-f77-perl,
+               libpng-dev,
+               libx11-dev,
+               pgplot5,
+               x11proto-core-dev,
+               chrpath
+Standards-Version: 3.9.8
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-perl/packages/libpgplot-perl.git
+Vcs-Git: https://anonscm.debian.org/git/pkg-perl/packages/libpgplot-perl.git
+Homepage: https://metacpan.org/release/PGPLOT
 
 Package: libpgplot-perl
 Architecture: any
-Depends: ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends},
+         ${perl:Depends},
+         ${shlibs:Depends}
 Description: perl interface to the pgplot plotting library
  The PGPLOT module provides a perl interface to the pgplot libraries used for
  plotting and visualizing scientific data. It is particularly popular for
