@@ -1,6 +1,13 @@
 PGPLOT module Changes list
 --------------------------
 
+unreleased
+----------
+
+* Minor change to Makefile.PL to add link with libpng12,libz (avoids PERL_DL_NONLAZY 
+error with SciPDL), and also to search SciPDL directory /Applications/PDL/pgplot
+
+
 v2.21, released Jan 1st, 2011
 -----------------------------
 

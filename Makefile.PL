@@ -33,14 +33,14 @@ my %Arg = (
 
 
 	   # where cpgplot.h should be
-	   IDIR  => $ENV{PGPLOT_DIR} || '/usr/include,/usr/local/pgplot',
+	   IDIR  => $ENV{PGPLOT_DIR} || '/usr/include,/Applications/PDL/pgplot,/usr/local/pgplot',
 
 	   # where libpgplot.a should be
 	   LDIR  => $ENV{PGPLOT_DIR} || '/usr/lib',
 
 	   # extra libraries and directories
-	   EXLIB => 'png',
-	   EXDIR => '/usr/local/lib',
+	   EXLIB => 'png12,z',
+	   EXDIR => '/Applications/PDL/pgplot,/usr/local/lib',
 	  );
 
 
