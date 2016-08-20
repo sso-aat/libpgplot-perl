@@ -1,8 +1,8 @@
 Source: libpgplot-perl
 Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
-Uploaders: Carlo Segre <segre@debian.org>,
-           gregor herrmann <gregoa@debian.org>
+Uploaders: gregor herrmann <gregoa@debian.org>
 Section: contrib/perl
+Testsuite: autopkgtest-pkg-perl
 XS-Autobuild: yes
 Priority: optional
 Build-Depends: chrpath,
