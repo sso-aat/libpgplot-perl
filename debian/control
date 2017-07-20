@@ -6,11 +6,11 @@ Testsuite: autopkgtest-pkg-perl
 Priority: optional
 Build-Depends: debhelper (>= 9.20120312~),
                gfortran,
+               giza-dev,
                libextutils-f77-perl,
                libpng-dev,
                libx11-dev,
                perl,
-               giza-dev,
                x11proto-core-dev,
                xauth,
                xvfb
