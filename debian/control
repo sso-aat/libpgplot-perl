@@ -5,8 +5,7 @@ Section: contrib/perl
 Testsuite: autopkgtest-pkg-perl
 XS-Autobuild: yes
 Priority: optional
-Build-Depends: chrpath,
-               debhelper (>= 9.20120312~),
+Build-Depends: debhelper (>= 9.20120312~),
                gfortran,
                libextutils-f77-perl,
                libpng-dev,
