@@ -2,8 +2,6 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: PGPLOT
 Upstream-Contact: Karl Glazebrook <kgb@cpan.org>
 Source: https://metacpan.org/release/PGPLOT
-Disclaimer: The package is in contrib because it (build) depends on non-free
- packages.
 
 Files: *
 Copyright: 2006, Karl Glazebrook <kgb@cpan.org>
