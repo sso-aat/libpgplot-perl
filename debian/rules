@@ -6,5 +6,4 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+bindnow
 	dh $@
 
 override_dh_auto_test:
-	# either is useless (without X) or interactive (with xvfb)
-
+	PGPLOT_DEV="/XSERVE" xvfb-run -a dh_auto_test
