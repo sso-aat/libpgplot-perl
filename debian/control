@@ -12,7 +12,7 @@ Build-Depends: chrpath,
                libpng-dev,
                libx11-dev,
                perl,
-               pgplot5,
+               giza-dev,
                x11proto-core-dev
 Standards-Version: 3.9.8
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-perl/packages/libpgplot-perl.git
