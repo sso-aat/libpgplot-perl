@@ -1,0 +1,17 @@
+Description: disable version check which referred to pgplot5, and we're using giza
+Origin: vendor
+Forwarded: not-needed
+Author: Ole Streicher <olebole@debian.org>
+Reviewed-by: gregor herrmann <gregoa@debian.org>
+Last-Update: 2017-07-23
+
+--- a/test12.p
++++ b/test12.p
+@@ -9,7 +9,6 @@
+ pgqinf("VERSION",$val,$len);
+ print "PGPLOT $val library\n\n";
+ $val =~ s/\.//g; $val =~ s/v//; 
+-die "PGPLOT version must be > 5.2.0 for this test $val\n" if $val<520;
+ 
+ # Read in image (int*2)
+ 
