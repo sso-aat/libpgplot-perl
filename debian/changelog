@@ -1,7 +1,4 @@
-libpgplot-perl (1:2.21-7) UNRELEASED; urgency=medium
-
-   NOTE: test currently lead to a segfault in perl when run during build
-         but work during autopkgtest
+libpgplot-perl (1:2.21-7) unstable; urgency=medium
 
   * debian/copyright: change Copyright-Format 1.0 URL to HTTPS.
   * Remove Carlo Segre from Uploaders. Thanks for your work!
@@ -14,9 +11,12 @@ libpgplot-perl (1:2.21-7) UNRELEASED; urgency=medium
     autopkgtest's smoke test.
   * Enable tests during build.
   * Update years of packaging copyright.
+  * Add a patch to disable a version check in test12.
+    The check referred to the version of pgplot but we are using giza.
+    Thanks to Ole Streicher for the patch.
   * Declare compliance with Debian Policy 4.0.0.
 
- -- gregor herrmann <gregoa@debian.org>  Thu, 20 Jul 2017 22:48:47 +0200
+ -- gregor herrmann <gregoa@debian.org>  Sun, 23 Jul 2017 01:18:12 +0200
 
 libpgplot-perl (1:2.21-6) unstable; urgency=medium
 
