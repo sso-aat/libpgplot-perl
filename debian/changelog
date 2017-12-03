@@ -1,3 +1,9 @@
+libpgplot-perl (1:2.21-8) UNRELEASED; urgency=medium
+
+  * declare conformance with Policy 4.1.2 (no changes needed)
+
+ -- Damyan Ivanov <dmn@debian.org>  Sun, 03 Dec 2017 22:47:04 +0000
+
 libpgplot-perl (1:2.21-7) unstable; urgency=medium
 
   * debian/copyright: change Copyright-Format 1.0 URL to HTTPS.
