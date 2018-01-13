@@ -14,7 +14,7 @@ Build-Depends: debhelper (>= 9.20120312~),
                x11proto-core-dev,
                xauth,
                xvfb
-Standards-Version: 4.1.2
+Standards-Version: 4.1.3
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-perl/packages/libpgplot-perl.git
 Vcs-Git: https://anonscm.debian.org/git/pkg-perl/packages/libpgplot-perl.git
 Homepage: https://metacpan.org/release/PGPLOT
