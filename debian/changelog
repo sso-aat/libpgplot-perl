@@ -229,39 +229,39 @@ pgperl (2.08-9) unstable; urgency=low
   * rebuild for perl 5.005
 
  -- John Lapeyre <lapeyre@physics.arizona.edu>  Thu,  1 Jul 1999 19:03:41 -0700
-  
+
 pgperl (2.08-8) unstable; urgency=low
 
   *  Fixed i386-centrisms
   *  cleanup rules a bit
 
  -- John Lapeyre <lapeyre@physics.arizona.edu>  Wed,  7 Oct 1998 01:16:36 -0700
-	
+
 pgperl (2.08-7) unstable; urgency=low
 
   *  Fixed misloading due to compiler problem
 
  -- John Lapeyre <lapeyre@physics.arizona.edu>  Fri, 14 Aug 1998 19:00:15 -0700
-	
+
 pgperl (2.08-6) unstable; urgency=low
 
   *  fixed several lintian bugs, perms, description violations
 
  -- John Lapeyre <lapeyre@physics.arizona.edu>  Tue,  4 Aug 1998 15:55:44 -0700
-	
+
 pgperl (2.08-5) contrib; urgency=low
 
   *  added pgplot to Dependencies
-	
+
  -- John Lapeyre <lapeyre@physics.arizona.edu>  Tue, 28 Jul 1998 01:25:39 -0700
-	
+
 pgperl (2.08-4) contrib; urgency=low
 
   * fixed i-386 to any
   * removed package name from description body
 
  -- John Lapeyre <lapeyre@physics.arizona.edu>  Mon, 23 Mar 1998 18:03:01 -0700
-	
+
 pgperl (2.08-3) contrib; urgency=low
 
   * removed perllocal.pod; only for local build
@@ -279,5 +279,3 @@ pgperl (2.08-1) contrib; urgency=low
   * Initial Release.
 
  -- John Lapeyre <lapeyre@physics.arizona.edu>  Sat, 17 Jan 1998 19:27:22 -0700
-
-

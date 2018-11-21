@@ -3,9 +3,9 @@ pgperl for DEBIAN
 
 This package consists of a perl module called PGPLOT. pgplot
 is a subroutine library, and PGPLOT is the corresponding perl module.
-Try "perldoc PGPLOT" to start learning about it.  ( "man perldoc" for more on 
+Try "perldoc PGPLOT" to start learning about it.  ( "man perldoc" for more on
 perldoc).  Or try "man PGPLOT" .  Also type "man pgplot" to get documentation
-on the FORTRAN and C interfaces to the library, much of which applies to the 
+on the FORTRAN and C interfaces to the library, much of which applies to the
 perl interface.
 
 John Lapeyre <lapeyre@physics.arizona.edu>, Sat, 17 Jan 1998 19:27:22 -0700
