@@ -1,0 +1,88 @@
+Description: disable interactice parts of test2.p and test9.p
+ which started to get exercised with giza-1.1.0
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/914288
+Forwarded: not-needed
+Author: gregor herrmann <gregoa@debian.org>
+Last-Update: 2018-11-21
+
+--- a/test2.p
++++ b/test2.p
+@@ -60,24 +60,24 @@
+ pgptxt(25,2,35,0,'This way...');
+ 
+ pgqinf("CURSOR",$ans,$l);
+-if ($ans eq "YES") {
+-
+-   print "Entering interactive cursor test...\n";
+-   
+-   pgsci(4);
+-   
+-   print "Enter some points with the cursor\n";
+-   
+-   pglcur(5,$n,\@xt,\@yt);
+-   pgsci(9);
+-   pgpoint($n,*xt,*yt,20);
+-   
+-   for(@xt) { printf "%5.2f ",$_; } print "\n";
+-   for(@yt) { printf "%5.2f ",$_; } print "\n";
+-   
+-   pgsci(2); 
+-   pgpoly($n,\@xt,\@yt);
+-}
++#if ($ans eq "YES") {
++#
++#   print "Entering interactive cursor test...\n";
++#
++#   pgsci(4);
++#
++#   print "Enter some points with the cursor\n";
++#
++#   pglcur(5,$n,\@xt,\@yt);
++#   pgsci(9);
++#   pgpoint($n,*xt,*yt,20);
++#
++#   for(@xt) { printf "%5.2f ",$_; } print "\n";
++#   for(@yt) { printf "%5.2f ",$_; } print "\n";
++#
++#   pgsci(2);
++#   pgpoly($n,\@xt,\@yt);
++#}
+ 
+ $l=1; $len=1; # Get past -w
+ pgiden;
+--- a/test9.p
++++ b/test9.p
+@@ -67,19 +67,19 @@
+ $x=0; $y=0; # Get past -w
+ 
+ pgqinf("CURSOR",$ans,$l);
+-if ($ans eq "YES") { for($mode=0; $mode<8; $mode++){
+-
+-   print "Entering interactive PGBAND test MODE=$mode, hit any key, Q to exit early...\n";
+-
+-   pgsci($mode+1);
+-   pgband($mode,0,12500,12500,$x,$y,$ch);
+-   last if $ch eq "q" || $ch eq "Q";
+-   pgqtxt($x,$y,45,0.5,'PGPLOT...',\@xbox,\@ybox);
+-   pgpoly(4,\@xbox, \@ybox);
+-   pgsci($mode+2);
+-   pgptxt($x,$y,45,0.5,'PGPLOT...');
+-   
+-}}
++#if ($ans eq "YES") { for($mode=0; $mode<8; $mode++){
++#
++#   print "Entering interactive PGBAND test MODE=$mode, hit any key, Q to exit early...\n";
++#
++#   pgsci($mode+1);
++#   pgband($mode,0,12500,12500,$x,$y,$ch);
++#   last if $ch eq "q" || $ch eq "Q";
++#   pgqtxt($x,$y,45,0.5,'PGPLOT...',\@xbox,\@ybox);
++#   pgpoly(4,\@xbox, \@ybox);
++#   pgsci($mode+2);
++#   pgptxt($x,$y,45,0.5,'PGPLOT...');
++#
++#}}
+ 
+ $len=1; # -w fudge
+ 
