@@ -1,6 +1,5 @@
-#!/usr/local/bin/perl
-
 use Config;
+use Cwd 'abs_path';
 
 # Run and check all the tests
 
@@ -35,7 +34,7 @@ foreach $jjj (1..12) {
 
    print "============== Running test$jjj.p ==============\n";
    %@ = ();       # Clear error status
-   do "test$jjj.p";
+   do(abs_path("test$jjj.p"));
    warn $@ if $@; # Report any error detected
    if($dev eq '/PNG' && $^O =~ /mswin32/i) {
      system("ren pgplot.png pgplot_$jjj.png");
