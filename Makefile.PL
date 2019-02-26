@@ -198,6 +198,18 @@ WriteMakefile(
     'VERSION_FROM'	=> 'PGPLOT.pm',
     'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" },
     'depend'    => { '$(OBJECT)' => q[pgfun.c arrays.c PGPLOT.c]},
+    'META_MERGE' => {
+       "meta-spec" => { version => 2 },
+       resources => {
+          bugtracker  => 'https://github.com/PDLPorters/perl5-PGPLOT/issues',
+          repository  => {
+             url => 'git://github.com/PDLPorters/perl5-PGPLOT.git',
+             type => 'git',
+             web => 'https://github.com/PDLPorters/perl5-PGPLOT',
+          },
+       },
+       x_IRC => 'irc://irc.perl.org/#pdl',
+    },
     %items
 );
 
