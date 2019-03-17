@@ -167,7 +167,7 @@ the C<PDL> module which provides a wealth of functions for manipulating
 binary data.
 
 
-I<PLease Note>: As PGPLOT is a Fortran library it expects it's images to be
+I<Please Note>: As PGPLOT is a Fortran library it expects its images to be
 be stored in row order. Thus a 1D list is interpreted as a sequence of
 rows end to end. Perl is similar to C in that 2D arrays are arrays of
 pointers thus images end up stored in column order. 
