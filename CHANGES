@@ -1,5 +1,6 @@
 2.23
  - typo fix from gregor herrmann <gregoa@debian.org>
+ - add CONFIGURE_REQUIRES dep - thanks CHORNY for report
 
 2.22 2019-03-17
  - Minor change to Makefile.PL to add link with libpng12,libz (avoids PERL_DL_NONLAZY

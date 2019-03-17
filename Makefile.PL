@@ -191,6 +191,7 @@ if ( $is_vms ) {
 
 WriteMakefile(
     'NAME'	=> 'PGPLOT',
+    'CONFIGURE_REQUIRES' => { 'ExtUtils::F77' => 1.13 },
     'PREREQ_PM' => { 'ExtUtils::F77' => 1.13 },
     'VERSION_FROM'	=> 'PGPLOT.pm',
     'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" },
