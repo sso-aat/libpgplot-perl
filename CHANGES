@@ -1,4 +1,4 @@
-2.23
+2.23 2019-03-17
  - typo fix from gregor herrmann <gregoa@debian.org>
  - add CONFIGURE_REQUIRES dep - thanks CHORNY for report
 
