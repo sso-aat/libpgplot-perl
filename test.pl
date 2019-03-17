@@ -3,6 +3,12 @@ use Cwd 'abs_path';
 
 # Run and check all the tests
 
+if (!-t) {
+  # STDIN not tty = not interactive, can't run tests
+  print "STDIN not tty = not interactive, can't run tests\n";
+  exit 0;
+}
+
 $| = 1; # Unbuffer STDOUT
 
 # Stop f77-linking causing spurious undefined symbols (alpha)
