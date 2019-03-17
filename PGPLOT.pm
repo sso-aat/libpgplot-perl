@@ -1,4 +1,3 @@
-
 package PGPLOT;
 
 #  Module to allow calling of PGPLOT from Perl
@@ -7,7 +6,7 @@ package PGPLOT;
 #
 #  WWW info: http://www.aao.gov.au/local/www/kgb/pgperl/
 
-$VERSION="2.21";
+$VERSION="2.22";
 
 use Exporter;
 use DynaLoader;
@@ -33,7 +32,7 @@ if($^O =~ /mswin32/i) {
 
 else {bootstrap PGPLOT $VERSION}
 
-# Exit with OK status
+# return OK status
 
 1;
 
@@ -241,4 +240,3 @@ binary data. C<PDL> takes great advantage of these facilities.
 
 Be VERY careful binary data is of the right size or your segments
 might get violated.
-

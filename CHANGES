@@ -1,4 +1,4 @@
-unreleased
+2.22 2019-03-17
  - Minor change to Makefile.PL to add link with libpng12,libz (avoids PERL_DL_NONLAZY
    error with SciPDL), and also to search SciPDL directory /Applications/PDL/pgplot
  - fixes to tests to work on Perl 5.26+
