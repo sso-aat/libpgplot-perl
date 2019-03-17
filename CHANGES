@@ -1,6 +1,8 @@
 unreleased
  - Minor change to Makefile.PL to add link with libpng12,libz (avoids PERL_DL_NONLAZY
    error with SciPDL), and also to search SciPDL directory /Applications/PDL/pgplot
+ - fixes to tests to work on Perl 5.26+
+ - metadata updates
 
 2.21 2011-01-01
  - Semi-dirty hack in Makefile.PL to force i386/x86_64 single arch only builds on Mac OS X. - Karl
