@@ -1,6 +1,3 @@
-
-require 5.003;
-use lib ".";
 use ExtUtils::MakeMaker;
 
 BEGIN {
@@ -200,6 +197,7 @@ WriteMakefile(
     'depend'    => { '$(OBJECT)' => q[pgfun.c arrays.c PGPLOT.c]},
     'META_MERGE' => {
        "meta-spec" => { version => 2 },
+       dynamic_config => 1, # deps actually do change
        resources => {
           bugtracker  => 'https://github.com/PDLPorters/perl5-PGPLOT/issues',
           repository  => {
