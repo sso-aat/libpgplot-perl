@@ -235,8 +235,9 @@ say:
 This is very efficient as we can be sure the data never gets copied
 and will always be interpreted as binary.
 
-Again see the C<PDL> module for sophisticated manipulation of
-binary data. C<PDL> takes great advantage of these facilities.
+Again see the L<PDL> module for sophisticated manipulation of
+binary data, since it takes great advantage of these facilities.
+See in particular L<PDL::Graphics::PGPLOT>.
 
 Be VERY careful binary data is of the right size or your segments
 might get violated.
