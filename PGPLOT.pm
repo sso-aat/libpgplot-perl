@@ -1,12 +1,6 @@
 package PGPLOT;
 
-#  Module to allow calling of PGPLOT from Perl
-#
-#  Karl Glazebrook [email: kgb@aaoepp.aao.gov.au]
-#
-#  WWW info: http://www.aao.gov.au/local/www/kgb/pgperl/
-
-$VERSION="2.23";
+$VERSION="2.24";
 
 use Exporter;
 use DynaLoader;
