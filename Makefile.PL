@@ -259,7 +259,7 @@ WriteMakefile(
        "meta-spec" => { version => 2 },
        dynamic_config => 1, # deps actually do change
        resources => {
-          bugtracker  => 'https://github.com/PDLPorters/perl5-PGPLOT/issues',
+          bugtracker  => {web=>'https://github.com/PDLPorters/perl5-PGPLOT/issues'},
           repository  => {
              url => 'git://github.com/PDLPorters/perl5-PGPLOT.git',
              type => 'git',
