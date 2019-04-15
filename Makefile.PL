@@ -35,7 +35,7 @@ my %Arg = (
 	   LDIR => undef,
 
 	   # extra libraries and directories
-	   EXLIB => 'png12,z',
+	   EXLIB => 'png16,z',
 	   EXDIR => '/Applications/PDL/pgplot,/usr/local/lib',
 	  );
 
