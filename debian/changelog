@@ -1,3 +1,9 @@
+libpgplot-perl (1:2.24-1) UNRELEASED; urgency=medium
+
+  * Import upstream version 2.24
+
+ -- gregor herrmann <gregoa@debian.org>  Fri, 19 Jul 2019 10:57:15 -0300
+
 libpgplot-perl (1:2.21-8) unstable; urgency=medium
 
   [ Salvatore Bonaccorso ]
