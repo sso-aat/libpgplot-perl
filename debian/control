@@ -8,10 +8,8 @@ Build-Depends: debhelper-compat (= 12),
                gfortran,
                giza-dev (>= 0.9.4-4~),
                libextutils-f77-perl,
-               libpng-dev,
-               libx11-dev,
+               libpkgconfig-perl | libextutils-pkgconfig-perl,
                perl,
-               x11proto-core-dev,
                xauth <!nocheck>,
                xvfb <!nocheck>
 Standards-Version: 4.4.0
