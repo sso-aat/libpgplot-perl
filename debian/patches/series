@@ -1,3 +1,4 @@
 useless_dependency.patch
 test-pgplot5-version.patch
 disable-interactive-tests.patch
+re-enable-tests.patch

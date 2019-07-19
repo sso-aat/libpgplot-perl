@@ -1,0 +1,26 @@
+Description: re-enable test suite
+ test.pl aborts if STDIN is not a tty, but we still want the tests to run.
+Origin: vendor
+Forwarded: not-needed
+Author: gregor herrmann <gregoa@debian.org>
+Last-Update: 2019-07-19
+
+--- a/test.pl
++++ b/test.pl
+@@ -3,11 +3,11 @@
+ 
+ # Run and check all the tests
+ 
+-if (!-t) {
+-  # STDIN not tty = not interactive, can't run tests
+-  print "STDIN not tty = not interactive, can't run tests\n";
+-  exit 0;
+-}
++#if (!-t) {
++#  # STDIN not tty = not interactive, can't run tests
++#  print "STDIN not tty = not interactive, can't run tests\n";
++#  exit 0;
++#}
+ 
+ $| = 1; # Unbuffer STDOUT
+ 
