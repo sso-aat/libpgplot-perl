@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: PGPLOT
-Upstream-Contact: Karl Glazebrook <kgb@cpan.org>
+Upstream-Contact: Ed J <etj@cpan.org>
 Source: https://metacpan.org/release/PGPLOT
 
 Files: *
