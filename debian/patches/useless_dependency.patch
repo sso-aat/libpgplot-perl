@@ -5,7 +5,7 @@ Author: Florian Schlichting <fsfs@debian.org>
 Forwarded: https://rt.cpan.org/Public/Bug/Display.html?id=95006
 --- a/Makefile.PL
 +++ b/Makefile.PL
-@@ -65,7 +65,6 @@
+@@ -121,7 +121,6 @@
  
  my $LIBS = join(' ', map { "-l$_" }
  		qw/ cpgplot pgplot /,
@@ -13,7 +13,7 @@ Forwarded: https://rt.cpan.org/Public/Bug/Display.html?id=95006
  	       );
  
  my $IDIRS = join( ' ', map { "-I$_" } split( ',', $Arg{IDIR} ) );
-@@ -147,7 +146,7 @@
+@@ -203,7 +202,7 @@
  	'pgplot_tmp/libpgplot.a'
  	if -d 'pgplot_tmp';
  
@@ -22,10 +22,3 @@ Forwarded: https://rt.cpan.org/Public/Bug/Display.html?id=95006
  
      # This is not ideal since it assumes that:
      #    objc is required
-@@ -257,4 +256,4 @@
- 	   print "\nRESULT: $$t\n";
- 	}
- 	
--}
-\ No newline at end of file
-+}
