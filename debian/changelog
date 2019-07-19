@@ -1,8 +1,20 @@
-libpgplot-perl (1:2.24-1) UNRELEASED; urgency=medium
+libpgplot-perl (1:2.24-1) unstable; urgency=medium
 
-  * Import upstream version 2.24
+  * Import upstream version 2.24.
+  * Refresh useless_dependency.patch (offset).
+  * Drop spelling.patch (applied upstream).
+  * Update years of packaging copyright.
+  * Add debian/upstream/metadata.
+  * debian/copyright: update Upstream-Contact.
+  * Annotate test-only build dependencies with <!nocheck>.
+  * Declare compliance with Debian Policy 4.4.0.
+  * Bump debhelper-compat to 12.
+  * debian/watch: use uscan version 4.
+  * Add patch re-enable-tests.patch to run tests even without a terminal.
+  * debian/rules: honour DEB_BUILD_OPTIONS=nocheck.
+  * Update build dependencies.
 
- -- gregor herrmann <gregoa@debian.org>  Fri, 19 Jul 2019 10:57:15 -0300
+ -- gregor herrmann <gregoa@debian.org>  Fri, 19 Jul 2019 11:42:41 -0300
 
 libpgplot-perl (1:2.21-8) unstable; urgency=medium
 
