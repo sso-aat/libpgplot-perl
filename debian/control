@@ -12,8 +12,8 @@ Build-Depends: debhelper (>= 10),
                libx11-dev,
                perl,
                x11proto-core-dev,
-               xauth,
-               xvfb
+               xauth <!nocheck>,
+               xvfb <!nocheck>
 Standards-Version: 4.2.1
 Vcs-Browser: https://salsa.debian.org/perl-team/modules/packages/libpgplot-perl
 Vcs-Git: https://salsa.debian.org/perl-team/modules/packages/libpgplot-perl.git
