@@ -1,8 +1,6 @@
 ---
 Archive: CPAN
 Bug-Database: https://github.com/PDLPorters/perl5-PGPLOT/issues
-Contact: Ed J <etj@cpan.org>
-Name: PGPLOT
 Repository: https://github.com/PDLPorters/perl5-PGPLOT.git
 Repository-Browse: https://github.com/PDLPorters/perl5-PGPLOT
 Bug-Submit: https://github.com/PDLPorters/perl5-PGPLOT/issues/new
