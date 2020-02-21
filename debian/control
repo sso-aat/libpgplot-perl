@@ -9,7 +9,8 @@ Build-Depends: debhelper-compat (= 12),
                giza-dev (>= 0.9.4-4~),
                libextutils-f77-perl,
                libpkgconfig-perl | libextutils-pkgconfig-perl,
-               perl,
+               perl-xs-dev,
+               perl:native,
                xauth <!nocheck>,
                xvfb <!nocheck>
 Standards-Version: 4.4.1
