@@ -5,6 +5,7 @@ eval 'use blib "../ExtUtils";' # For KGB development
 if -e "../ExtUtils";
 }
 
+use Devel::CheckLib qw(check_lib);
 use ExtUtils::F77; # This should work most of the time
 
 # Examples of how to explicitly override default automatic choice
@@ -35,7 +36,7 @@ my %Arg = (
 	   LDIR => undef,
 
 	   # extra libraries and directories
-	   EXLIB => 'png16,z',
+	   EXLIB => join(',', grep check_lib(lib => $_), qw(png12 png16 z)),
 	   EXDIR => '/Applications/PDL/pgplot,/usr/local/lib',
 	  );
 
@@ -256,7 +257,7 @@ if ( $is_vms ) {
 
 WriteMakefile(
     'NAME'	=> 'PGPLOT',
-    'CONFIGURE_REQUIRES' => { 'ExtUtils::F77' => 1.13 },
+    'CONFIGURE_REQUIRES' => { 'ExtUtils::F77' => 1.13, 'Devel::CheckLib' => '1.14' },
     'PREREQ_PM' => { 'ExtUtils::F77' => 1.13 },
     'VERSION_FROM'	=> 'PGPLOT.pm',
     'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" },
