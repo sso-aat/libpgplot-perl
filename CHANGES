@@ -1,3 +1,7 @@
+2.25 2021-02-13
+- macOS11 patch for LD flags - thanks @karlglazebrook
+- use Devel::CheckLib to find right PNG lib
+
 2.24 2019-03-19
  - doc updates - thanks @djerius
  - patches to use pkg-config if available - thanks @djerius
