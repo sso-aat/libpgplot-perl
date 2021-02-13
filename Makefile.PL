@@ -235,6 +235,12 @@ if ( $is_vms ) {
        $items{LDFLAGS} = $Config{ldflags};
        $items{LDDLFLAGS} = $Config{lddlflags};
        
+       # Added this 11/1/2021 to avoid warnings about 'compact unwinds' on MacOS11
+       my @darwin_vers = split("\\.",$Config{osvers});  # Darwin version XX.YY.ZZ
+       if ($darwin_vers[0]>=20) { # Big Sur
+          $items{LDDLFLAGS} .= "  -Wl,-no_compact_unwind"; # Avoid mess of warnings about this
+       }
+
        # Karl - now figure out automagically WHICH binary arch
        # to build for and change the various flags
        
