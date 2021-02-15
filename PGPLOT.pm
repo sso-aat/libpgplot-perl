@@ -1,6 +1,6 @@
 package PGPLOT;
 
-$VERSION="2.25";
+$VERSION="2.26";
 
 use Exporter;
 use DynaLoader;
