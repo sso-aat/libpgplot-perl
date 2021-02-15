@@ -1,18 +1,15 @@
-use ExtUtils::MakeMaker;
+use strict;
 
-use Devel::CheckLib qw(check_lib);
-use ExtUtils::F77; # This should work most of the time
+use ExtUtils::MakeMaker;
+use Config;
+require Devel::CheckLib;
+require ExtUtils::F77;
 
 # Examples of how to explicitly override default automatic choice
 # of OS and compiler (currently commented out):
 
 #use ExtUtils::F77 qw(solaris); 
 #use ExtUtils::F77 qw(generic g77); 
-
-use Config;
-use IO::File;
-
-use strict;
 
 # use command line KEY=VALUE to override defaults.  VALUES are comma
 # separated lists
@@ -31,7 +28,7 @@ my %Arg = (
 	   LDIR => undef,
 
 	   # extra libraries and directories
-	   EXLIB => join(',', grep check_lib(lib => $_), qw(png12 png16 z)),
+	   EXLIB => join(',', grep Devel::CheckLib::check_lib(lib => $_), qw(png12 png16 z)),
 	   EXDIR => '/Applications/PDL/pgplot,/usr/local/lib',
 	  );
 
@@ -145,8 +142,7 @@ sub find_required_driver_libs ($) {
 
     my $retval = "";
 
-    my $fh = IO::File->new( "< $infile" )
-	or return $retval;
+    open my $fh, '<', $infile or return $retval;
 
     # known library requirements
     #
@@ -253,7 +249,6 @@ if ( $is_vms ) {
 WriteMakefile(
     'NAME'	=> 'PGPLOT',
     'CONFIGURE_REQUIRES' => { 'ExtUtils::F77' => 1.13, 'Devel::CheckLib' => '1.14' },
-    'PREREQ_PM' => { 'ExtUtils::F77' => 1.13 },
     'VERSION_FROM'	=> 'PGPLOT.pm',
     'dist'      => { COMPRESS=>"gzip", SUFFIX=>"gz" },
     'depend'    => { '$(OBJECT)' => q[pgfun.c arrays.c PGPLOT.c]},

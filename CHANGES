@@ -1,3 +1,5 @@
+- ExtUtils::F77 is not a runtime requirement
+
 2.25 2021-02-13
 - macOS11 patch for LD flags - thanks @karlglazebrook
 - use Devel::CheckLib to find right PNG lib
