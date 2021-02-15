@@ -1,10 +1,5 @@
 use ExtUtils::MakeMaker;
 
-BEGIN {
-eval 'use blib "../ExtUtils";' # For KGB development
-if -e "../ExtUtils";
-}
-
 use Devel::CheckLib qw(check_lib);
 use ExtUtils::F77; # This should work most of the time
 
