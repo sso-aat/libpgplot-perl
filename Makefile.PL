@@ -264,6 +264,13 @@ WriteMakefile(
              web => 'https://github.com/PDLPorters/perl5-PGPLOT',
           },
        },
+       prereqs => {
+          develop => {
+             requires => {
+                'CPAN::Changes' => '0',
+             },
+          },
+       },
        x_IRC => 'irc://irc.perl.org/#pdl',
     },
     %items
