@@ -1,0 +1,65 @@
+name: perl
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+jobs:
+  ubuntu:
+    runs-on: ${{ matrix.os }}
+    env:
+      PGPLOT_DEV: /NULL
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        perl-version: ['5.10']
+        include:
+          - perl-version: '5.30'
+            os: ubuntu-latest
+#            release-test: true
+            coverage: true
+          - perl-version: '5.30'
+            os: ubuntu-latest
+            use-clang: true # use `clang` instead of `gcc` default
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          distribution: strawberry # ignored non-windows
+          perl-version: ${{ matrix.perl-version }}
+      - run: perl -V
+
+      # conditional config
+      - name: Use clang?
+        # clang is already installed in Travis-CI environment. Using PERL_MM_OPT does not work with subdirectory Makefile.PLs so we override Config.pm
+        # Also, both $Config{cc} and $Config{ld} need to be set because under ELF environments (such as Travis-CI's Ubuntu), this is what Perl's Config.pm does.
+        if: matrix.use-clang
+        run: |
+          mkdir build_aux
+          echo 'package pdl_config_override; use ExtUtils::MakeMaker::Config; $Config{cc} = $Config{ld} = "clang"; 1;' >> build_aux/pdl_config_override.pm
+          echo "PERL5OPT=-I$(pwd)/build_aux -Mpdl_config_override" >> $GITHUB_ENV
+
+      - name: Ubuntu packages
+        run: sudo apt-get -y update && sudo apt-get install build-essential gfortran pgplot5
+      - run: cpanm -n Devel::CheckLib ExtUtils::F77 # configure reqs
+      - name: Run release tests # before others as may install useful stuff
+        if: ${{ matrix.release-test }}
+        env:
+          RELEASE_TESTING: 1
+        run: |
+          cpanm -n --installdeps --with-develop .
+          prove -lr xt
+
+      - name: Run tests (no coverage)
+        if: '!matrix.coverage'
+        run: perl Makefile.PL && HARNESS_OPTIONS='j4' make test
+      - name: Run tests (with coverage)
+        if: matrix.coverage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cpanm -n Devel::Cover::Report::Coveralls
+          perl Makefile.PL && cover -test -report Coveralls
