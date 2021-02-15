@@ -62,4 +62,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cpanm -n Devel::Cover::Report::Coveralls
-          perl Makefile.PL && cover -test -report Coveralls
+          perl Makefile.PL && cover -test -ignore_re CORE -report Coveralls

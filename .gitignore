@@ -1,3 +1,7 @@
 PGPLOT.bs
 PGPLOT.c
 PGPLOT.o
+*.gcov
+*.gcda
+*.gcno
+cover_db/
