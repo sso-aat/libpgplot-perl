@@ -1,3 +1,5 @@
+- need ExtUtils::F77 import to work at least on FreeBSD
+
 2.26 2021-02-15
 - ExtUtils::F77 is not a runtime requirement
 - tests no longer ask for device - set the environment var (default /NULL)

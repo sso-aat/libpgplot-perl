@@ -2,8 +2,8 @@ use strict;
 
 use ExtUtils::MakeMaker;
 use Config;
-require Devel::CheckLib;
-require ExtUtils::F77;
+use Devel::CheckLib qw(check_lib);
+use ExtUtils::F77; # need imports else doesn't work
 
 # Examples of how to explicitly override default automatic choice
 # of OS and compiler (currently commented out):
@@ -28,7 +28,7 @@ my %Arg = (
 	   LDIR => undef,
 
 	   # extra libraries and directories
-	   EXLIB => join(',', grep Devel::CheckLib::check_lib(lib => $_), qw(png12 png16 z)),
+	   EXLIB => join(',', grep check_lib(lib => $_), qw(png12 png16 z)),
 	   EXDIR => '/Applications/PDL/pgplot,/usr/local/lib',
 	  );
 
