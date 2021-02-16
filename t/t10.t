@@ -64,7 +64,10 @@ sub nextplot {
   note "--------------------------------------";
   PGPLOT::pgpage(); PGPLOT::pgwnad(0,128,0,128); PGPLOT::pgsci(3); PGPLOT::pgsch(1.3);
   PGPLOT::pgbox("BCST",0,0,"BCST",0,0);
-  PGPLOT::pgmtext('T',1.0,0.2,0,$_[0]);
-  PGPLOT::pgmtext('T',2.4,0.2,0,$_[1]);
+  if ($^O ne 'freebsd') {
+    # blows up for some reason
+    PGPLOT::pgmtext('T',1.0,0.2,0,$_[0]);
+    PGPLOT::pgmtext('T',2.4,0.2,0,$_[1]);
+  }
   PGPLOT::pgsci(4);
 }

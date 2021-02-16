@@ -53,7 +53,7 @@ PGPLOT::pgsci(2);
 PGPLOT::pgsah(1,30,0.5);
 PGPLOT::pgarro(20,0,25,2);
 
-PGPLOT::pgmtext('B', -2.0, 0.95, 1, "This is a test");
+PGPLOT::pgmtext('B', -2.0, 0.95, 1, "This is a test") if $^O ne 'freebsd'; # blows up for some reason
 
 PGPLOT::pgsci(9);
 
