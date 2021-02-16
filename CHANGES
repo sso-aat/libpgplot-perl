@@ -1,3 +1,4 @@
+2.27 2021-02-16
 - need ExtUtils::F77 import to work at least on FreeBSD
 - disable calls to pgmtext(!) in tests on FreeBSD
 
