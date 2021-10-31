@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: PDLPorters/devops/github-actions/irc-notifications@master
         with:
-          target-notifications: false # TODO
+          target-notifications: true
   ci:
     runs-on: ${{ matrix.os }}
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
@@ -48,7 +48,7 @@ jobs:
       - name: Install gfortran
         uses: PDLPorters/devops/github-actions/install-gfortran@master
       - name: Install PGPLOT
-        uses: PDLPorters/devops/github-actions/install-pgplot@gha-bulk-actions # TODO @master
+        uses: PDLPorters/devops/github-actions/install-pgplot@master
       - name: Install Perl configure deps
         shell: bash
         run: |
@@ -72,5 +72,5 @@ jobs:
     steps:
       - uses: PDLPorters/devops/github-actions/irc-notifications@master
         with:
-          target-build-status: false # TODO
+          target-build-status: true
           needs: ${{ toJSON(needs) }}
