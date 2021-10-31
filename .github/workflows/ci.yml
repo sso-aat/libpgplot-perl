@@ -6,60 +6,71 @@ on:
     tags-ignore:
       - '*'
   pull_request:
+  create:
 jobs:
-  ubuntu:
+  notify:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    if: ${{ always() }}
+    steps:
+      - uses: PDLPorters/devops/github-actions/irc-notifications@master
+        with:
+          target-notifications: true
+  ci:
     runs-on: ${{ matrix.os }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+    needs: notify
     env:
       PGPLOT_DEV: /NULL
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        perl-version: ['5.10']
+        perl-version: ['5.10', '5.14', '5.20']
         include:
           - perl-version: '5.30'
             os: ubuntu-latest
             release-test: true
             coverage: true
+          # Disable windows
+          # NOTE pgplot does not yet have a build for windows
+          #- perl-version: '5.30'
+          #  os: windows-latest
           - perl-version: '5.30'
-            os: ubuntu-latest
-            use-clang: true # use `clang` instead of `gcc` default
+            os: macos-11
     steps:
       - uses: actions/checkout@v2
-      - uses: shogo82148/actions-setup-perl@v1
+      - name: 'ci-dist: target-setup-perl'
+        uses: PDLPorters/devops/github-actions/ci-dist@master
         with:
-          distribution: strawberry # ignored non-windows
+          target-setup-perl: true
           perl-version: ${{ matrix.perl-version }}
-      - run: perl -V
-
-      # conditional config
-      - name: Use clang?
-        # clang is already installed in Travis-CI environment. Using PERL_MM_OPT does not work with subdirectory Makefile.PLs so we override Config.pm
-        # Also, both $Config{cc} and $Config{ld} need to be set because under ELF environments (such as Travis-CI's Ubuntu), this is what Perl's Config.pm does.
-        if: matrix.use-clang
+      - name: Install gfortran
+        uses: PDLPorters/devops/github-actions/install-gfortran@master
+      - name: Install PGPLOT
+        uses: PDLPorters/devops/github-actions/install-pgplot@master
+      - name: Install Perl configure deps
+        shell: bash
         run: |
-          mkdir build_aux
-          echo 'package pdl_config_override; use ExtUtils::MakeMaker::Config; $Config{cc} = $Config{ld} = "clang"; 1;' >> build_aux/pdl_config_override.pm
-          echo "PERL5OPT=-I$(pwd)/build_aux -Mpdl_config_override" >> $GITHUB_ENV
+          $MYPERL -S cpanm --dev -n Devel::CheckLib ExtUtils::F77 || ( cat ~/.cpanm/build.log && false )
+      - name: 'ci-dist: target-all'
+        uses: PDLPorters/devops/github-actions/ci-dist@master
+        with:
+          target-setup-perl: false
+          target-install-dist-perl-deps: true
+          target-test-release-testing: true
+          target-test: true
+          test-enable-release-testing: ${{ matrix.release-test }}
+          test-enable-coverage: ${{ matrix.coverage }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Ubuntu packages
-        run: sudo apt-get -y update && sudo apt-get install build-essential gfortran pgplot5
-      - run: cpanm -n Devel::CheckLib ExtUtils::F77 # configure reqs
-      - name: Run release tests # before others as may install useful stuff
-        if: ${{ matrix.release-test }}
-        env:
-          RELEASE_TESTING: 1
-        run: |
-          cpanm -n --installdeps --with-develop .
-          prove -lr xt
-
-      - name: Run tests (no coverage)
-        if: '!matrix.coverage'
-        run: perl Makefile.PL && HARNESS_OPTIONS='j4' make test
-      - name: Run tests (with coverage)
-        if: matrix.coverage
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cpanm -n Devel::Cover::Report::Coveralls
-          perl Makefile.PL && cover -test -ignore_re CORE -report Coveralls
+  build-status:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    if: ${{ always() }}
+    needs: [ 'ci' ]
+    steps:
+      - uses: PDLPorters/devops/github-actions/irc-notifications@master
+        with:
+          target-build-status: true
+          needs: ${{ toJSON(needs) }}
