@@ -49,15 +49,12 @@ jobs:
         uses: PDLPorters/devops/github-actions/install-gfortran@master
       - name: Install PGPLOT
         uses: PDLPorters/devops/github-actions/install-pgplot@master
-      - name: Install Perl configure deps
-        shell: bash
-        run: |
-          $MYPERL -S cpanm --dev -n Devel::CheckLib ExtUtils::F77 || ( cat ~/.cpanm/build.log && false )
       - name: 'ci-dist: target-all'
         uses: PDLPorters/devops/github-actions/ci-dist@master
         with:
           target-setup-perl: false
           target-install-dist-perl-deps: true
+          dist-perl-deps-configure: Devel::CheckLib ExtUtils::F77
           target-test-release-testing: true
           target-test: true
           test-enable-release-testing: ${{ matrix.release-test }}
