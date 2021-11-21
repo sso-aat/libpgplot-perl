@@ -1,39 +1,39 @@
-#!/usr/local/bin/perl
+use strict; use warnings;
+use Test::More;
+use Config;
+# Stop f77-linking causing spurious undefined symbols (alpha)
+$ENV{'PERL_DL_NONLAZY'}=0 if $Config{'osname'} eq "dec_osf";
+require PGPLOT;
 
-use PGPLOT;
+my $dev = $ENV{PGPLOT_DEV} || '/NULL';
 
-print "\n\nTesting advanced point and line plot routines...\n\n";
+$ENV{PGPLOT_XW_WIDTH}=0.3;
 
-print "PGPLOT module version $PGPLOT::VERSION\n\n";
+note "Testing advanced point and line plot routines";
 
-pgqinf("VERSION",$val,$len);
-print "PGPLOT $val library\n\n";
+PGPLOT::pgbegin(0,$dev,1,1);
 
+PGPLOT::pgscf(2);       # Set label character font
+PGPLOT::pgslw(4);       # Set line width
+PGPLOT::pgsch(1.6);     # Set label character height
 
-$dev = "?" unless defined $dev;
+PGPLOT::pgenv(10.0,30.0,-2.0,6.0,0,0);
 
-pgbegin(0,$dev,1,1);
+PGPLOT::pgsci(6);
 
-pgscf(2);       # Set label character font
-pgslw(4);       # Set line width
-pgsch(1.6);     # Set label character height
+PGPLOT::pglabel("X axis \\gP","Y axis \\gF","Top Label \\gW");
 
-pgenv(10.0,30.0,-2.0,6.0,0,0);
+PGPLOT::pgsci(7);
 
-pgsci(6);
-
-pglabel("X axis \\gP","Y axis \\gF","Top Label \\gW");
-
-pgsci(7);
-
-$i=-1;
+my $i=-1;
+our (@x, @y, @e, @x1, @x2, @y1, @y2);
 while(<DATA>){
    $i++;
    ($x[$i], $y[$i]) = split(' ');
 }
-pgline($i,*x,*y);
+PGPLOT::pgline($i,*x,*y);
 
-pgsci(3);
+PGPLOT::pgsci(3);
 
 for($i=0; $i<10; $i++) {
    $x[$i] = $i+15;
@@ -46,44 +46,40 @@ for($i=0; $i<10; $i++) {
 }
 
 
-pgpoint(10,\@x,\@y,14);
-pgerrx(10,\@x1,\@x2,*y,1);
-pgerry(10,*x,*y2,*y1,.1);  # Note we can also pass globs
-pgsci(2);
-pgsah(1,30,0.5);
-pgarro(20,0,25,2);
+PGPLOT::pgpoint(10,\@x,\@y,14);
+PGPLOT::pgerrx(10,\@x1,\@x2,*y,1);
+PGPLOT::pgerry(10,*x,*y2,*y1,.1);  # Note we can also pass globs
+PGPLOT::pgsci(2);
+PGPLOT::pgsah(1,30,0.5);
+PGPLOT::pgarro(20,0,25,2);
 
-pgmtext('B', -2.0, 0.95, 1, "This is a test");
+PGPLOT::pgmtext('B', -2.0, 0.95, 1, "This is a test") if $^O ne 'freebsd'; # blows up for some reason
 
-pgsci(9);
+PGPLOT::pgsci(9);
 
-pgptxt(25,2,35,0,'This way...');
+PGPLOT::pgptxt(25,2,35,0,'This way...');
 
-pgqinf("CURSOR",$ans,$l);
+PGPLOT::pgqinf("CURSOR", my $ans, my $l);
 if ($ans eq "YES") {
-
-   print "Entering interactive cursor test...\n";
-   
-   pgsci(4);
-   
-   print "Enter some points with the cursor\n";
-   
-   pglcur(5,$n,\@xt,\@yt);
-   pgsci(9);
-   pgpoint($n,*xt,*yt,20);
-   
-   for(@xt) { printf "%5.2f ",$_; } print "\n";
-   for(@yt) { printf "%5.2f ",$_; } print "\n";
-   
-   pgsci(2); 
-   pgpoly($n,\@xt,\@yt);
+   diag "Entering interactive cursor test...\n";
+   PGPLOT::pgsci(4);
+   diag "Enter some points with the cursor, press 'x' when done\n";
+   our (@xt, @yt);
+   PGPLOT::pglcur(5, (my $n = 0),\@xt,\@yt);
+   PGPLOT::pgsci(9);
+   PGPLOT::pgpoint($n,*xt,*yt,20);
+   for(@xt) { diag sprintf "%5.2f ",$_; }
+   for(@yt) { diag sprintf "%5.2f ",$_; }
+   PGPLOT::pgsci(2);
+   PGPLOT::pgpoly($n,\@xt,\@yt);
 }
 
-$l=1; $len=1; # Get past -w
-pgiden;
+PGPLOT::pgiden();
 
-pgend;
+PGPLOT::pgend();
 
+pass;
+done_testing;
 
 __DATA__
     17.000000000000    1.8515548576633
