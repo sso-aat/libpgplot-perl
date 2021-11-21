@@ -1,14 +1,2 @@
-test.pl
 test.img
-test1.p
-test2.p
-test3.p
-test4.p
-test5.p
-test6.p
-test7.p
-test8.p
-test9.p
-test10.p
-test11.p
-test12.p
+t/
