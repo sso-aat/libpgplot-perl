@@ -3,15 +3,15 @@ Origin: vendor
 Forwarded: not-needed
 Author: Ole Streicher <olebole@debian.org>
 Reviewed-by: gregor herrmann <gregoa@debian.org>
-Last-Update: 2017-07-23
+Last-Update: 2021-11-21
 
---- a/test12.p
-+++ b/test12.p
-@@ -9,7 +9,6 @@
- pgqinf("VERSION",$val,$len);
- print "PGPLOT $val library\n\n";
- $val =~ s/\.//g; $val =~ s/v//; 
--die "PGPLOT version must be > 5.2.0 for this test $val\n" if $val<520;
+--- a/t/t12.t
++++ b/t/t12.t
+@@ -13,7 +13,6 @@
+ 
+ PGPLOT::pgqinf("VERSION", my $val, my $len);
+ $val =~ s/\.//g; $val =~ s/v//;
+-plan skip_all => "PGPLOT version must be > 5.2.0 for this test $val\n" if $val<520;
  
  # Read in image (int*2)
  
