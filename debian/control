@@ -7,6 +7,7 @@ Priority: optional
 Build-Depends: debhelper-compat (= 13),
                gfortran,
                giza-dev (>= 0.9.4-4~),
+               libdevel-checklib-perl (>= 1.14),
                libextutils-f77-perl,
                libpkgconfig-perl | libextutils-pkgconfig-perl,
                perl-xs-dev,
