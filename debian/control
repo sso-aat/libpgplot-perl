@@ -6,7 +6,7 @@ Testsuite: autopkgtest-pkg-perl
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
                gfortran,
-               giza-dev (>= 0.9.4-4~),
+               giza-dev,
                libdevel-checklib-perl (>= 1.14),
                libextutils-f77-perl,
                libpkgconfig-perl | libextutils-pkgconfig-perl,
