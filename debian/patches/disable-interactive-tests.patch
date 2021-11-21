@@ -4,85 +4,75 @@ Origin: vendor
 Bug-Debian: https://bugs.debian.org/914288
 Forwarded: not-needed
 Author: gregor herrmann <gregoa@debian.org>
-Last-Update: 2018-11-21
+Last-Update: 2021-11-21
 
---- a/test2.p
-+++ b/test2.p
-@@ -60,24 +60,24 @@
- pgptxt(25,2,35,0,'This way...');
+--- a/t/t2.t
++++ b/t/t2.t
+@@ -60,19 +60,19 @@
+ PGPLOT::pgptxt(25,2,35,0,'This way...');
  
- pgqinf("CURSOR",$ans,$l);
+ PGPLOT::pgqinf("CURSOR", my $ans, my $l);
 -if ($ans eq "YES") {
--
--   print "Entering interactive cursor test...\n";
--   
--   pgsci(4);
--   
--   print "Enter some points with the cursor\n";
--   
--   pglcur(5,$n,\@xt,\@yt);
--   pgsci(9);
--   pgpoint($n,*xt,*yt,20);
--   
--   for(@xt) { printf "%5.2f ",$_; } print "\n";
--   for(@yt) { printf "%5.2f ",$_; } print "\n";
--   
--   pgsci(2); 
--   pgpoly($n,\@xt,\@yt);
+-   diag "Entering interactive cursor test...\n";
+-   PGPLOT::pgsci(4);
+-   diag "Enter some points with the cursor, press 'x' when done\n";
+-   our (@xt, @yt);
+-   PGPLOT::pglcur(5, (my $n = 0),\@xt,\@yt);
+-   PGPLOT::pgsci(9);
+-   PGPLOT::pgpoint($n,*xt,*yt,20);
+-   for(@xt) { diag sprintf "%5.2f ",$_; }
+-   for(@yt) { diag sprintf "%5.2f ",$_; }
+-   PGPLOT::pgsci(2);
+-   PGPLOT::pgpoly($n,\@xt,\@yt);
 -}
 +#if ($ans eq "YES") {
-+#
-+#   print "Entering interactive cursor test...\n";
-+#
-+#   pgsci(4);
-+#
-+#   print "Enter some points with the cursor\n";
-+#
-+#   pglcur(5,$n,\@xt,\@yt);
-+#   pgsci(9);
-+#   pgpoint($n,*xt,*yt,20);
-+#
-+#   for(@xt) { printf "%5.2f ",$_; } print "\n";
-+#   for(@yt) { printf "%5.2f ",$_; } print "\n";
-+#
-+#   pgsci(2);
-+#   pgpoly($n,\@xt,\@yt);
++#   diag "Entering interactive cursor test...\n";
++#   PGPLOT::pgsci(4);
++#   diag "Enter some points with the cursor, press 'x' when done\n";
++#   our (@xt, @yt);
++#   PGPLOT::pglcur(5, (my $n = 0),\@xt,\@yt);
++#   PGPLOT::pgsci(9);
++#   PGPLOT::pgpoint($n,*xt,*yt,20);
++#   for(@xt) { diag sprintf "%5.2f ",$_; }
++#   for(@yt) { diag sprintf "%5.2f ",$_; }
++#   PGPLOT::pgsci(2);
++#   PGPLOT::pgpoly($n,\@xt,\@yt);
 +#}
  
- $l=1; $len=1; # Get past -w
- pgiden;
---- a/test9.p
-+++ b/test9.p
-@@ -67,19 +67,19 @@
- $x=0; $y=0; # Get past -w
+ PGPLOT::pgiden();
  
- pgqinf("CURSOR",$ans,$l);
--if ($ans eq "YES") { for($mode=0; $mode<8; $mode++){
+--- a/t/t9.t
++++ b/t/t9.t
+@@ -66,19 +66,19 @@
+ PGPLOT::pgptxt(12125,12100,45,0.5,'PGPLOT...');
+ 
+ PGPLOT::pgqinf("CURSOR",my $ans,my $l);
+-if ($ans eq "YES") { for(my $mode=0; $mode<8; $mode++){
 -
--   print "Entering interactive PGBAND test MODE=$mode, hit any key, Q to exit early...\n";
+-   note "Entering interactive PGBAND test MODE=$mode, hit any key, Q to exit early...";
 -
--   pgsci($mode+1);
--   pgband($mode,0,12500,12500,$x,$y,$ch);
+-   PGPLOT::pgsci($mode+1);
+-   PGPLOT::pgband($mode,0,12500,12500,my $x,my $y,my $ch);
 -   last if $ch eq "q" || $ch eq "Q";
--   pgqtxt($x,$y,45,0.5,'PGPLOT...',\@xbox,\@ybox);
--   pgpoly(4,\@xbox, \@ybox);
--   pgsci($mode+2);
--   pgptxt($x,$y,45,0.5,'PGPLOT...');
+-   PGPLOT::pgqtxt($x,$y,45,0.5,'PGPLOT...',\@xbox,\@ybox);
+-   PGPLOT::pgpoly(4,\@xbox, \@ybox);
+-   PGPLOT::pgsci($mode+2);
+-   PGPLOT::pgptxt($x,$y,45,0.5,'PGPLOT...');
 -   
 -}}
-+#if ($ans eq "YES") { for($mode=0; $mode<8; $mode++){
++#if ($ans eq "YES") { for(my $mode=0; $mode<8; $mode++){
 +#
-+#   print "Entering interactive PGBAND test MODE=$mode, hit any key, Q to exit early...\n";
++#   note "Entering interactive PGBAND test MODE=$mode, hit any key, Q to exit early...";
 +#
-+#   pgsci($mode+1);
-+#   pgband($mode,0,12500,12500,$x,$y,$ch);
++#   PGPLOT::pgsci($mode+1);
++#   PGPLOT::pgband($mode,0,12500,12500,my $x,my $y,my $ch);
 +#   last if $ch eq "q" || $ch eq "Q";
-+#   pgqtxt($x,$y,45,0.5,'PGPLOT...',\@xbox,\@ybox);
-+#   pgpoly(4,\@xbox, \@ybox);
-+#   pgsci($mode+2);
-+#   pgptxt($x,$y,45,0.5,'PGPLOT...');
++#   PGPLOT::pgqtxt($x,$y,45,0.5,'PGPLOT...',\@xbox,\@ybox);
++#   PGPLOT::pgpoly(4,\@xbox, \@ybox);
++#   PGPLOT::pgsci($mode+2);
++#   PGPLOT::pgptxt($x,$y,45,0.5,'PGPLOT...');
 +#
 +#}}
  
- $len=1; # -w fudge
+ PGPLOT::pgend();
  
