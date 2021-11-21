@@ -1,11 +1,14 @@
 Description: do not link against unused libraries
  dpkg-shlibdeps complained about useless dependencies on libgfortran.so.3,
  libpng12.so.0, libX11.so.6 and libm.so.6
-Author: Florian Schlichting <fsfs@debian.org>
 Forwarded: https://rt.cpan.org/Public/Bug/Display.html?id=95006
+Author: Florian Schlichting <fsfs@debian.org>
+Reviewed-by: gregor herrmann <gregoa@debian.org>
+Last-Update: 2021-11-21
+
 --- a/Makefile.PL
 +++ b/Makefile.PL
-@@ -121,7 +121,6 @@
+@@ -114,7 +114,6 @@
  
  my $LIBS = join(' ', map { "-l$_" }
  		qw/ cpgplot pgplot /,
@@ -13,7 +16,7 @@ Forwarded: https://rt.cpan.org/Public/Bug/Display.html?id=95006
  	       );
  
  my $IDIRS = join( ' ', map { "-I$_" } split( ',', $Arg{IDIR} ) );
-@@ -203,7 +202,7 @@
+@@ -195,7 +194,7 @@
  	'pgplot_tmp/libpgplot.a'
  	if -d 'pgplot_tmp';
  
