@@ -1,4 +1,4 @@
-libpgplot-perl (1:2.27-1) UNRELEASED; urgency=medium
+libpgplot-perl (1:2.27-1) unstable; urgency=medium
 
   [ Debian Janitor ]
   * Set upstream metadata fields: Bug-Submit.
@@ -20,8 +20,18 @@ libpgplot-perl (1:2.27-1) UNRELEASED; urgency=medium
 
   [ gregor herrmann ]
   * Import upstream version 2.27.
+  * Update debian/tests/pkg-perl/smoke-files.
+    Tests have been moved to the default t/ directory.
+  * Add build dependency on libdevel-checklib-perl.
+  * Declare compliance with Debian Policy 4.6.0.
+  * Drop unneeded version constraints from (build) dependencies.
+  * Refresh useless_dependency.patch (offset).
+  * Update test-pgplot5-version.patch (changed file).
+  * Update disable-interactive-tests.patch (changed files).
+  * Drop re-enable-tests.patch, not applicable anymore.
+  * Update years of packaging copyright.
 
- -- gregor herrmann <gregoa@debian.org>  Sun, 21 Nov 2021 18:16:58 +0100
+ -- gregor herrmann <gregoa@debian.org>  Sun, 21 Nov 2021 18:37:54 +0100
 
 libpgplot-perl (1:2.24-1) unstable; urgency=medium
 
