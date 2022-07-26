@@ -1,0 +1,17 @@
+Description: fix a typo caught by lintian.
+Author: Étienne Mollier <emollier@debian.org>
+Forwarded: https://github.com/PDLPorters/perl5-PGPLOT/pull/12
+Last-Update: 2022-07-26
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- libpgplot-perl.orig/PGPLOT.pm
++++ libpgplot-perl/PGPLOT.pm
+@@ -53,7 +53,7 @@
+ 
+ =head1 DESCRIPTION
+ 
+-This module provides an inteface to the PGPLOT graphics library. To
++This module provides an interface to the PGPLOT graphics library. To
+ obtain the library and its manual, see L</OBTAINING PGPLOT>.
+ 
+ For every PGPLOT function the module provides an equivalent Perl
