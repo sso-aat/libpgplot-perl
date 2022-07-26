@@ -1,8 +1,11 @@
-libpgplot-perl (1:2.28-1) UNRELEASED; urgency=medium
+libpgplot-perl (1:2.28-1) unstable; urgency=medium
 
-  * Import upstream version 2.28.
+  * Team upload.
+  * Import upstream version 2.28.  (Closes: #986147)
+  * Declare compliance with Debian Policy 4.6.1.
+  * typo.patch: fix typo caught by lintian.
 
- -- Étienne Mollier <emollier@debian.org>  Tue, 26 Jul 2022 20:56:39 +0200
+ -- Étienne Mollier <emollier@debian.org>  Tue, 26 Jul 2022 21:30:26 +0200
 
 libpgplot-perl (1:2.27-1) unstable; urgency=medium
 
