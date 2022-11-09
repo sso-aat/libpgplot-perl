@@ -4,9 +4,10 @@ Uploaders: gregor herrmann <gregoa@debian.org>
 Section: perl
 Testsuite: autopkgtest-pkg-perl
 Priority: optional
-Build-Depends: debhelper-compat (= 13),
+Build-Depends: chrpath,
+               debhelper-compat (= 13),
                gfortran,
-               giza-dev,
+               pgplot5,
                libdevel-checklib-perl (>= 1.14),
                libextutils-f77-perl,
                libpkgconfig-perl | libextutils-pkgconfig-perl,
